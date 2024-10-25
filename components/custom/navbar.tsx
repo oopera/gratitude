@@ -1,17 +1,17 @@
-import Form from 'next/form';
-import Link from 'next/link';
+import Form from "next/form";
+import Link from "next/link";
 
-import { auth, signOut } from '@/app/(auth)/auth';
+import { auth, signOut } from "@/app/(auth)/auth";
 
-import { History } from './history';
-import { ThemeToggle } from './theme-toggle';
-import { Button } from '../ui/button';
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from "../ui/dropdown-menu";
+import { History } from "./history";
+import { ThemeToggle } from "./theme-toggle";
 
 export const Navbar = async () => {
   let session = await auth();
@@ -22,7 +22,9 @@ export const Navbar = async () => {
         <div className="flex flex-row gap-3 items-center">
           <History user={session?.user} />
           <div className="flex flex-row gap-2 items-center">
-            <div className="text-sm dark:text-zinc-300">Next.js Chatbot</div>
+            <div className="text-sm dark:text-zinc-300">
+              Dankbarkeitstagebuch
+            </div>
           </div>
         </div>
 
@@ -31,8 +33,7 @@ export const Navbar = async () => {
             <DropdownMenuTrigger asChild>
               <Button
                 className="py-1.5 px-2 h-fit font-normal"
-                variant="secondary"
-              >
+                variant="secondary">
                 {session.user?.email}
               </Button>
             </DropdownMenuTrigger>
@@ -44,17 +45,15 @@ export const Navbar = async () => {
                 <Form
                   className="w-full"
                   action={async () => {
-                    'use server';
+                    "use server";
 
                     await signOut({
-                      redirectTo: '/',
+                      redirectTo: "/",
                     });
-                  }}
-                >
+                  }}>
                   <button
                     type="submit"
-                    className="w-full text-left px-1 py-0.5 text-red-500"
-                  >
+                    className="w-full text-left px-1 py-0.5 text-red-500">
                     Sign out
                   </button>
                 </Form>

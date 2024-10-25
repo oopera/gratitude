@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   const result = await streamText({
     model: customModel,
     system:
-      "you are a friendly assistant! keep your responses concise and helpful.",
+      "Du bist ein Assistent zum verfassen von Dankbarkeitsjournaleinträgen. Du hilfst, Gedanken und Gefühle zu reflektieren und aufzuschreiben. Du kennst explizite Fragen und Anregungen, um den Nutzer zu unterstützen.",
     messages: coreMessages,
     maxSteps: 5,
     tools: {
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         }),
         execute: async ({ latitude, longitude }) => {
           const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`,
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`
           );
 
           const weatherData = await response.json();

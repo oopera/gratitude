@@ -3,33 +3,40 @@
 import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import { motion } from "framer-motion";
 import React, {
-  useRef,
-  useEffect,
-  useState,
-  useCallback,
+  ChangeEvent,
   Dispatch,
   SetStateAction,
-  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 import { toast } from "sonner";
 
-import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
-import { PreviewAttachment } from "./preview-attachment";
-import useWindowSize from "./use-window-size";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { ArrowUpIcon, StopIcon } from "./icons";
+// import { PaperclipIcon } from "./icons";
+// import { PreviewAttachment } from "./preview-attachment";
+import useWindowSize from "./use-window-size";
 
 const suggestedActions = [
   {
-    title: "What is the weather",
-    label: "in San Francisco?",
-    action: "What is the weather in San Francisco?",
+    title: "Eintrag beginnen",
+    label: "Was war heute schön?",
+    action:
+      "Ich möchte einen Dankbarkeitstagebuch Eintrag beginnen. Bitte gib mir die erste Frage des Tages.",
   },
   {
-    title: "Answer like I'm 5,",
-    label: "why is the sky blue?",
-    action: "Answer like I'm 5, why is the sky blue?",
+    title: "Vergangene Einträge",
+    label: "Was habe ich zuletzt geschrieben?",
+    action: "Rekapituliere meine letzten Einträge.",
   },
+  // {
+  //   title: "Answer like I'm 5,",
+  //   label: "why is the sky blue?",
+  //   action: "Answer like I'm 5, why is the sky blue?",
+  // },
 ];
 
 export function MultimodalInput({
@@ -52,13 +59,13 @@ export function MultimodalInput({
   messages: Array<Message>;
   append: (
     message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
+    chatRequestOptions?: ChatRequestOptions
   ) => Promise<string | null | undefined>;
   handleSubmit: (
     event?: {
       preventDefault?: () => void;
     },
-    chatRequestOptions?: ChatRequestOptions,
+    chatRequestOptions?: ChatRequestOptions
   ) => void;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -135,7 +142,7 @@ export function MultimodalInput({
         const uploadPromises = files.map((file) => uploadFile(file));
         const uploadedAttachments = await Promise.all(uploadPromises);
         const successfullyUploadedAttachments = uploadedAttachments.filter(
-          (attachment) => attachment !== undefined,
+          (attachment) => attachment !== undefined
         );
 
         setAttachments((currentAttachments) => [
@@ -148,7 +155,7 @@ export function MultimodalInput({
         setUploadQueue([]);
       }
     },
-    [setAttachments],
+    [setAttachments]
   );
 
   return (
@@ -164,8 +171,7 @@ export function MultimodalInput({
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 0.05 * index }}
                 key={index}
-                className={index > 1 ? "hidden sm:block" : "block"}
-              >
+                className={index > 1 ? "hidden sm:block" : "block"}>
                 <button
                   onClick={async () => {
                     append({
@@ -173,8 +179,7 @@ export function MultimodalInput({
                       content: suggestedAction.action,
                     });
                   }}
-                  className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col"
-                >
+                  className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
                   <span className="font-medium">{suggestedAction.title}</span>
                   <span className="text-zinc-500 dark:text-zinc-400">
                     {suggestedAction.label}
@@ -185,7 +190,7 @@ export function MultimodalInput({
           </div>
         )}
 
-      <input
+      {/* <input
         type="file"
         className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
         ref={fileInputRef}
@@ -212,11 +217,11 @@ export function MultimodalInput({
             />
           ))}
         </div>
-      )}
+      )} */}
 
       <Textarea
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder="Verfasse einen Eintrag..."
         value={input}
         onChange={handleInput}
         className="min-h-[24px] overflow-hidden resize-none rounded-lg text-base bg-muted"
@@ -240,8 +245,7 @@ export function MultimodalInput({
           onClick={(event) => {
             event.preventDefault();
             stop();
-          }}
-        >
+          }}>
           <StopIcon size={14} />
         </Button>
       ) : (
@@ -251,23 +255,21 @@ export function MultimodalInput({
             event.preventDefault();
             submitForm();
           }}
-          disabled={input.length === 0 || uploadQueue.length > 0}
-        >
+          disabled={input.length === 0 || uploadQueue.length > 0}>
           <ArrowUpIcon size={14} />
         </Button>
       )}
 
-      <Button
+      {/* <Button
         className="rounded-full p-1.5 h-fit absolute bottom-2 right-10 m-0.5 dark:border-zinc-700"
         onClick={(event) => {
           event.preventDefault();
           fileInputRef.current?.click();
         }}
         variant="outline"
-        disabled={isLoading}
-      >
+        disabled={isLoading}>
         <PaperclipIcon size={14} />
-      </Button>
+      </Button> */}
     </div>
   );
 }
