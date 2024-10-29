@@ -6,15 +6,12 @@ import { ReactNode } from "react";
 
 import { BotIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
-import { PreviewAttachment } from "./preview-attachment";
 import { Recollection } from "./recollection";
-import { Weather } from "./weather";
 
 export const Message = ({
   role,
   content,
   toolInvocations,
-  attachments,
 }: {
   role: string;
   content: string | ReactNode;
@@ -44,34 +41,27 @@ export const Message = ({
 
               if (state === "result") {
                 const { result } = toolInvocation;
-                console.log(result, "Result");
                 return (
                   <div key={toolCallId}>
-                    {toolName === "getRecollection" ? (
-                      <Recollection chats={result} />
+                    {toolName === "startNewEntry" ? (
+                      <p>Ein neuer Eintrag wurde gestartet. </p>
                     ) : null}
-                    {toolName === "getWeather" ? (
-                      <Weather weatherAtLocation={result} />
+                    {toolName === "recollect" ? (
+                      <Recollection chats={result} />
                     ) : null}
                   </div>
                 );
               } else {
                 return (
                   <div key={toolCallId} className="skeleton">
-                    {toolName === "getRecollection" ? <Recollection /> : null}
-                    {toolName === "getWeather" ? <Weather /> : null}
+                    {toolName === "recollect" ? <Recollection /> : null}
+                    {toolName === "startNewEntry" ? (
+                      <p>Ein neuer Eintrag wird gestartet. </p>
+                    ) : null}
                   </div>
                 );
               }
             })}
-          </div>
-        )}
-
-        {attachments && (
-          <div className="flex flex-row gap-2">
-            {attachments.map((attachment) => (
-              <PreviewAttachment key={attachment.url} attachment={attachment} />
-            ))}
           </div>
         )}
       </div>

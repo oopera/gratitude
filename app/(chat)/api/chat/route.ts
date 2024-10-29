@@ -30,34 +30,42 @@ export async function POST(request: Request) {
   const result = await streamText({
     model: customModel,
     system:
-      "Du bist ein Assistent zum verfassen von Dankbarkeitsjournaleinträgen. Du hilfst, Gedanken und Gefühle zu reflektieren und aufzuschreiben. Du kennst explizite Fragen und Anregungen, um den Nutzer zu unterstützen.",
+      "Du bist ein Assistent zum verfassen von Dankbarkeitsjournaleinträgen. Du hilfst, Gedanken und Gefühle zu reflektieren und aufzuschreiben. Du kennst explizite Fragen und Anregungen, um den Nutzer zu unterstützen. Ein dankbarkeitstagebucheintrag ist automatisch beendet nach dem 3 Fragen beantwortet wurden. Du kannst auch die letzten Einträge des Nutzers beschreiben, und reflektieren.",
     messages: coreMessages,
     maxSteps: 5,
     tools: {
-      getRecollection: {
-        description: "Beschreibt die letzten Einträge des Nutzers",
+      startNewEntry: {
+        description: "Startet einen neuen Eintrag",
+        parameters: z.object({
+          id: z.string(),
+        }),
+        execute: async () => {
+          return [
+            "[Systemnachricht: Der ChatBot wählt zufällig eine der folgenenden Fragen aus, um den Eintrag zu beginnen.]",
+            "Was war das schönste was dir heute passiert ist?",
+            "Was hat dich heute glücklich gemacht?",
+            "Wofür bist du heute besonders dankbar?",
+          ];
+        },
+      },
+      recollect: {
+        description: "Erinnert sich an die letzten Einträge des Nutzers.",
         parameters: z.object({
           id: z.string(),
         }),
         execute: async () => {
           const chats = await getChatsByUserId({ id: userId });
-          console.log(chats, "CHATS IN API", session.user?.id);
-          return chats;
-        },
-      },
-      getWeather: {
-        description: "Get the current weather at a location",
-        parameters: z.object({
-          latitude: z.number(),
-          longitude: z.number(),
-        }),
-        execute: async ({ latitude, longitude }) => {
-          const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`
-          );
 
-          const weatherData = await response.json();
-          return weatherData;
+          const recollection = chats.map((chat, index) => {
+            return {
+              index: index + 1,
+              messages: chat.messages,
+            };
+          });
+
+          console.log(recollection);
+
+          return recollection;
         },
       },
     },

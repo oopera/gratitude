@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { History } from "./history";
+
 import { ThemeToggle } from "./theme-toggle";
 
 export const Navbar = async () => {
@@ -21,11 +22,11 @@ export const Navbar = async () => {
       <div className="bg-background absolute top-0 left-0 w-dvw py-2 px-3 justify-between flex flex-row items-center z-30">
         <div className="flex flex-row gap-3 items-center">
           <History user={session?.user} />
-          <div className="flex flex-row gap-2 items-center">
+          <Link href="/" className="flex flex-row gap-2 items-center">
             <div className="text-sm dark:text-zinc-300">
               Dankbarkeitstagebuch
             </div>
-          </div>
+          </Link>
         </div>
 
         {session ? (
@@ -54,7 +55,7 @@ export const Navbar = async () => {
                   <button
                     type="submit"
                     className="w-full text-left px-1 py-0.5 text-red-500">
-                    Sign out
+                    Ausloggen
                   </button>
                 </Form>
               </DropdownMenuItem>
@@ -62,7 +63,7 @@ export const Navbar = async () => {
           </DropdownMenu>
         ) : (
           <Button className="py-1.5 px-2 h-fit font-normal" asChild>
-            <Link href="/login">Login</Link>
+            <Link href="/login">Einloggen</Link>
           </Button>
         )}
       </div>

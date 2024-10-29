@@ -12,23 +12,30 @@ export const Overview = () => {
       transition={{ delay: 0.5 }}>
       <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
         <p>
-          This is an open source Chatbot template built with Next.js and the AI
-          SDK by Vercel. It uses the{" "}
-          <code className="rounded-md bg-muted px-1 py-0.5">streamText</code>{" "}
-          function in the server and the{" "}
-          <code className="rounded-md bg-muted px-1 py-0.5">useChat</code> hook
-          on the client to create a seamless chat experience.
+          Dies ist ein Dankbarkeitstagebuch der
+          <code className="rounded-md bg-muted px-1 py-0.5">
+            Hochschule Ruhr-West
+          </code>
+          im Masterstudium
+          <code className="rounded-md bg-muted px-1 py-0.5">
+            Mensch-Technik Interaktion.
+          </code>
+          Das Tagebuch ist ein Prototyp und dient der Erprobung von
+          Interventionen und Handlungsmustern eines Chatbots im Rahmen der
+          <code className="rounded-md bg-muted px-1 py-0.5">
+            Gratitude Practice.
+          </code>
         </p>
         <p>
-          {" "}
-          You can learn more about the AI SDK by visiting the{" "}
+          Der aktuelle Forschungsstand kann auf dem
           <Link
             className="text-blue-500 dark:text-blue-400"
-            href="https://sdk.vercel.ai/docs"
+            href="https://miro.com/app/board/uXjVLRDQ8Fo=/"
             target="_blank">
-            Docs
+            {" "}
+            Miroboard{" "}
           </Link>
-          .
+          verfolgt werden.
         </p>
       </div>
     </motion.div>
