@@ -19,6 +19,11 @@ export async function POST(request: Request) {
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
+  if (!session.user?.id) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const userId = session.user?.id;
 
   const coreMessages = convertToCoreMessages(messages);
 
@@ -35,7 +40,7 @@ export async function POST(request: Request) {
           id: z.string(),
         }),
         execute: async () => {
-          const chats = await getChatsByUserId({ id: session.user?.id });
+          const chats = await getChatsByUserId({ id: userId });
           console.log(chats, "CHATS IN API", session.user?.id);
           return chats;
         },
