@@ -3,7 +3,12 @@ import { z } from "zod";
 
 import { customModel } from "@/ai";
 import { auth } from "@/app/(auth)/auth";
-import { deleteChatById, getChatById, saveChat } from "@/db/queries";
+import {
+  deleteChatById,
+  getChatById,
+  getChatsByUserId,
+  saveChat,
+} from "@/db/queries";
 
 export async function POST(request: Request) {
   const { id, messages }: { id: string; messages: Array<Message> } =
@@ -24,6 +29,17 @@ export async function POST(request: Request) {
     messages: coreMessages,
     maxSteps: 5,
     tools: {
+      getRecollection: {
+        description: "Beschreibt die letzten Einträge des Nutzers",
+        parameters: z.object({
+          id: z.string(),
+        }),
+        execute: async () => {
+          const chats = await getChatsByUserId({ id: session.user?.id });
+          console.log(chats, "CHATS IN API", session.user?.id);
+          return chats;
+        },
+      },
       getWeather: {
         description: "Get the current weather at a location",
         parameters: z.object({

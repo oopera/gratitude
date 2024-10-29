@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { BotIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
 import { PreviewAttachment } from "./preview-attachment";
+import { Recollection } from "./recollection";
 import { Weather } from "./weather";
 
 export const Message = ({
@@ -24,8 +25,7 @@ export const Message = ({
     <motion.div
       className={`flex flex-row gap-4 px-4 w-full md:w-[500px] md:px-0 first-of-type:pt-20`}
       initial={{ y: 5, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-    >
+      animate={{ y: 0, opacity: 1 }}>
       <div className="size-[24px] flex flex-col justify-center items-center shrink-0 text-zinc-400">
         {role === "assistant" ? <BotIcon /> : <UserIcon />}
       </div>
@@ -44,9 +44,12 @@ export const Message = ({
 
               if (state === "result") {
                 const { result } = toolInvocation;
-
+                console.log(result, "Result");
                 return (
                   <div key={toolCallId}>
+                    {toolName === "getRecollection" ? (
+                      <Recollection chats={result} />
+                    ) : null}
                     {toolName === "getWeather" ? (
                       <Weather weatherAtLocation={result} />
                     ) : null}
@@ -55,6 +58,7 @@ export const Message = ({
               } else {
                 return (
                   <div key={toolCallId} className="skeleton">
+                    {toolName === "getRecollection" ? <Recollection /> : null}
                     {toolName === "getWeather" ? <Weather /> : null}
                   </div>
                 );
