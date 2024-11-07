@@ -1,61 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const questions = [
-  { role: "journal", content: "What are you grateful for today?" },
+  { role: "journal", content: "Wofür bist du Heute dankbar?" },
   {
     role: "journal",
-    content: "Describe a positive experience you had recently.",
+    content: "Beschreibe eine positive Erfahrung die du vor kurzem hattest.",
   },
-  { role: "journal", content: "What are some challenges you’re facing?" },
-  // Add more questions as needed
+  {
+    role: "journal",
+    content: "Was ist dir heute besonders gut gelungen?",
+  },
 ];
 
-function useJournal() {
+function useJournal(input: string) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [entries, setEntries] = useState([questions[0]]);
 
-  const currentQuestion = entries[currentQuestionIndex];
+  function saveResponse() {
+    const userEntry = { role: "user", content: input };
 
-  function saveResponse(responseContent) {
-    const userEntry = { role: "user", content: responseContent };
-
-    // Insert the user response right after the current question
-    const updatedEntries = [
-      ...entries.slice(0, currentQuestionIndex + 1),
-      userEntry,
-      ...entries.slice(currentQuestionIndex + 1),
-    ];
+    const updatedEntries = [...entries, userEntry];
 
     setEntries(updatedEntries);
-    nextQuestion();
   }
+
+  useEffect(() => {
+    if (entries.length > 0 && entries[entries.length - 1].role === "user") {
+      nextQuestion();
+    }
+  }, [entries]);
 
   function nextQuestion() {
-    const nextIndex = entries.findIndex(
-      (entry, index) => entry.role === "journal" && index > currentQuestionIndex
-    );
-    if (nextIndex !== -1) {
-      setCurrentQuestionIndex(nextIndex);
-    }
-  }
+    const nextIndex = currentQuestionIndex + 1;
 
-  function prevQuestion() {
-    const prevIndex = entries
-      .slice(0, currentQuestionIndex)
-      .reverse()
-      .findIndex((entry) => entry.role === "journal");
-    if (prevIndex !== -1) {
-      setCurrentQuestionIndex(currentQuestionIndex - prevIndex - 1);
+    if (nextIndex < questions.length) {
+      setCurrentQuestionIndex(nextIndex);
+      const updatedEntries = [...entries, questions[nextIndex]];
+      setEntries(updatedEntries);
+    } else {
+      setEntries([...entries, { role: "journal", content: "Ende" }]);
     }
   }
 
   return {
-    currentQuestion,
     saveResponse,
-    nextQuestion,
-    prevQuestion,
     entries,
-    currentQuestionIndex,
   };
 }
 

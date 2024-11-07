@@ -6,6 +6,7 @@ import { useChat } from "ai/react";
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -23,26 +24,29 @@ export function Chat({
 }) {
   const [mode, setMode] = useState<"llm" | "llm-2" | "journal">("llm");
 
-  const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
-    useChat({
-      body: { id },
-      initialMessages,
-      onFinish: () => {
-        window.history.replaceState({}, "", `/chat/${id}`);
-      },
-    });
-
   const {
-    currentQuestion,
-    saveResponse,
-    nextQuestion,
-    prevQuestion,
-    entries,
-    currentQuestionIndex,
-  } = useJournal();
+    messages,
+    handleSubmit: handleChatSubmit,
+    input,
+    setInput,
+    append,
+    isLoading,
+    stop,
+  } = useChat({
+    body: { id },
+    initialMessages,
+    onFinish: () => {
+      window.history.replaceState({}, "", `/chat/${id}`);
+    },
+  });
+
+  const { saveResponse, entries } = useJournal(input);
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
+
+  console.log(input);
+  const handleSubmit = mode === "journal" ? saveResponse : handleChatSubmit;
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
@@ -53,7 +57,7 @@ export function Chat({
           {messages.length === 0 && <Overview />}
           <RadioGroup
             defaultValue="llm"
-            onValueChange={(value) => {
+            onValueChange={(value: "journal" | "llm" | "llm-2") => {
               setMode(value);
             }}>
             <div className="flex items-center space-x-2">
@@ -73,24 +77,24 @@ export function Chat({
                   key={message.id}
                   role={message.role}
                   content={message.content}
-                  attachments={message.experimental_attachments}
                   toolInvocations={message.toolInvocations}
                 />
               ))}
             </>
           )}
-          {mode === "journal" && (
-            <>
-              {entries.map((entry, index) => (
-                <Journal
-                  key={index}
-                  role={entry.role}
-                  content={entry.content}
-                />
-              ))}
-            </>
-          )}
-
+          <AnimatePresence>
+            {mode === "journal" && (
+              <>
+                {entries.map((entry, index) => (
+                  <Journal
+                    key={index}
+                    role={entry.role}
+                    content={entry.content}
+                  />
+                ))}
+              </>
+            )}
+          </AnimatePresence>
           <div
             ref={messagesEndRef}
             className="shrink-0 min-w-[24px] min-h-[24px]"

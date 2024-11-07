@@ -1,6 +1,6 @@
 "use client";
 
-import { Attachment, ToolInvocation } from "ai";
+import { ToolInvocation } from "ai";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
@@ -16,7 +16,6 @@ export const Message = ({
   role: string;
   content: string | ReactNode;
   toolInvocations: Array<ToolInvocation> | undefined;
-  attachments?: Array<Attachment>;
 }) => {
   return (
     <motion.div
