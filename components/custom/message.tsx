@@ -4,7 +4,7 @@ import { ToolInvocation } from "ai";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
-import { BotIcon, UserIcon } from "./icons";
+import { BotIcon, InvoiceIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
 import { Recollection } from "./recollection";
 
@@ -15,7 +15,7 @@ export const Message = ({
 }: {
   role: string;
   content: string | ReactNode;
-  toolInvocations: Array<ToolInvocation> | undefined;
+  toolInvocations?: Array<ToolInvocation> | undefined;
 }) => {
   return (
     <motion.div
@@ -23,7 +23,13 @@ export const Message = ({
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}>
       <div className="size-[24px] flex flex-col justify-center items-center shrink-0 text-zinc-400">
-        {role === "assistant" ? <BotIcon /> : <UserIcon />}
+        {role === "assistant" ? (
+          <BotIcon />
+        ) : role === "journal" ? (
+          <InvoiceIcon size={16} />
+        ) : (
+          <UserIcon />
+        )}
       </div>
 
       <div className="flex flex-col gap-2 w-full">

@@ -1,6 +1,6 @@
 import { Message } from "ai";
 import { InferSelectModel } from "drizzle-orm";
-import { pgTable, varchar, timestamp, json, uuid } from "drizzle-orm/pg-core";
+import { json, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const user = pgTable("User", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
@@ -11,6 +11,15 @@ export const user = pgTable("User", {
 export type User = InferSelectModel<typeof user>;
 
 export const chat = pgTable("Chat", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  createdAt: timestamp("createdAt").notNull(),
+  messages: json("messages").notNull(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => user.id),
+});
+
+export const journal = pgTable("Journal", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   createdAt: timestamp("createdAt").notNull(),
   messages: json("messages").notNull(),

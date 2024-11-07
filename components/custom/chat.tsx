@@ -10,7 +10,6 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Journal } from "./journal";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
 import useJournal from "./use-Journal";
@@ -22,31 +21,25 @@ export function Chat({
   id: string;
   initialMessages: Array<Message>;
 }) {
+  const modes = ["llm", "journal"];
   const [mode, setMode] = useState<"llm" | "llm-2" | "journal">("llm");
 
-  const {
-    messages,
-    handleSubmit: handleChatSubmit,
-    input,
-    setInput,
-    append,
-    isLoading,
-    stop,
-  } = useChat({
-    body: { id },
-    initialMessages,
-    onFinish: () => {
-      window.history.replaceState({}, "", `/chat/${id}`);
-    },
-  });
+  const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
+    useChat({
+      body: { id },
+      initialMessages,
+      onFinish: () => {
+        window.history.replaceState({}, "", `/chat/${id}`);
+      },
+    });
 
-  const { saveResponse, entries } = useJournal(input);
+  const { saveResponse, entries } = useJournal({ input, setInput, id });
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
   console.log(input);
-  const handleSubmit = mode === "journal" ? saveResponse : handleChatSubmit;
+  const onSubmit = mode === "journal" ? saveResponse : handleSubmit;
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
@@ -54,39 +47,38 @@ export function Chat({
         <div
           ref={messagesContainerRef}
           className="flex flex-col gap-4 h-full w-dvw items-center overflow-y-scroll">
-          {messages.length === 0 && <Overview />}
+          {messages.length === 0 && entries.length === 1 && <Overview />}
           <RadioGroup
             defaultValue="llm"
             onValueChange={(value: "journal" | "llm" | "llm-2") => {
               setMode(value);
             }}>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="llm" id="llm" />
-              <Label htmlFor="llm">LLM</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="journal" id="journal" />
-              <Label htmlFor="journal">Journal</Label>
-            </div>
+            {modes.map((item) => (
+              <div key={item} className="flex items-center space-x-2">
+                <RadioGroupItem value={item} id={item} />
+                <Label htmlFor="journal">{item}</Label>
+              </div>
+            ))}
           </RadioGroup>
-
-          {mode === "llm" && (
-            <>
-              {messages.map((message) => (
-                <PreviewMessage
-                  key={message.id}
-                  role={message.role}
-                  content={message.content}
-                  toolInvocations={message.toolInvocations}
-                />
-              ))}
-            </>
-          )}
+          <AnimatePresence>
+            {mode !== "journal" && (
+              <>
+                {messages.map((message) => (
+                  <PreviewMessage
+                    key={message.id}
+                    role={message.role}
+                    content={message.content}
+                    toolInvocations={message.toolInvocations}
+                  />
+                ))}
+              </>
+            )}
+          </AnimatePresence>{" "}
           <AnimatePresence>
             {mode === "journal" && (
               <>
                 {entries.map((entry, index) => (
-                  <Journal
+                  <PreviewMessage
                     key={index}
                     role={entry.role}
                     content={entry.content}
@@ -104,7 +96,7 @@ export function Chat({
           <MultimodalInput
             input={input}
             setInput={setInput}
-            handleSubmit={handleSubmit}
+            handleSubmit={onSubmit}
             isLoading={isLoading}
             stop={stop}
             messages={messages}
