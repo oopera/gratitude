@@ -8,7 +8,6 @@ import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
@@ -21,7 +20,18 @@ export function Chat({
   id: string;
   initialMessages: Array<Message>;
 }) {
-  const modes = ["llm", "journal"];
+  const modes = [
+    {
+      value: "llm",
+      label: "LLM (ChatGPT)",
+      description: "Journal your Gratitude with LLM assistance",
+    },
+    {
+      value: "journal",
+      label: "Journal (Diary)",
+      description: "Journal your Gratitude with pre-existing questions",
+    },
+  ];
   const [mode, setMode] = useState<"llm" | "llm-2" | "journal">("llm");
 
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
@@ -51,7 +61,7 @@ export function Chat({
             <>
               <Overview />
               <RadioGroup
-                className="flex"
+                className="flex max-w-[500px]"
                 defaultValue="llm"
                 onValueChange={(value: "journal" | "llm" | "llm-2") => {
                   setMode(value);
@@ -62,10 +72,14 @@ export function Chat({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                     transition={{ delay: 0.5 + 0.05 * index }}
-                    key={item}
+                    key={item.value}
                     className="flex items-center space-x-2">
-                    <RadioGroupItem value={item} id={item}>
-                      <Label htmlFor="journal">{item}</Label>
+                    <RadioGroupItem value={item.value} id={item.value}>
+                      <span className="font-medium">{item.label}</span>
+                      <span className="text-zinc-500 dark:text-zinc-400">
+                        {item.description}
+                      </span>
+                      {/* <Label htmlFor="journal">{item}</Label> */}
                     </RadioGroupItem>
                   </motion.div>
                 ))}
