@@ -6,7 +6,7 @@ import { useChat } from "ai/react";
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -47,19 +47,31 @@ export function Chat({
         <div
           ref={messagesContainerRef}
           className="flex flex-col gap-4 h-full w-dvw items-center overflow-y-scroll">
-          {messages.length === 0 && entries.length === 1 && <Overview />}
-          <RadioGroup
-            defaultValue="llm"
-            onValueChange={(value: "journal" | "llm" | "llm-2") => {
-              setMode(value);
-            }}>
-            {modes.map((item) => (
-              <div key={item} className="flex items-center space-x-2">
-                <RadioGroupItem value={item} id={item} />
-                <Label htmlFor="journal">{item}</Label>
-              </div>
-            ))}
-          </RadioGroup>
+          {messages.length === 0 && entries.length === 1 && (
+            <>
+              <Overview />
+              <RadioGroup
+                className="flex"
+                defaultValue="llm"
+                onValueChange={(value: "journal" | "llm" | "llm-2") => {
+                  setMode(value);
+                }}>
+                {modes.map((item, index) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ delay: 0.5 + 0.05 * index }}
+                    key={item}
+                    className="flex items-center space-x-2">
+                    <RadioGroupItem value={item} id={item}>
+                      <Label htmlFor="journal">{item}</Label>
+                    </RadioGroupItem>
+                  </motion.div>
+                ))}
+              </RadioGroup>
+            </>
+          )}
           <AnimatePresence>
             {mode !== "journal" && (
               <>
@@ -73,7 +85,7 @@ export function Chat({
                 ))}
               </>
             )}
-          </AnimatePresence>{" "}
+          </AnimatePresence>
           <AnimatePresence>
             {mode === "journal" && (
               <>
