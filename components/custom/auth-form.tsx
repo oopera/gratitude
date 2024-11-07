@@ -1,12 +1,12 @@
-import Form from 'next/form';
+import Form from "next/form";
 
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export function AuthForm({
   action,
   children,
-  defaultEmail = '',
+  defaultEmail = "",
 }: {
   action: any;
   children: React.ReactNode;
@@ -17,9 +17,8 @@ export function AuthForm({
       <div className="flex flex-col gap-2">
         <Label
           htmlFor="email"
-          className="text-zinc-600 font-normal dark:text-zinc-400"
-        >
-          Email Address
+          className="text-zinc-600 font-normal dark:text-zinc-400">
+          E-mail Addresse
         </Label>
 
         <Input
@@ -35,8 +34,7 @@ export function AuthForm({
 
         <Label
           htmlFor="password"
-          className="text-zinc-600 font-normal dark:text-zinc-400"
-        >
+          className="text-zinc-600 font-normal dark:text-zinc-400">
           Password
         </Label>
 

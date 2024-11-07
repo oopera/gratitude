@@ -1,14 +1,8 @@
 "use client";
 
-import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
-import { motion } from "framer-motion";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import { ChatRequestOptions, CreateMessage, Message } from "ai";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 import { Button } from "../ui/button";
@@ -35,18 +29,15 @@ export function MultimodalInput({
   setInput,
   isLoading,
   stop,
-  attachments,
-  setAttachments,
   messages,
   append,
   handleSubmit,
+  mode,
 }: {
   input: string;
   setInput: (value: string) => void;
   isLoading: boolean;
   stop: () => void;
-  attachments: Array<Attachment>;
-  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
   messages: Array<Message>;
   append: (
     message: Message | CreateMessage,
@@ -58,6 +49,7 @@ export function MultimodalInput({
     },
     chatRequestOptions?: ChatRequestOptions
   ) => void;
+  mode: "llm" | "llm-2" | "journal";
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
@@ -81,75 +73,50 @@ export function MultimodalInput({
   };
 
   const submitForm = useCallback(() => {
-    handleSubmit(undefined, {
-      experimental_attachments: attachments,
-    });
-
-    setAttachments([]);
+    handleSubmit(undefined, {});
 
     if (width && width > 768) {
       textareaRef.current?.focus();
     }
-  }, [attachments, handleSubmit, setAttachments, width]);
+  }, [handleSubmit, width]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
-      {messages.length === 0 && attachments.length === 0 && (
+      {messages.length === 0 && (
         <div className="grid sm:grid-cols-2 gap-2 w-full md:px-0 mx-auto md:max-w-[500px]">
-          {suggestedActions.map((suggestedAction, index) => (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ delay: 0.05 * index }}
-              key={index}
-              className={index > 1 ? "hidden sm:block" : "block"}>
-              <button
-                onClick={async () => {
-                  append({
-                    role: "user",
-                    content: suggestedAction.action,
-                  });
-                }}
-                className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
-                <span className="font-medium">{suggestedAction.title}</span>
-                <span className="text-zinc-500 dark:text-zinc-400">
-                  {suggestedAction.label}
-                </span>
-              </button>
-            </motion.div>
-          ))}
+          <AnimatePresence>
+            {mode === "llm" && (
+              <>
+                {suggestedActions.map((suggestedAction, index) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ delay: 0.05 * index }}
+                    key={index}
+                    className={index > 1 ? "hidden sm:block" : "block"}>
+                    <button
+                      onClick={async () => {
+                        append({
+                          role: "user",
+                          content: suggestedAction.action,
+                        });
+                      }}
+                      className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
+                      <span className="font-medium">
+                        {suggestedAction.title}
+                      </span>
+                      <span className="text-zinc-500 dark:text-zinc-400">
+                        {suggestedAction.label}
+                      </span>
+                    </button>
+                  </motion.div>
+                ))}
+              </>
+            )}
+          </AnimatePresence>
         </div>
       )}
-
-      {/* <input
-        type="file"
-        className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
-        ref={fileInputRef}
-        multiple
-        onChange={handleFileChange}
-        tabIndex={-1}
-      />
-
-      {(attachments.length > 0 || uploadQueue.length > 0) && (
-        <div className="flex flex-row gap-2 overflow-x-scroll">
-          {attachments.map((attachment) => (
-            <PreviewAttachment key={attachment.url} attachment={attachment} />
-          ))}
-
-          {uploadQueue.map((filename) => (
-            <PreviewAttachment
-              key={filename}
-              attachment={{
-                url: "",
-                name: filename,
-                contentType: "",
-              }}
-              isUploading={true}
-            />
-          ))}
-        </div>
-      )} */}
 
       <Textarea
         ref={textareaRef}
@@ -191,17 +158,6 @@ export function MultimodalInput({
           <ArrowUpIcon size={14} />
         </Button>
       )}
-
-      {/* <Button
-        className="rounded-full p-1.5 h-fit absolute bottom-2 right-10 m-0.5 dark:border-zinc-700"
-        onClick={(event) => {
-          event.preventDefault();
-          fileInputRef.current?.click();
-        }}
-        variant="outline"
-        disabled={isLoading}>
-        <PaperclipIcon size={14} />
-      </Button> */}
     </div>
   );
 }

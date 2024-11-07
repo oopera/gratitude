@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     await request.json();
 
   const session = await auth();
-
+  console.log(session, "session");
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -49,7 +49,8 @@ export async function POST(request: Request) {
         },
       },
       recollect: {
-        description: "Erinnert sich an die letzten Einträge des Nutzers.",
+        description:
+          "Erinnert sich an die letzten Einträge des Nutzers. Entweder auf Nachfrage, oder wenn der Nutzer den anschein macht, dass er sich nicht mehr erinnert.",
         parameters: z.object({
           id: z.string(),
         }),
@@ -87,6 +88,8 @@ export async function POST(request: Request) {
       functionId: "stream-text",
     },
   });
+
+  console.log(result.toDataStreamResponse({}));
 
   return result.toDataStreamResponse({});
 }
