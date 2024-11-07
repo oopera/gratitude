@@ -24,12 +24,12 @@ export function Chat({
     {
       value: "llm",
       label: "LLM (ChatGPT)",
-      description: "Journal your Gratitude with LLM assistance",
+      description: "Teile deine Dankbarkeit mit ChatGPT",
     },
     {
       value: "journal",
-      label: "Journal (Diary)",
-      description: "Journal your Gratitude with pre-existing questions",
+      label: "Journal (Tagebuch)",
+      description: "Halte deine Dankbarkeit mit einem Tagebuch fest",
     },
   ];
   const [mode, setMode] = useState<"llm" | "llm-2" | "journal">("llm");
