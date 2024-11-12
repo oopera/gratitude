@@ -17,6 +17,7 @@ export async function POST(request: Request) {
     await saveChat({
       id,
       messages,
+      type: "journal",
       userId: session.user.id,
     });
 

@@ -5,7 +5,7 @@ import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { user, chat, User } from "./schema";
+import { chat, user, User } from "./schema";
 
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
@@ -37,10 +37,12 @@ export async function createUser(email: string, password: string) {
 export async function saveChat({
   id,
   messages,
+  type,
   userId,
 }: {
   id: string;
   messages: any;
+  type: string;
   userId: string;
 }) {
   try {
@@ -59,6 +61,7 @@ export async function saveChat({
       id,
       createdAt: new Date(),
       messages: JSON.stringify(messages),
+      type,
       userId,
     });
   } catch (error) {

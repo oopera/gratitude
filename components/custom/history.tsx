@@ -177,7 +177,21 @@ export const History = ({ user }: { user: User | undefined }) => {
                       <Link
                         href={`/chat/${chat.id}`}
                         className="text-ellipsis overflow-hidden text-left py-2 pl-2 rounded-lg outline-zinc-900">
-                        {getTitleFromChat(chat)}
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs px-1.5 py-0.5 rounded-md bg-zinc-300 dark:bg-zinc-600">
+                            {chat.type === "journal" ? "Journal" : "Chat"}
+                          </span>
+                          <span className="text-xs px-1.5 py-0.5 rounded-md bg-zinc-300 dark:bg-zinc-600">
+                            {new Date(chat.createdAt).toLocaleDateString(
+                              "de-DE",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                              }
+                            )}
+                          </span>
+                          {getTitleFromChat(chat)}
+                        </div>
                       </Link>
                     </Button>
 

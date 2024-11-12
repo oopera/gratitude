@@ -14,15 +14,7 @@ export const chat = pgTable("Chat", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   createdAt: timestamp("createdAt").notNull(),
   messages: json("messages").notNull(),
-  userId: uuid("userId")
-    .notNull()
-    .references(() => user.id),
-});
-
-export const journal = pgTable("Journal", {
-  id: uuid("id").primaryKey().notNull().defaultRandom(),
-  createdAt: timestamp("createdAt").notNull(),
-  messages: json("messages").notNull(),
+  type: varchar("type", { length: 64 }).notNull(),
   userId: uuid("userId")
     .notNull()
     .references(() => user.id),

@@ -23,12 +23,12 @@ export function Chat({
   const modes = [
     {
       value: "llm",
-      label: "LLM (ChatGPT)",
+      label: "LLM",
       description: "Teile deine Dankbarkeit mit ChatGPT",
     },
     {
       value: "journal",
-      label: "Journal (Tagebuch)",
+      label: "Journal",
       description: "Halte deine Dankbarkeit mit einem Tagebuch fest",
     },
   ];
@@ -56,12 +56,12 @@ export function Chat({
       <div className="flex flex-col justify-between items-center gap-4">
         <div
           ref={messagesContainerRef}
-          className="flex flex-col gap-4 h-full w-dvw items-center overflow-y-scroll">
+          className="flex flex-col gap-4 h-full w-dvw items-center">
           {messages.length === 0 && entries.length === 1 && (
             <>
               <Overview />
               <RadioGroup
-                className="flex max-w-[500px]"
+                className="md:max-w-[500px] w-full px-4 md:mx-0 grid grid-cols-2"
                 defaultValue="llm"
                 onValueChange={(value: "journal" | "llm" | "llm-2") => {
                   setMode(value);
@@ -73,8 +73,11 @@ export function Chat({
                     exit={{ opacity: 0, y: 20 }}
                     transition={{ delay: 0.5 + 0.05 * index }}
                     key={item.value}
-                    className="flex items-center space-x-2">
-                    <RadioGroupItem value={item.value} id={item.value}>
+                    className="flex items-center space-x-2 h-full">
+                    <RadioGroupItem
+                      className="h-full"
+                      value={item.value}
+                      id={item.value}>
                       <span className="font-medium">{item.label}</span>
                       <span className="text-zinc-500 dark:text-zinc-400">
                         {item.description}
