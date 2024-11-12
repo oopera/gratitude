@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const questions = [
   { role: "journal", content: "Wofür bist du Heute dankbar?" },
@@ -24,20 +24,10 @@ function useJournal(props: { input: string; id: string; setInput: any }) {
     const userEntry = { role: "user", content: props.input };
     const updatedEntries = [...entries, userEntry];
 
-    if (updatedEntries.length === 2) {
-      // window.history.replaceState({}, "", `/chat/${props.id}`);
-    }
-
     setEntries(updatedEntries);
   }
 
-  useEffect(() => {
-    if (entries.length > 0 && entries[entries.length - 1].role === "user") {
-      nextQuestion();
-    }
-  }, [entries, nextQuestion]);
-
-  async function nextQuestion() {
+  const nextQuestion = useCallback(async () => {
     const nextIndex = currentQuestionIndex + 1;
 
     if (nextIndex < questions.length) {
@@ -63,7 +53,13 @@ function useJournal(props: { input: string; id: string; setInput: any }) {
         router.push("/");
       }, 1500);
     }
-  }
+  }, [currentQuestionIndex, entries, props.id, router]);
+
+  useEffect(() => {
+    if (entries.length > 0 && entries[entries.length - 1].role === "user") {
+      nextQuestion();
+    }
+  }, [entries, nextQuestion]);
 
   return {
     saveResponse,

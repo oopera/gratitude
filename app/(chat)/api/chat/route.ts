@@ -69,6 +69,15 @@ export async function POST(request: Request) {
           return recollection;
         },
       },
+      completeEntry: {
+        description: "Beendet den Eintrag",
+        parameters: z.object({
+          id: z.string(),
+        }),
+        execute: async () => {
+          window.history.replaceState({}, `/chat/${id}`, "");
+        },
+      },
     },
     onFinish: async ({ responseMessages }) => {
       if (session.user && session.user.id) {

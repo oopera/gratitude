@@ -2,12 +2,13 @@
 
 import { Message } from "ai";
 import { useChat } from "ai/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
@@ -48,7 +49,21 @@ export function Chat({
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
-  console.log(input);
+  const router = useRouter();
+
+  useEffect(() => {
+    const latestMessage = messages[messages.length - 1];
+    if (
+      latestMessage?.toolInvocations?.some(
+        (tool) => tool.toolName === "completeEntry"
+      )
+    ) {
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
+  }, [messages, router]);
+
   const onSubmit = mode === "journal" ? saveResponse : handleSubmit;
 
   return (
@@ -68,10 +83,10 @@ export function Chat({
                 }}>
                 {modes.map((item, index) => (
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ delay: 0.5 + 0.05 * index }}
+                    initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 20, scale: 0.98 }}
+                    transition={{ delay: 0.05 * (index + 1) }}
                     key={item.value}
                     className="flex items-center space-x-2 h-full">
                     <RadioGroupItem
@@ -92,9 +107,10 @@ export function Chat({
           <AnimatePresence>
             {mode !== "journal" && (
               <>
-                {messages.map((message) => (
+                {messages.map((message, index) => (
                   <PreviewMessage
-                    key={message.id}
+                    key={index}
+                    index={index}
                     role={message.role}
                     content={message.content}
                     toolInvocations={message.toolInvocations}
@@ -109,6 +125,7 @@ export function Chat({
                 {entries.map((entry, index) => (
                   <PreviewMessage
                     key={index}
+                    index={index}
                     role={entry.role}
                     content={entry.content}
                   />
