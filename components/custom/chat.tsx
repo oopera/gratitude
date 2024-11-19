@@ -8,8 +8,7 @@ import { useEffect, useState } from "react";
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { AnimatePresence } from "framer-motion";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
 import useJournal from "./use-Journal";
@@ -17,22 +16,12 @@ import useJournal from "./use-Journal";
 export function Chat({
   id,
   initialMessages,
+  selectedModelId,
 }: {
   id: string;
   initialMessages: Array<Message>;
+  selectedModelId: string;
 }) {
-  const modes = [
-    {
-      value: "llm",
-      label: "LLM",
-      description: "Teile deine Dankbarkeit mit ChatGPT",
-    },
-    {
-      value: "journal",
-      label: "Journal",
-      description: "Halte deine Dankbarkeit mit einem Tagebuch fest",
-    },
-  ];
   const [mode, setMode] = useState<"llm" | "llm-2" | "journal">("llm");
 
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
@@ -64,7 +53,7 @@ export function Chat({
     }
   }, [messages, router]);
 
-  const onSubmit = mode === "journal" ? saveResponse : handleSubmit;
+  const onSubmit = selectedModelId === "journal" ? saveResponse : handleSubmit;
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
@@ -75,33 +64,6 @@ export function Chat({
           {messages.length === 0 && entries.length === 1 && (
             <>
               <Overview />
-              <RadioGroup
-                className="md:max-w-[500px] w-full px-4 md:mx-0 grid grid-cols-2"
-                defaultValue="llm"
-                onValueChange={(value: "journal" | "llm" | "llm-2") => {
-                  setMode(value);
-                }}>
-                {modes.map((item, index) => (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 20, scale: 0.98 }}
-                    transition={{ delay: 0.05 * (index + 1) }}
-                    key={item.value}
-                    className="flex items-center space-x-2 h-full">
-                    <RadioGroupItem
-                      className="h-full"
-                      value={item.value}
-                      id={item.value}>
-                      <span className="font-medium">{item.label}</span>
-                      <span className="text-zinc-500 dark:text-zinc-400">
-                        {item.description}
-                      </span>
-                      {/* <Label htmlFor="journal">{item}</Label> */}
-                    </RadioGroupItem>
-                  </motion.div>
-                ))}
-              </RadioGroup>
             </>
           )}
           <AnimatePresence>
@@ -120,7 +82,7 @@ export function Chat({
             )}
           </AnimatePresence>
           <AnimatePresence>
-            {mode === "journal" && (
+            {selectedModelId === "journal" && (
               <>
                 {entries.map((entry, index) => (
                   <PreviewMessage
@@ -147,7 +109,7 @@ export function Chat({
             stop={stop}
             messages={messages}
             append={append}
-            mode={mode}
+            selectedModelId={selectedModelId}
           />
         </form>
       </div>

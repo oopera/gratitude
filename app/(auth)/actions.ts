@@ -7,9 +7,14 @@ import { createUser, getUser } from "@/db/queries";
 import { signIn } from "./auth";
 
 const authFormSchema = z.object({
-  email: z.string().email(),
+  name: z.string(),
   password: z.string().min(6),
   type: z.string(),
+});
+
+const loginFormSchema = z.object({
+  name: z.string(),
+  password: z.string().min(6),
 });
 
 export interface LoginActionState {
@@ -21,13 +26,17 @@ export const login = async (
   formData: FormData
 ): Promise<LoginActionState> => {
   try {
-    const validatedData = authFormSchema.parse({
-      email: formData.get("email"),
+    console.log(formData, "formData");
+
+    const validatedData = loginFormSchema.parse({
+      name: formData.get("name"),
       password: formData.get("password"),
     });
 
+    console.log(validatedData);
+
     await signIn("credentials", {
-      email: validatedData.email,
+      name: validatedData.name,
       password: validatedData.password,
       redirect: false,
     });
@@ -58,23 +67,23 @@ export const register = async (
 ): Promise<RegisterActionState> => {
   try {
     const validatedData = authFormSchema.parse({
-      email: formData.get("email"),
+      name: formData.get("name"),
       password: formData.get("password"),
       type: formData.get("type"),
     });
 
-    let [user] = await getUser(validatedData.email);
+    let [user] = await getUser(validatedData.name);
 
     if (user) {
       return { status: "user_exists" } as RegisterActionState;
     } else {
       await createUser(
-        validatedData.email,
+        validatedData.name,
         validatedData.password,
         validatedData.type
       );
       await signIn("credentials", {
-        email: validatedData.email,
+        name: validatedData.name,
         password: validatedData.password,
         redirect: false,
       });

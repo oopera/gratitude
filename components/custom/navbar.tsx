@@ -12,9 +12,16 @@ import {
 } from "../ui/dropdown-menu";
 import { History } from "./history";
 
+import { ModelSelector } from "./model-selector";
 import { ThemeToggle } from "./theme-toggle";
 
-export const Navbar = async () => {
+export const Navbar = async ({
+  userType,
+  selectedModelId,
+}: {
+  userType: string;
+  selectedModelId: string;
+}) => {
   let session = await auth();
 
   return (
@@ -22,11 +29,11 @@ export const Navbar = async () => {
       <div className="bg-background absolute top-0 left-0 w-dvw py-2 px-3 justify-between flex flex-row items-center z-30">
         <div className="flex flex-row gap-3 items-center min-w-0">
           <History user={session?.user} />
-          <Link href="/" className="flex flex-row gap-2 items-center min-w-0">
-            <div className="text-sm dark:text-zinc-300 truncate">
-              Dankbarkeitstagebuch
-            </div>
-          </Link>
+          {userType === "admin" && (
+            <Link href="/" className="flex flex-row gap-2 items-center min-w-0">
+              <ModelSelector selectedModelId={selectedModelId} />
+            </Link>
+          )}
         </div>
 
         {session ? (
@@ -35,7 +42,7 @@ export const Navbar = async () => {
               <Button
                 className="py-1.5 px-2 h-fit font-normal"
                 variant="secondary">
-                {session.user?.email}
+                {session.user?.name}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

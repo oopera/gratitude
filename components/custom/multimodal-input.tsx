@@ -32,7 +32,7 @@ export function MultimodalInput({
   messages,
   append,
   handleSubmit,
-  mode,
+  selectedModelId,
 }: {
   input: string;
   setInput: (value: string) => void;
@@ -49,7 +49,7 @@ export function MultimodalInput({
     },
     chatRequestOptions?: ChatRequestOptions
   ) => void;
-  mode: "llm" | "llm-2" | "journal";
+  selectedModelId: string;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
@@ -85,7 +85,7 @@ export function MultimodalInput({
       {messages.length === 0 && (
         <div className="grid sm:grid-cols-2 gap-2 w-full md:px-0 mx-auto md:max-w-[500px]">
           <AnimatePresence>
-            {mode !== "journal" && (
+            {selectedModelId !== "journal" && (
               <>
                 {suggestedActions.map((suggestedAction, index) => (
                   <motion.div
