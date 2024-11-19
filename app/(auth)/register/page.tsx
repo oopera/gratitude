@@ -10,16 +10,45 @@ import { SubmitButton } from "@/components/custom/submit-button";
 
 import { register, RegisterActionState } from "../actions";
 
+function getUserTypeFromSubdomain(
+  hostname: string
+): "admin" | "control" | "c_1" | "c_2" {
+  const subdomain = hostname.split(".")[0];
+
+  switch (subdomain) {
+    case "gratitude":
+      return "admin";
+    case "grhrwc01":
+      return "control";
+    case "grhrwc02":
+      return "c_1";
+    case "grhrwc03":
+      return "c_2";
+    default:
+      return "control"; // Default fallback
+  }
+}
+
 export default function Page() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
+  const [type, setType] = useState<"admin" | "control" | "c_1" | "c_2">(
+    "control"
+  );
   const [state, formAction] = useActionState<RegisterActionState, FormData>(
     register,
     {
       status: "idle",
-    },
+    }
   );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userType = getUserTypeFromSubdomain(window.location.hostname);
+      setType(userType);
+    }
+  }, []);
 
   useEffect(() => {
     if (state.status === "user_exists") {
@@ -36,6 +65,7 @@ export default function Page() {
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get("email") as string);
+    formData.append("type", type);
     formAction(formData);
   };
 
@@ -54,8 +84,7 @@ export default function Page() {
             {"Already have an account? "}
             <Link
               href="/login"
-              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
-            >
+              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200">
               Sign in
             </Link>
             {" instead."}
