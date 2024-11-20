@@ -9,23 +9,23 @@ export interface Model {
 
 export const models: Array<Model> = [
   {
-    id: "Chatbot mit ACR",
+    id: "condition_one",
     label: "Chatbot mit ACR",
     apiIdentifier: "gpt-4o-mini",
     description: "Modell mit Aktive Konstruktivem Reagieren",
   },
   {
-    id: "Chatbot mit ACR und Erinnerung",
+    id: "condition_two",
     label: "Chatbot mit ACR und Erinnerung",
     apiIdentifier: "gpt-4o",
     description: "Modell mit Aktivem Konstruktivem Reagieren und Erinnerung",
   },
   {
-    id: "journal",
+    id: "control",
     label: "Manuelles Tagebuch",
     apiIdentifier: "no-gpt",
     description: "Für manuelles Eintragen",
   },
 ] as const;
 
-export const DEFAULT_MODEL_NAME: string = "gpt-4o-mini";
+export const DEFAULT_MODEL_NAME: string = "control";

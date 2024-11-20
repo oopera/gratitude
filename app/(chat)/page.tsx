@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import { Chat } from "@/components/custom/chat";
 import { Navbar } from "@/components/custom/navbar";
 import { getUser } from "@/db/queries";
@@ -10,26 +8,29 @@ import { auth } from "../(auth)/auth";
 
 export default async function Page() {
   const id = generateUUID();
-
-  const cookieStore = await cookies();
-  const modelIdFromCookie = cookieStore.get("model-id")?.value;
-
-  const selectedModelId =
-    models.find((model) => model.id === modelIdFromCookie)?.id ||
-    DEFAULT_MODEL_NAME;
-
   const session = await auth();
 
   if (!session?.user?.name) {
     return notFound();
   }
   const user = await getUser(session?.user?.name);
+  const userType = user[0]?.type;
 
-  if (!user) {
+  if (!userType) {
     return notFound();
   }
 
-  const userType = user[0]?.type;
+  let selectedModelId = DEFAULT_MODEL_NAME;
+
+  const modelMapping: Record<string, string> = {
+    condition_one: "condition_one",
+    condition_two: "condition_two",
+    control: "control",
+  };
+
+  selectedModelId =
+    models.find((model) => model.id === modelMapping[userType])?.id ??
+    DEFAULT_MODEL_NAME;
 
   return (
     <>
