@@ -16,7 +16,8 @@ function getUserTypeFromSubdomain(
   const subdomain = hostname.split(".")[0];
 
   switch (subdomain) {
-    case "gratitude" || "localhost":
+    case "gratitude":
+    case "localhost":
       return "admin";
     case "njgnw1sqaj":
       return "condition_one";
