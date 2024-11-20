@@ -85,7 +85,7 @@ export function MultimodalInput({
       {messages.length === 0 && (
         <div className="grid sm:grid-cols-2 gap-2 w-full md:px-0 mx-auto md:max-w-[500px]">
           <AnimatePresence>
-            {selectedModelId !== "journal" && (
+            {selectedModelId !== "control" && (
               <>
                 {suggestedActions.map((suggestedAction, index) => (
                   <motion.div

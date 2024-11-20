@@ -3,7 +3,7 @@
 import { Message } from "ai";
 import { useChat } from "ai/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
@@ -22,8 +22,6 @@ export function Chat({
   initialMessages: Array<Message>;
   selectedModelId: string;
 }) {
-  const [mode, setMode] = useState<"llm" | "llm-2" | "journal">("llm");
-
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
       body: { id },
@@ -53,7 +51,7 @@ export function Chat({
     }
   }, [messages, router]);
 
-  const onSubmit = selectedModelId === "journal" ? saveResponse : handleSubmit;
+  const onSubmit = selectedModelId === "control" ? saveResponse : handleSubmit;
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
@@ -67,7 +65,7 @@ export function Chat({
             </>
           )}
           <AnimatePresence>
-            {mode !== "journal" && (
+            {selectedModelId !== "control" && (
               <>
                 {messages.map((message, index) => (
                   <PreviewMessage
@@ -82,7 +80,7 @@ export function Chat({
             )}
           </AnimatePresence>
           <AnimatePresence>
-            {selectedModelId === "journal" && (
+            {selectedModelId === "control" && (
               <>
                 {entries.map((entry, index) => (
                   <PreviewMessage

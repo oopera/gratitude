@@ -3,7 +3,7 @@ import { Navbar } from "@/components/custom/navbar";
 import { getUser } from "@/db/queries";
 import { DEFAULT_MODEL_NAME, models } from "@/lib/ai/models";
 import { generateUUID } from "@/lib/utils";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { auth } from "../(auth)/auth";
 
 export default async function Page() {
@@ -11,13 +11,13 @@ export default async function Page() {
   const session = await auth();
 
   if (!session?.user?.name) {
-    return notFound();
+    return redirect("/register");
   }
   const user = await getUser(session?.user?.name);
   const userType = user[0]?.type;
 
   if (!userType) {
-    return notFound();
+    return redirect("/register");
   }
 
   let selectedModelId = DEFAULT_MODEL_NAME;
@@ -31,7 +31,7 @@ export default async function Page() {
   selectedModelId =
     models.find((model) => model.id === modelMapping[userType])?.id ??
     DEFAULT_MODEL_NAME;
-
+  console.log(selectedModelId);
   return (
     <>
       <Navbar userType={userType} selectedModelId={selectedModelId} />

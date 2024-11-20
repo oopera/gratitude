@@ -26,14 +26,14 @@ export const authConfig = {
 
       if (isOnChat) {
         if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+        return Response.redirect(new URL("/register", nextUrl));
       }
 
       if (isLoggedIn) {
         return Response.redirect(new URL("/", nextUrl));
       }
 
-      return true;
+      return false;
     },
   },
 } satisfies NextAuthConfig;

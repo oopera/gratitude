@@ -12,7 +12,7 @@ import { register, RegisterActionState } from "../actions";
 
 function getUserTypeFromSubdomain(
   hostname: string
-): "admin" | "condition_one" | "condition_two" | "control" {
+): "admin" | "condition_one" | "condition_two" | "control" | "error" {
   const subdomain = hostname.split(".")[0];
 
   switch (subdomain) {
@@ -21,12 +21,12 @@ function getUserTypeFromSubdomain(
       return "admin";
     case "njgnw1sqaj":
       return "condition_one";
-    case "0qyv7gg42":
+    case "0qyv7gg42k":
       return "condition_two";
     case "f8cmbjr9vd":
       return "control";
     default:
-      return "control"; // Default fallback
+      return "error"; // Default fallback
   }
 }
 
@@ -35,7 +35,7 @@ export default function Page() {
 
   const [name, setname] = useState("");
   const [type, setType] = useState<
-    "admin" | "condition_one" | "condition_two" | "control"
+    "admin" | "condition_one" | "condition_two" | "control" | "error"
   >("control");
   const [state, formAction] = useActionState<RegisterActionState, FormData>(
     register,
