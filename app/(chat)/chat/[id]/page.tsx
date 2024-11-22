@@ -1,9 +1,10 @@
 import { CoreMessage } from "ai";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import { Chat as PreviewChat } from "@/components/custom/chat";
-import { getChatById } from "@/db/queries";
+import { Navbar } from "@/components/custom/navbar";
+import { getChatById, getUser } from "@/db/queries";
 import { Chat } from "@/db/schema";
 import { DEFAULT_MODEL_NAME, models } from "@/lib/ai/models";
 import { convertToUIMessages } from "@/lib/utils";
@@ -26,25 +27,44 @@ export default async function Page(props: { params: Promise<any> }) {
 
   const session = await auth();
 
-  if (!session || !session.user) {
-    return notFound();
+  if (!session?.user?.name) {
+    return redirect("/register");
+  }
+  const user = await getUser(session?.user?.name);
+  const userType = user[0]?.type;
+
+  if (!userType) {
+    return redirect("/register");
   }
 
-  if (session.user.id !== chat.userId) {
-    return notFound();
-  }
+  let selectedModelId = DEFAULT_MODEL_NAME;
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
 
-  const selectedModelId =
+  const cookieModelId =
     models.find((model) => model.id === modelIdFromCookie)?.id ||
     DEFAULT_MODEL_NAME;
 
+  const modelMapping: Record<string, string> = {
+    condition_one: "condition_one",
+    condition_two: "condition_two",
+    control: "control",
+    admin: cookieModelId,
+  };
+
+  selectedModelId =
+    models.find((model) => model.id === modelMapping[userType])?.id ??
+    DEFAULT_MODEL_NAME;
+
   return (
-    <PreviewChat
-      id={chat.id}
-      initialMessages={chat.messages}
-      selectedModelId={selectedModelId}
-    />
+    <>
+      <Navbar userType={userType} selectedModelId={selectedModelId} />
+      <PreviewChat
+        userType={userType}
+        id={chat.id}
+        initialMessages={chat.messages}
+        selectedModelId={selectedModelId}
+      />
+    </>
   );
 }

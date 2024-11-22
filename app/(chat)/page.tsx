@@ -44,6 +44,7 @@ export default async function Page() {
     <>
       <Navbar userType={userType} selectedModelId={selectedModelId} />
       <Chat
+        userType={userType}
         key={id}
         id={id}
         initialMessages={[]}

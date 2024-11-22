@@ -1,21 +1,20 @@
-import { convertToCoreMessages, Message, streamText } from "ai";
-import { z } from "zod";
+import { convertToCoreMessages, CoreTool, Message, streamText } from "ai";
 
 import { customModel } from "@/ai";
 import { auth } from "@/app/(auth)/auth";
-import {
-  deleteChatById,
-  getChatById,
-  getChatsByUserId,
-  saveChat,
-} from "@/db/queries";
-
+import { deleteChatById, getChatById, saveChat } from "@/db/queries";
+import { SystemPrompts } from "@/lib/ai/prompts";
+import { SystemTools } from "@/lib/ai/tools";
 export async function POST(request: Request) {
-  const { id, messages }: { id: string; messages: Array<Message> } =
+  const {
+    id,
+    messages,
+    selectedModelId,
+  }: { id: string; messages: Array<Message>; selectedModelId: string } =
     await request.json();
 
   const session = await auth();
-  console.log(session, "session");
+
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -23,62 +22,17 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const userId = session.user?.id;
-
   const coreMessages = convertToCoreMessages(messages);
-
+  console.log(id, selectedModelId);
   const result = await streamText({
     model: customModel,
-    system:
-      "Du bist ein Assistent zum verfassen von Dankbarkeitsjournaleinträgen. Du hilfst, Gedanken und Gefühle zu reflektieren und aufzuschreiben. Du kennst explizite Fragen und Anregungen, um den Nutzer zu unterstützen. Ein dankbarkeitstagebucheintrag ist automatisch beendet nach dem 3 Fragen beantwortet wurden. Du kannst auch die letzten Einträge des Nutzers beschreiben, und reflektieren.",
+    system: SystemPrompts[selectedModelId],
     messages: coreMessages,
     maxSteps: 5,
-    tools: {
-      startNewEntry: {
-        description: "Startet einen neuen Eintrag",
-        parameters: z.object({
-          id: z.string(),
-        }),
-        execute: async () => {
-          return [
-            "[Systemnachricht: Der ChatBot wählt zufällig eine der folgenenden Fragen aus, um den Eintrag zu beginnen.]",
-            "Was war das schönste was dir heute passiert ist?",
-            "Was hat dich heute glücklich gemacht?",
-            "Wofür bist du heute besonders dankbar?",
-          ];
-        },
-      },
-      recollect: {
-        description:
-          "Erinnert sich an die letzten Einträge des Nutzers. Entweder auf Nachfrage, oder wenn der Nutzer den anschein macht, dass er sich nicht mehr erinnert.",
-        parameters: z.object({
-          id: z.string(),
-        }),
-        execute: async () => {
-          const chats = await getChatsByUserId({ id: userId });
-
-          const recollection = chats.map((chat, index) => {
-            return {
-              index: index + 1,
-              messages: chat.messages,
-            };
-          });
-
-          console.log(recollection);
-
-          return recollection;
-        },
-      },
-      completeEntry: {
-        description: "Beendet den Eintrag",
-        parameters: z.object({
-          id: z.string(),
-        }),
-        execute: async () => {
-          window.history.replaceState({}, `/chat/${id}`, "");
-        },
-      },
-    },
+    tools: SystemTools(selectedModelId, session.user.id) as Record<
+      string,
+      CoreTool<any, any>
+    >,
     onFinish: async ({ responseMessages }) => {
       if (session.user && session.user.id) {
         try {

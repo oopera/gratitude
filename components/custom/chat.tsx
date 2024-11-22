@@ -17,14 +17,16 @@ export function Chat({
   id,
   initialMessages,
   selectedModelId,
+  userType,
 }: {
   id: string;
   initialMessages: Array<Message>;
   selectedModelId: string;
+  userType: string;
 }) {
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
-      body: { id },
+      body: { id, selectedModelId },
       initialMessages,
       onFinish: () => {
         window.history.replaceState({}, "", `/chat/${id}`);
@@ -59,11 +61,13 @@ export function Chat({
         <div
           ref={messagesContainerRef}
           className="flex flex-col h-full w-dvw items-center gap-4 overflow-y-scroll">
-          {messages.length === 0 && entries.length === 1 && (
-            <>
-              <Overview />
-            </>
-          )}
+          {messages.length === 0 &&
+            entries.length === 1 &&
+            userType === "admin" && (
+              <>
+                <Overview />
+              </>
+            )}
           <AnimatePresence>
             {selectedModelId !== "control" && (
               <>
