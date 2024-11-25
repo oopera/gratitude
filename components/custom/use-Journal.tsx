@@ -13,7 +13,12 @@ const questions = [
   },
 ];
 
-function useJournal(props: { input: string; id: string; setInput: any }) {
+function useJournal(props: {
+  input: string;
+  id: string;
+  setInput: any;
+  selectedModelId: string;
+}) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [entries, setEntries] = useState([questions[0]]);
   const router = useRouter();
@@ -47,13 +52,17 @@ function useJournal(props: { input: string; id: string; setInput: any }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: props.id, messages: entries }),
+        body: JSON.stringify({
+          id: props.id,
+          messages: entries,
+          selectedModelId: props.selectedModelId,
+        }),
       });
       setTimeout(() => {
         router.push("/");
       }, 1500);
     }
-  }, [currentQuestionIndex, entries, props.id, router]);
+  }, [currentQuestionIndex, entries, props.id, props.selectedModelId, router]);
 
   useEffect(() => {
     if (entries.length > 0 && entries[entries.length - 1].role === "user") {

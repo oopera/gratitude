@@ -179,7 +179,7 @@ export const History = ({ user }: { user: User | undefined }) => {
                         className="text-ellipsis overflow-hidden text-left py-2 pl-2 rounded-lg outline-zinc-900">
                         <div className="flex items-center gap-2">
                           <span className="text-xs px-1.5 py-0.5 rounded-md bg-zinc-300 dark:bg-zinc-600">
-                            {chat.type === "journal" ? "Journal" : "Chat"}
+                            {chat.type}
                           </span>
                           <span className="text-xs px-1.5 py-0.5 rounded-md bg-zinc-300 dark:bg-zinc-600">
                             {new Date(chat.createdAt).toLocaleDateString(

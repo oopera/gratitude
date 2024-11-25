@@ -37,6 +37,8 @@ export default async function Page(props: { params: Promise<any> }) {
     return redirect("/register");
   }
 
+  const chatType = chat.type;
+
   let selectedModelId = DEFAULT_MODEL_NAME;
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
@@ -52,7 +54,10 @@ export default async function Page(props: { params: Promise<any> }) {
     admin: cookieModelId,
   };
 
+  const modelId = modelMapping[chatType];
+
   selectedModelId =
+    modelId ??
     models.find((model) => model.id === modelMapping[userType])?.id ??
     DEFAULT_MODEL_NAME;
 

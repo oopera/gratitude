@@ -10,7 +10,7 @@ import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
 import { AnimatePresence } from "framer-motion";
 import { MultimodalInput } from "./multimodal-input";
-import { Overview } from "./overview";
+import { Overview } from "./overviews/overview";
 import useJournal from "./use-Journal";
 
 export function Chat({
@@ -33,7 +33,12 @@ export function Chat({
       },
     });
 
-  const { saveResponse, entries } = useJournal({ input, setInput, id });
+  const { saveResponse, entries } = useJournal({
+    input,
+    setInput,
+    id,
+    selectedModelId,
+  });
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
@@ -41,9 +46,16 @@ export function Chat({
   const router = useRouter();
 
   useEffect(() => {
-    const latestMessage = messages[messages.length - 1];
+    const latestInitialMessage = initialMessages[initialMessages.length - 1];
     if (
-      latestMessage?.toolInvocations?.some(
+      latestInitialMessage?.toolInvocations?.some(
+        (tool) => tool.toolName === "completeEntry"
+      )
+    ) {
+      return;
+    }
+    if (
+      messages[messages.length - 1]?.toolInvocations?.some(
         (tool) => tool.toolName === "completeEntry"
       )
     ) {
@@ -51,7 +63,7 @@ export function Chat({
         router.push("/");
       }, 1000);
     }
-  }, [messages, router]);
+  }, [messages, router, initialMessages]);
 
   const onSubmit = selectedModelId === "control" ? saveResponse : handleSubmit;
 

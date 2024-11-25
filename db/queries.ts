@@ -101,3 +101,39 @@ export async function getChatById({ id }: { id: string }) {
     throw error;
   }
 }
+
+export async function getChats() {
+  try {
+    return await db.select().from(chat);
+  } catch (error) {
+    console.error("Failed to get chats from database");
+    throw error;
+  }
+}
+
+export async function getChatsByType({ type }: { type: string }) {
+  try {
+    return await db.select().from(chat).where(eq(chat.type, type));
+  } catch (error) {
+    console.error("Failed to get chats by type from database");
+    throw error;
+  }
+}
+
+export async function deleteChatsByType({ type }: { type: string }) {
+  try {
+    return await db.delete(chat).where(eq(chat.type, type));
+  } catch (error) {
+    console.error("Failed to delete chats by type from database");
+    throw error;
+  }
+}
+
+export async function getUsers() {
+  try {
+    return await db.select().from(user);
+  } catch (error) {
+    console.error("Failed to get users from database");
+    throw error;
+  }
+}

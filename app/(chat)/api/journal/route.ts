@@ -4,7 +4,11 @@ import { auth } from "@/app/(auth)/auth";
 import { saveChat } from "@/db/queries";
 
 export async function POST(request: Request) {
-  const { id, messages }: { id: string; messages: Array<Message> } =
+  const {
+    id,
+    messages,
+    selectedModelId,
+  }: { id: string; messages: Array<Message>; selectedModelId: string } =
     await request.json();
 
   const session = await auth();
@@ -17,7 +21,7 @@ export async function POST(request: Request) {
     await saveChat({
       id,
       messages,
-      type: "journal",
+      type: selectedModelId,
       userId: session.user.id,
     });
 

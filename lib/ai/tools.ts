@@ -42,8 +42,15 @@ export const completeEntry = (id: string) => ({
     id: z.string(),
   }),
   execute: async () => {
-    window.history.replaceState({}, `/chat/${id}`, "");
+    window.history.replaceState({}, `/chat/${id}`, "/complete");
   },
+});
+
+export const completeJournal = (id: string) => ({
+  description: "Beendet den Eintrag",
+  parameters: z.object({
+    id: z.string(),
+  }),
 });
 
 export const SystemTools = (selectedModelId: string, id: string) => {

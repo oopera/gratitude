@@ -39,7 +39,7 @@ export async function POST(request: Request) {
           await saveChat({
             id,
             messages: [...coreMessages, ...responseMessages],
-            type: "chat",
+            type: selectedModelId,
             userId: session.user.id,
           });
         } catch (error) {
