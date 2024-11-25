@@ -24,7 +24,7 @@ const recollectAction = {
 
 export const suggestedActions: Record<string, Array<typeof startAction>> = {
   condition_one: [startAction],
-  condition_two: [startAction, recollectAction],
+  condition_two: [startAction],
   condition_three: [startAction, recollectAction],
   admin: [startAction, recollectAction],
 };
@@ -124,10 +124,10 @@ export function MultimodalInput({
           </AnimatePresence>
         </div>
       )}
-
       <Textarea
+        disabled={messages.length === 0}
         ref={textareaRef}
-        placeholder="Verfasse einen Eintrag..."
+        placeholder="Verfasse eine Antwort..."
         value={input}
         onChange={handleInput}
         className="min-h-[24px] overflow-hidden resize-none rounded-lg text-base bg-muted"
@@ -144,7 +144,6 @@ export function MultimodalInput({
           }
         }}
       />
-
       {isLoading ? (
         <Button
           className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5"

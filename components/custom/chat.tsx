@@ -4,14 +4,13 @@ import { Message } from "ai";
 import { useChat } from "ai/react";
 import { useRouter } from "next/navigation";
 
+import { logoutComplete } from "@/app/(auth)/actions";
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
-
 import { AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overviews/overview";
-import useJournal from "./use-Journal";
 
 export function Chat({
   id,
@@ -33,14 +32,6 @@ export function Chat({
       },
     });
 
-  const { saveResponse, entries } = useJournal({
-    initialMessages,
-    input,
-    setInput,
-    id,
-    selectedModelId,
-  });
-
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
@@ -60,13 +51,11 @@ export function Chat({
         (tool) => tool.toolName === "completeEntry"
       )
     ) {
-      setTimeout(() => {
-        router.push("/complete");
+      setTimeout(async () => {
+        await logoutComplete();
       }, 1000);
     }
   }, [messages, router, initialMessages]);
-
-  const onSubmit = selectedModelId === "control" ? saveResponse : handleSubmit;
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
@@ -74,52 +63,34 @@ export function Chat({
         <div
           ref={messagesContainerRef}
           className="flex flex-col h-full w-dvw items-center gap-4 overflow-y-scroll">
-          {messages.length === 0 &&
-            entries.length === 1 &&
-            userType === "admin" && (
-              <>
-                <Overview />
-              </>
-            )}
+          {messages.length === 0 && userType === "admin" && (
+            <>
+              <Overview />
+            </>
+          )}
           <AnimatePresence>
-            {selectedModelId !== "control" && (
-              <>
-                {messages.map((message, index) => (
-                  <PreviewMessage
-                    key={index}
-                    index={index}
-                    role={message.role}
-                    content={message.content}
-                    toolInvocations={message.toolInvocations}
-                  />
-                ))}
-              </>
-            )}
+            {messages.map((message, index) => (
+              <PreviewMessage
+                key={index}
+                index={index}
+                role={message.role}
+                content={message.content}
+                toolInvocations={message.toolInvocations}
+              />
+            ))}
           </AnimatePresence>
-          <AnimatePresence>
-            {selectedModelId === "control" && (
-              <>
-                {entries.map((entry, index) => (
-                  <PreviewMessage
-                    key={index}
-                    index={index}
-                    role={entry.role}
-                    content={entry.content}
-                  />
-                ))}
-              </>
-            )}
-          </AnimatePresence>
+
           <div
             ref={messagesEndRef}
             className="shrink-0 min-w-[24px] min-h-[24px]"
           />
         </div>
+
         <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
           <MultimodalInput
             input={input}
             setInput={setInput}
-            handleSubmit={onSubmit}
+            handleSubmit={handleSubmit}
             isLoading={isLoading}
             stop={stop}
             messages={messages}

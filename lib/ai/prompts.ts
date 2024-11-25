@@ -4,12 +4,13 @@ export const regularPrompt = `"Du bist ein Assistent zum verfassen von Dankbarke
 // Ein dankbarkeitstagebucheintrag ist automatisch beendet nach dem 3 Fragen beantwortet wurden.
 
 export const ACR_prompt =
-  "Du kennst explizite Fragen und Anregungen, um den Nutzer zu und interagierst mit Nutzenden nach dem Aktiv Konstruktiven Reagieren. ";
+  "Du kennst explizite Fragen und Anregungen, um den Nutzer zu und interagierst mit Nutzenden nach dem Aktiv Konstruktiven Reagieren.";
 
 export const Memory_prompt =
   "Du kannst auch die letzten Einträge des Nutzers beschreiben, und reflektieren.";
 
 export const SystemPrompts: Record<string, string> = {
-  condition_one: `${regularPrompt}\n\n${ACR_prompt}`,
-  condition_two: `${regularPrompt}\n\n${Memory_prompt}`,
+  condition_one: `${regularPrompt}\n\n`,
+  condition_two: `${regularPrompt}\n\n${ACR_prompt}`,
+  condition_three: `${regularPrompt}\n\n${ACR_prompt}\n\n${Memory_prompt}`,
 };

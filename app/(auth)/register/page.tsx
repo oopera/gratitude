@@ -78,7 +78,7 @@ export default function Page() {
             Registrieren
           </h3>
           <p className="text-sm text-gray-500 dark:text-zinc-400">
-            Erstelle einen Account mit deinem namen und Passwort
+            Erstelle einen Account mit deinem in der Umfrage erstellten Kürzel.
           </p>
         </div>
         <AuthForm action={handleSubmit} defaultname={name}>

@@ -18,7 +18,7 @@ export function AuthForm({
         <Label
           htmlFor="name"
           className="text-zinc-600 font-normal dark:text-zinc-400">
-          Benutzername
+          Kürzel
         </Label>
 
         <Input
@@ -26,7 +26,7 @@ export function AuthForm({
           name="name"
           className="bg-muted text-md md:text-sm"
           type="text"
-          placeholder="Benutzername"
+          placeholder="Kürzel"
           autoComplete="name"
           required
           defaultValue={defaultname}

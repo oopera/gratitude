@@ -1,4 +1,5 @@
 import { Chat } from "@/components/custom/chat";
+import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
 import { getUser } from "@/db/queries";
 import { DEFAULT_MODEL_NAME, models } from "@/lib/ai/models";
@@ -32,6 +33,7 @@ export default async function Page() {
   const modelMapping: Record<string, string> = {
     condition_one: "condition_one",
     condition_two: "condition_two",
+    condition_three: "condition_three",
     control: "control",
     admin: cookieModelId,
   };
@@ -43,13 +45,24 @@ export default async function Page() {
   return (
     <>
       <Navbar userType={userType} selectedModelId={selectedModelId} />
-      <Chat
-        userType={userType}
-        key={id}
-        id={id}
-        initialMessages={[]}
-        selectedModelId={selectedModelId}
-      />
+      {selectedModelId !== "control" && (
+        <Chat
+          userType={userType}
+          key={id}
+          id={id}
+          initialMessages={[]}
+          selectedModelId={selectedModelId}
+        />
+      )}
+      {selectedModelId === "control" && (
+        <Journal
+          userType={userType}
+          key={id}
+          id={id}
+          initialMessages={[]}
+          selectedModelId={selectedModelId}
+        />
+      )}
     </>
   );
 }

@@ -10,19 +10,27 @@ export interface Model {
 export const models: Array<Model> = [
   {
     id: "condition_one",
-    label: "Condition One",
+    label: "Kondition 1",
     apiIdentifier: "gpt-4o-mini",
-    description: "Modell mit Aktive Konstruktivem Reagieren",
+    description: "Standard chatGPT mit Dankbarkeitsjournal Prompt.",
   },
   {
     id: "condition_two",
-    label: "Condition Two",
+    label: "Kondition 2",
     apiIdentifier: "gpt-4o",
-    description: "Modell mit Aktivem Konstruktivem Reagieren und Erinnerung",
+    description:
+      "chatGPT mit Dankbarkeitsjournal und Aktivem Konstruktivem Reagieren",
+  },
+  {
+    id: "condition_three",
+    label: "Kondition 3",
+    apiIdentifier: "gpt-4o-mini",
+    description:
+      "chatGPT mit Dankbarkeitsjournal, Aktivem Konstruktivem Reagieren und Erinnerung.",
   },
   {
     id: "control",
-    label: "Control",
+    label: "Kontrolle",
     apiIdentifier: "no-gpt",
     description: "Manuelles Tagebuch",
   },

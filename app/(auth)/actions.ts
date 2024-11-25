@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { createUser, getUser } from "@/db/queries";
 
-import { signIn } from "./auth";
+import { signIn, signOut } from "./auth";
 
 const authFormSchema = z.object({
   name: z.string(),
@@ -26,14 +26,10 @@ export const login = async (
   formData: FormData
 ): Promise<LoginActionState> => {
   try {
-    console.log(formData, "formData");
-
     const validatedData = loginFormSchema.parse({
       name: formData.get("name"),
       password: formData.get("password"),
     });
-
-    console.log(validatedData);
 
     await signIn("credentials", {
       name: validatedData.name,
@@ -49,6 +45,14 @@ export const login = async (
 
     return { status: "failed" };
   }
+};
+
+export const logout = async () => {
+  await signOut({ redirect: false });
+};
+
+export const logoutComplete = async () => {
+  await signOut({ redirectTo: "/complete" });
 };
 
 export interface RegisterActionState {

@@ -36,17 +36,7 @@ export const recollect = (id: string) => ({
   },
 });
 
-export const completeEntry = (id: string) => ({
-  description: "Beendet den Eintrag",
-  parameters: z.object({
-    id: z.string(),
-  }),
-  execute: async () => {
-    window.history.replaceState({}, `/chat/${id}`, "/complete");
-  },
-});
-
-export const completeJournal = (id: string) => ({
+export const completeEntry = () => ({
   description: "Beendet den Eintrag",
   parameters: z.object({
     id: z.string(),
@@ -58,13 +48,18 @@ export const SystemTools = (selectedModelId: string, id: string) => {
     case "condition_one":
       return {
         startNewEntry,
-        completeEntry: completeEntry(id),
+        completeEntry: completeEntry(),
       };
     case "condition_two":
       return {
         startNewEntry,
+        completeEntry: completeEntry(),
+      };
+    case "condition_three":
+      return {
+        startNewEntry,
         recollect: recollect(id),
-        completeEntry: completeEntry(id),
+        completeEntry: completeEntry(),
       };
     default:
       return {};

@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   }
 
   const coreMessages = convertToCoreMessages(messages);
-  console.log(id, selectedModelId);
+
   const result = await streamText({
     model: customModel,
     system: SystemPrompts[selectedModelId],
@@ -52,8 +52,6 @@ export async function POST(request: Request) {
       functionId: "stream-text",
     },
   });
-
-  console.log(result.toDataStreamResponse({}));
 
   return result.toDataStreamResponse({});
 }

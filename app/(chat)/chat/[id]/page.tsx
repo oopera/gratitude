@@ -2,10 +2,12 @@ import { CoreMessage } from "ai";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { Chat as PreviewChat } from "@/components/custom/chat";
+import { Chat } from "@/components/custom/chat";
+import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
 import { getChatById, getUser } from "@/db/queries";
-import { Chat } from "@/db/schema";
+import { Chat as ChatSchema } from "@/db/schema";
+import { getModelMapping } from "@/lib/ai/mappings";
 import { DEFAULT_MODEL_NAME, models } from "@/lib/ai/models";
 import { convertToUIMessages } from "@/lib/utils";
 import { cookies } from "next/headers";
@@ -19,8 +21,7 @@ export default async function Page(props: { params: Promise<any> }) {
     notFound();
   }
 
-  // type casting
-  const chat: Chat = {
+  const chat: ChatSchema = {
     ...chatFromDb,
     messages: convertToUIMessages(chatFromDb.messages as Array<CoreMessage>),
   };
@@ -47,29 +48,31 @@ export default async function Page(props: { params: Promise<any> }) {
     models.find((model) => model.id === modelIdFromCookie)?.id ||
     DEFAULT_MODEL_NAME;
 
-  const modelMapping: Record<string, string> = {
-    condition_one: "condition_one",
-    condition_two: "condition_two",
-    control: "control",
-    admin: cookieModelId,
-  };
+  const modelId = getModelMapping(cookieModelId)[chatType];
 
-  const modelId = modelMapping[chatType];
-
-  selectedModelId =
-    modelId ??
-    models.find((model) => model.id === modelMapping[userType])?.id ??
-    DEFAULT_MODEL_NAME;
+  selectedModelId = modelId ?? models.find((model) => model.id === modelId)?.id;
 
   return (
     <>
       <Navbar userType={userType} selectedModelId={selectedModelId} />
-      <PreviewChat
-        userType={userType}
-        id={chat.id}
-        initialMessages={chat.messages}
-        selectedModelId={selectedModelId}
-      />
+      {selectedModelId !== "control" && (
+        <Chat
+          userType={userType}
+          key={id}
+          id={id}
+          initialMessages={chat.messages}
+          selectedModelId={selectedModelId}
+        />
+      )}
+      {selectedModelId === "control" && (
+        <Journal
+          userType={userType}
+          key={id}
+          id={id}
+          initialMessages={chat.messages}
+          selectedModelId={selectedModelId}
+        />
+      )}
     </>
   );
 }
