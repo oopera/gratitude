@@ -10,23 +10,39 @@ import { SubmitButton } from "@/components/custom/submit-button";
 
 import { register, RegisterActionState } from "../actions";
 
-function getUserTypeFromSubdomain(
-  hostname: string
-): "admin" | "condition_one" | "condition_two" | "control" | "error" {
+function getUserTypeAndConditionFromDomain(hostname: string): {
+  type: "admin" | "short" | "long" | "error";
+  condition: "admin" | "1" | "2" | "control" | "error";
+} {
   const subdomain = hostname.split(".")[0];
 
   switch (subdomain) {
     case "gratitude":
     case "localhost":
-      return "admin";
+      return {
+        type: "admin",
+        condition: "admin",
+      };
     case "njgnw1sqaj":
-      return "condition_one";
+      return {
+        type: "short",
+        condition: "1",
+      };
     case "0qyv7gg42k":
-      return "condition_two";
+      return {
+        type: "short",
+        condition: "2",
+      };
     case "f8cmbjr9vd":
-      return "control";
+      return {
+        type: "short",
+        condition: "control",
+      };
     default:
-      return "error"; // Default fallback
+      return {
+        type: "error",
+        condition: "error",
+      }; // Default fallback
   }
 }
 
@@ -34,9 +50,13 @@ export default function Page() {
   const router = useRouter();
 
   const [name, setname] = useState("");
-  const [type, setType] = useState<
-    "admin" | "condition_one" | "condition_two" | "control" | "error"
-  >("control");
+  const [type, setType] = useState<"admin" | "short" | "long" | "error">(
+    "error"
+  );
+  const [condition, setCondition] = useState<
+    "admin" | "1" | "2" | "control" | "error"
+  >("error");
+
   const [state, formAction] = useActionState<RegisterActionState, FormData>(
     register,
     {
@@ -46,8 +66,11 @@ export default function Page() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const userType = getUserTypeFromSubdomain(window.location.hostname);
-      setType(userType);
+      const userTypeAndCondition = getUserTypeAndConditionFromDomain(
+        window.location.hostname
+      );
+      setType(userTypeAndCondition.type);
+      setCondition(userTypeAndCondition.condition);
     }
   }, []);
 
@@ -67,6 +90,7 @@ export default function Page() {
   const handleSubmit = (formData: FormData) => {
     setname(formData.get("name") as string);
     formData.append("type", type);
+    formData.append("condition", condition);
     formAction(formData);
   };
 

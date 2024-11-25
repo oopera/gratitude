@@ -13,13 +13,13 @@ export default async function Page() {
   const session = await auth();
 
   if (!session?.user?.name) {
-    return redirect("/register");
+    return redirect("/login");
   }
   const user = await getUser(session?.user?.name);
   const userType = user[0]?.type;
 
   if (!userType) {
-    return redirect("/register");
+    return redirect("/login");
   }
 
   let selectedModelId = DEFAULT_MODEL_NAME;

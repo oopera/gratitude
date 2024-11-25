@@ -26,7 +26,7 @@ export const authConfig = {
 
       if (isOnChat) {
         if (isLoggedIn) return true;
-        return Response.redirect(new URL("/register", nextUrl));
+        return Response.redirect(new URL("/login", nextUrl));
       }
 
       if (isLoggedIn) {
