@@ -1,8 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { User } from "@/db/schema";
-import { Download } from "lucide-react";
 
+import { Download } from "lucide-react";
 export default function Users({ users }: { users: User[] }) {
   const downloadUsers = () => {
     const data = {
@@ -30,23 +40,36 @@ export default function Users({ users }: { users: User[] }) {
           <Download />
         </Button>
       </div>
-      <div className="flex flex-col gap-2 max-h-[300px] overflow-y-auto overflow-x-hidden pr-10">
-        {users
-          .sort((a, b) => {
-            if (a.type === "admin") return -1;
-            if (b.type === "admin") return 1;
-            if (a.type === "control") return -1;
-            if (b.type === "control") return 1;
-            if (a.type === "condition_one") return -1;
-            return 1;
-          })
-          .map((user) => (
-            <div className="grid grid-cols-2 gap-2" key={user.id}>
-              <p className="font-bold max-w-full truncate">{user.name}</p>
-              <p>{user.type}</p>
-            </div>
-          ))}
-      </div>
+
+      <ScrollArea className="max-h-[500px] w-full ">
+        <Table>
+          <TableHeader className="sticky top-0 bg-background">
+            <TableRow>
+              <TableHead className="w-[100px]">Name</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Condition</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-medium">{user.name}</TableCell>
+                <TableCell>{user.type}</TableCell>
+                <TableCell>{user.condition}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell className="text-right">{users.length}</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </ScrollArea>
     </div>
   );
 }

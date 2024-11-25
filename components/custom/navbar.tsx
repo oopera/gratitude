@@ -17,9 +17,11 @@ import { ThemeToggle } from "./theme-toggle";
 
 export const Navbar = async ({
   userType,
+  userCondition,
   selectedModelId,
 }: {
   userType: string;
+  userCondition: string;
   selectedModelId?: string;
 }) => {
   let session = await auth();
@@ -27,10 +29,10 @@ export const Navbar = async ({
   return (
     <>
       <div className="bg-background absolute top-0 left-0 w-dvw py-2 px-3 justify-between flex flex-row items-center z-30">
-        {userType === "admin" && (
+        {userType === "long" && (
           <div className="flex flex-row gap-3 items-center min-w-0">
             <History user={session?.user} />
-            {selectedModelId && (
+            {userCondition === "admin" && selectedModelId && (
               <Link
                 href="/"
                 className="flex flex-row gap-2 items-center min-w-0">
@@ -51,7 +53,7 @@ export const Navbar = async ({
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end">
-              {userType === "admin" && (
+              {userCondition === "admin" && (
                 <DropdownMenuItem>
                   <Link href="/admin">Admin</Link>
                 </DropdownMenuItem>

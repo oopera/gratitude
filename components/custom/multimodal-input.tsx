@@ -23,9 +23,9 @@ const recollectAction = {
 };
 
 export const suggestedActions: Record<string, Array<typeof startAction>> = {
-  condition_one: [startAction],
-  condition_two: [startAction],
-  condition_three: [startAction, recollectAction],
+  1: [startAction],
+  2: [startAction, recollectAction],
+
   admin: [startAction, recollectAction],
 };
 
@@ -92,7 +92,7 @@ export function MultimodalInput({
           <AnimatePresence>
             {selectedModelId !== "control" && (
               <>
-                {suggestedActions[selectedModelId].map(
+                {suggestedActions[selectedModelId]?.map(
                   (suggestedAction, index) => (
                     <motion.div
                       initial={{ opacity: 0, y: 20, scale: 0.98 }}

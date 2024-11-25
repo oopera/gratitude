@@ -33,6 +33,7 @@ export default async function Page(props: { params: Promise<any> }) {
   }
   const user = await getUser(session?.user?.name);
   const userType = user[0]?.type;
+  const userCondition = user[0]?.condition;
 
   if (!userType) {
     return redirect("/login");
@@ -51,13 +52,27 @@ export default async function Page(props: { params: Promise<any> }) {
   const modelId = getModelMapping(cookieModelId)[chatType];
 
   selectedModelId = modelId ?? models.find((model) => model.id === modelId)?.id;
-
+  console.log(
+    selectedModelId,
+    "selectedModelId",
+    modelId,
+    "modelId",
+    cookieModelId,
+    "cookieModelId",
+    chatType,
+    "chatType"
+  );
   return (
     <>
-      <Navbar userType={userType} selectedModelId={selectedModelId} />
+      <Navbar
+        userType={userType}
+        userCondition={userCondition}
+        selectedModelId={selectedModelId}
+      />
       {selectedModelId !== "control" && (
         <Chat
           userType={userType}
+          userCondition={userCondition}
           key={id}
           id={id}
           initialMessages={chat.messages}
@@ -67,6 +82,7 @@ export default async function Page(props: { params: Promise<any> }) {
       {selectedModelId === "control" && (
         <Journal
           userType={userType}
+          userCondition={userCondition}
           key={id}
           id={id}
           initialMessages={chat.messages}

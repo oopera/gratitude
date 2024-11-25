@@ -7,42 +7,30 @@ import { toast } from "sonner";
 import { AuthForm } from "@/components/custom/auth-form";
 import { SubmitButton } from "@/components/custom/submit-button";
 
-import { register, RegisterActionState } from "../actions";
+import { RegisterActionState, registerAndLogin } from "../actions";
 
 function getUserTypeAndConditionFromDomain(hostname: string): {
   type: "admin" | "short" | "long" | "error";
   condition: "admin" | "1" | "2" | "control" | "error";
 } {
-  const subdomain = hostname.split(".")[0];
+  const DOMAIN_MAPPINGS = {
+    gratitude: { type: "admin", condition: "admin" },
+    localhost: { type: "admin", condition: "admin" },
+    njgnw1sqaj: { type: "short", condition: "1" },
+    "0qyv7gg42k": { type: "short", condition: "2" },
+    f8cmbjr9vd: { type: "short", condition: "control" },
+    k4rghr8a0v: { type: "long", condition: "1" },
+    gr5hl0tis2: { type: "long", condition: "2" },
+    aapz4cxm33: { type: "long", condition: "control" },
+  } as const;
 
-  switch (subdomain) {
-    case "gratitude":
-    case "localhost":
-      return {
-        type: "admin",
-        condition: "admin",
-      };
-    case "njgnw1sqaj":
-      return {
-        type: "short",
-        condition: "1",
-      };
-    case "0qyv7gg42k":
-      return {
-        type: "short",
-        condition: "2",
-      };
-    case "f8cmbjr9vd":
-      return {
-        type: "short",
-        condition: "control",
-      };
-    default:
-      return {
-        type: "error",
-        condition: "error",
-      }; // Default fallback
-  }
+  const subdomain = hostname.split(".")[0];
+  return (
+    DOMAIN_MAPPINGS[subdomain as keyof typeof DOMAIN_MAPPINGS] ?? {
+      type: "error",
+      condition: "error",
+    }
+  );
 }
 
 export default function Page() {
@@ -57,7 +45,7 @@ export default function Page() {
   >("error");
 
   const [state, formAction] = useActionState<RegisterActionState, FormData>(
-    register,
+    registerAndLogin,
     {
       status: "idle",
     }
@@ -74,14 +62,20 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (state.status === "user_exists") {
-      toast.error("Account already exists");
+    console.log(state, "state");
+    if (!state) {
+      toast.error("Etwas ist schief gelaufen, bitte versuche es erneut.");
+      router.refresh();
+    } else if (state.status === "user_exists") {
+      toast.error("Nutzer existiert bereits.");
     } else if (state.status === "failed") {
-      toast.error("Failed to create account");
+      toast.error("Etwas ist schief gelaufen, bitte versuche es erneut.");
     } else if (state.status === "invalid_data") {
-      toast.error("Failed validating your submission!");
+      toast.error("Falsche Eingabe, bitte versuche es erneut.");
+    } else if (state.status === "success_with_login") {
+      router.refresh();
     } else if (state.status === "success") {
-      toast.success("Account created successfully");
+      toast.success("Nutzer erfolgreich erstellt.");
       router.refresh();
     }
   }, [state, router]);

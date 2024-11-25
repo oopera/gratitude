@@ -1,11 +1,11 @@
 "use client";
 
 import { Message } from "ai";
-import { useRouter } from "next/navigation";
 
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { MultimodalInput } from "./multimodal-input";
@@ -17,11 +17,13 @@ export function Journal({
   initialMessages,
   selectedModelId,
   userType,
+  userCondition,
 }: {
   id: string;
   initialMessages: Array<Message>;
   selectedModelId: string;
   userType: string;
+  userCondition: string;
 }) {
   const [input, setInput] = useState("");
 
@@ -36,35 +38,35 @@ export function Journal({
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
-  const router = useRouter();
-
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
       <div className="flex flex-col justify-between items-center">
-        <div
-          ref={messagesContainerRef}
-          className="flex flex-col h-full w-dvw items-center gap-4 overflow-y-scroll">
-          {entries.length === 1 && userType === "admin" && (
-            <>
-              <Overview />
-            </>
-          )}
-
-          <AnimatePresence>
-            {entries.map((entry, index) => (
-              <PreviewMessage
-                key={index}
-                index={index}
-                role={entry.role}
-                content={entry.content}
-              />
-            ))}
-          </AnimatePresence>
+        <ScrollArea className="h-full w-dvw">
           <div
-            ref={messagesEndRef}
-            className="shrink-0 min-w-[24px] min-h-[24px]"
-          />
-        </div>
+            ref={messagesContainerRef}
+            className="flex flex-col h-full w-dvw items-center gap-4">
+            {entries.length === 1 && userCondition === "admin" && (
+              <>
+                <Overview />
+              </>
+            )}
+
+            <AnimatePresence>
+              {entries.map((entry, index) => (
+                <PreviewMessage
+                  key={index}
+                  index={index}
+                  role={entry.role}
+                  content={entry.content}
+                />
+              ))}
+            </AnimatePresence>
+            <div
+              ref={messagesEndRef}
+              className="shrink-0 min-w-[24px] min-h-[24px]"
+            />
+          </div>
+        </ScrollArea>
         <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
           <MultimodalInput
             input={input}

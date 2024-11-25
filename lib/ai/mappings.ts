@@ -2,9 +2,9 @@ export const getModelMapping = (
   cookieModelId: string
 ): Record<string, string> => {
   return {
-    condition_one: "condition_one",
-    condition_two: "condition_two",
-    condition_three: "condition_three",
+    1: "1",
+    2: "2",
+    3: "3",
     control: "control",
     admin: cookieModelId,
   };

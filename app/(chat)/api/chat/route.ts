@@ -10,8 +10,13 @@ export async function POST(request: Request) {
     id,
     messages,
     selectedModelId,
-  }: { id: string; messages: Array<Message>; selectedModelId: string } =
-    await request.json();
+    condition,
+  }: {
+    id: string;
+    messages: Array<Message>;
+    selectedModelId: string;
+    condition: string;
+  } = await request.json();
 
   const session = await auth();
 
@@ -29,7 +34,7 @@ export async function POST(request: Request) {
     system: SystemPrompts[selectedModelId],
     messages: coreMessages,
     maxSteps: 5,
-    tools: SystemTools(selectedModelId, session.user.id) as Record<
+    tools: SystemTools(selectedModelId, condition, session.user.id) as Record<
       string,
       CoreTool<any, any>
     >,

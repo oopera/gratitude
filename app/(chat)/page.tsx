@@ -2,6 +2,7 @@ import { Chat } from "@/components/custom/chat";
 import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
 import { getUser } from "@/db/queries";
+import { getModelMapping } from "@/lib/ai/mappings";
 import { DEFAULT_MODEL_NAME, models } from "@/lib/ai/models";
 import { generateUUID } from "@/lib/utils";
 import { cookies } from "next/headers";
@@ -17,8 +18,9 @@ export default async function Page() {
   }
   const user = await getUser(session?.user?.name);
   const userType = user[0]?.type;
+  const userCondition = user[0]?.condition;
 
-  if (!userType) {
+  if (!userCondition) {
     return redirect("/login");
   }
 
@@ -30,24 +32,24 @@ export default async function Page() {
     models.find((model) => model.id === modelIdFromCookie)?.id ||
     DEFAULT_MODEL_NAME;
 
-  const modelMapping: Record<string, string> = {
-    condition_one: "condition_one",
-    condition_two: "condition_two",
-    condition_three: "condition_three",
-    control: "control",
-    admin: cookieModelId,
-  };
+  const modelId = getModelMapping(cookieModelId)[userCondition];
 
   selectedModelId =
-    models.find((model) => model.id === modelMapping[userType])?.id ??
+    modelId ??
+    models.find((model) => model.id === modelId)?.id ??
     DEFAULT_MODEL_NAME;
 
   return (
     <>
-      <Navbar userType={userType} selectedModelId={selectedModelId} />
+      <Navbar
+        userType={userType}
+        userCondition={userCondition}
+        selectedModelId={selectedModelId}
+      />
       {selectedModelId !== "control" && (
         <Chat
           userType={userType}
+          userCondition={userCondition}
           key={id}
           id={id}
           initialMessages={[]}
@@ -57,6 +59,7 @@ export default async function Page() {
       {selectedModelId === "control" && (
         <Journal
           userType={userType}
+          userCondition={userCondition}
           key={id}
           id={id}
           initialMessages={[]}

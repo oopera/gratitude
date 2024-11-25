@@ -11,6 +11,5 @@ export const Memory_prompt =
 
 export const SystemPrompts: Record<string, string> = {
   condition_one: `${regularPrompt}\n\n`,
-  condition_two: `${regularPrompt}\n\n${ACR_prompt}`,
-  condition_three: `${regularPrompt}\n\n${ACR_prompt}\n\n${Memory_prompt}`,
+  condition_two: `${regularPrompt}\n\n${Memory_prompt}`,
 };

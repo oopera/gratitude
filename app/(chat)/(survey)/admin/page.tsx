@@ -13,9 +13,10 @@ export default async function Page() {
     return redirect("/login");
   }
   const user = await getUser(session?.user?.name);
+  const userCondition = user[0]?.condition;
   const userType = user[0]?.type;
 
-  if (userType !== "admin") {
+  if (userCondition !== "admin") {
     return redirect("/");
   }
 
@@ -26,13 +27,13 @@ export default async function Page() {
 
   return (
     <>
-      <Navbar userType={userType} />
+      <Navbar userCondition={userCondition} userType={userType} />
       <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
         <div className="flex flex-col justify-between items-center">
           <div className="flex flex-col h-full w-dvw items-center gap-4">
             <AdminOverview />
 
-            <div className="grid w-full md:max-w-[500px] grid-cols-2 gap-4 px-4 md:mx-0">
+            <div className="flex flex-col lg:grid w-full max-h-[400px] lg:grid-cols-2 gap-4 px-4 md:mx-0">
               <Chats
                 conditionOneChats={conditionOneChats as Chat[]}
                 conditionTwoChats={conditionTwoChats as Chat[]}
