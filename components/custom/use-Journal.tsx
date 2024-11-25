@@ -1,3 +1,4 @@
+import { Message } from "ai";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
@@ -14,13 +15,16 @@ const questions = [
 ];
 
 function useJournal(props: {
+  initialMessages: Array<Message>;
   input: string;
   id: string;
   setInput: any;
   selectedModelId: string;
 }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [entries, setEntries] = useState([questions[0]]);
+  const [entries, setEntries] = useState(
+    props.initialMessages.length > 0 ? props.initialMessages : [questions[0]]
+  );
   const router = useRouter();
 
   function saveResponse() {
@@ -59,7 +63,7 @@ function useJournal(props: {
         }),
       });
       setTimeout(() => {
-        router.push("/");
+        router.push("/complete");
       }, 1500);
     }
   }, [currentQuestionIndex, entries, props.id, props.selectedModelId, router]);

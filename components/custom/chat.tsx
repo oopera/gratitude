@@ -3,12 +3,12 @@
 import { Message } from "ai";
 import { useChat } from "ai/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 
 import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overviews/overview";
 import useJournal from "./use-Journal";
@@ -34,6 +34,7 @@ export function Chat({
     });
 
   const { saveResponse, entries } = useJournal({
+    initialMessages,
     input,
     setInput,
     id,
@@ -60,7 +61,7 @@ export function Chat({
       )
     ) {
       setTimeout(() => {
-        router.push("/");
+        router.push("/complete");
       }, 1000);
     }
   }, [messages, router, initialMessages]);

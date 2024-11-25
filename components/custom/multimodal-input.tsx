@@ -10,19 +10,24 @@ import { Textarea } from "../ui/textarea";
 import { ArrowUpIcon, StopIcon } from "./icons";
 import useWindowSize from "./use-window-size";
 
-const suggestedActions = [
-  {
-    title: "Eintrag beginnen",
-    label: "Was war heute schön?",
-    action:
-      "Ich möchte einen Dankbarkeitstagebuch Eintrag beginnen. Bitte gib mir die erste Frage des Tages.",
-  },
-  {
-    title: "Vergangene Einträge",
-    label: "Was habe ich zuletzt geschrieben?",
-    action: "Rekapituliere meine letzten Einträge.",
-  },
-];
+const startAction = {
+  title: "Eintrag beginnen",
+  label: "Was war heute schön?",
+  action:
+    "Ich möchte einen Dankbarkeitstagebuch Eintrag beginnen. Bitte gib mir die erste Frage des Tages.",
+};
+const recollectAction = {
+  title: "Vergangene Einträge",
+  label: "Was habe ich zuletzt geschrieben?",
+  action: "Rekapituliere meine letzten Einträge.",
+};
+
+export const suggestedActions: Record<string, Array<typeof startAction>> = {
+  condition_one: [startAction],
+  condition_two: [startAction, recollectAction],
+  condition_three: [startAction, recollectAction],
+  admin: [startAction, recollectAction],
+};
 
 export function MultimodalInput({
   input,
@@ -87,31 +92,33 @@ export function MultimodalInput({
           <AnimatePresence>
             {selectedModelId !== "control" && (
               <>
-                {suggestedActions.map((suggestedAction, index) => (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 20, scale: 0.98 }}
-                    transition={{ delay: 0.1 + 0.05 * index }}
-                    key={index}
-                    className={index > 1 ? "hidden sm:block" : "block"}>
-                    <button
-                      onClick={async () => {
-                        append({
-                          role: "user",
-                          content: suggestedAction.action,
-                        });
-                      }}
-                      className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
-                      <span className="font-medium">
-                        {suggestedAction.title}
-                      </span>
-                      <span className="text-zinc-500 dark:text-zinc-400">
-                        {suggestedAction.label}
-                      </span>
-                    </button>
-                  </motion.div>
-                ))}
+                {suggestedActions[selectedModelId].map(
+                  (suggestedAction, index) => (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 20, scale: 0.98 }}
+                      transition={{ delay: 0.1 + 0.05 * index }}
+                      key={index}
+                      className={index > 1 ? "hidden sm:block" : "block"}>
+                      <button
+                        onClick={async () => {
+                          append({
+                            role: "user",
+                            content: suggestedAction.action,
+                          });
+                        }}
+                        className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
+                        <span className="font-medium">
+                          {suggestedAction.title}
+                        </span>
+                        <span className="text-zinc-500 dark:text-zinc-400">
+                          {suggestedAction.label}
+                        </span>
+                      </button>
+                    </motion.div>
+                  )
+                )}
               </>
             )}
           </AnimatePresence>

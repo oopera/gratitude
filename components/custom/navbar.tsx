@@ -20,7 +20,7 @@ export const Navbar = async ({
   selectedModelId,
 }: {
   userType: string;
-  selectedModelId: string;
+  selectedModelId?: string;
 }) => {
   let session = await auth();
 
@@ -30,9 +30,13 @@ export const Navbar = async ({
         {userType === "admin" && (
           <div className="flex flex-row gap-3 items-center min-w-0">
             <History user={session?.user} />
-            <Link href="/" className="flex flex-row gap-2 items-center min-w-0">
-              <ModelSelector selectedModelId={selectedModelId} />
-            </Link>
+            {selectedModelId && (
+              <Link
+                href="/"
+                className="flex flex-row gap-2 items-center min-w-0">
+                <ModelSelector selectedModelId={selectedModelId} />
+              </Link>
+            )}
           </div>
         )}
 
@@ -45,7 +49,13 @@ export const Navbar = async ({
                 {session.user?.name}
               </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent align="end">
+              {userType === "admin" && (
+                <DropdownMenuItem>
+                  <Link href="/admin">Admin</Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem>
                 <ThemeToggle />
               </DropdownMenuItem>
