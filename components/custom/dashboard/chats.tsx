@@ -60,8 +60,11 @@ export default function Chats({
     ...conditionTwoChats,
     ...controlChats,
   ];
+
   sortedData.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+
   console.log(sortedData, "sortedData");
+
   const chartData = sortedData.map((chat) => ({
     date: chat.createdAt.toISOString(),
     1: conditionOneChats.filter((c) => c.createdAt === chat.createdAt).length,

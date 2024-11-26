@@ -20,8 +20,8 @@ export default async function Page() {
     return redirect("/");
   }
 
-  const conditionOneChats = await getChatsByType({ type: "condition_one" });
-  const conditionTwoChats = await getChatsByType({ type: "condition_two" });
+  const conditionOneChats = await getChatsByType({ type: "1" });
+  const conditionTwoChats = await getChatsByType({ type: "2" });
   const controlChats = await getChatsByType({ type: "control" });
   const users = await getUsers();
 

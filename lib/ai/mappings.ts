@@ -9,3 +9,19 @@ export const getModelMapping = (
     admin: cookieModelId,
   };
 };
+
+export const modelMapping: Record<string, string> = {
+  1: "Kondition 1",
+  2: "Kondition 2",
+  3: "Kondition 3",
+  control: "Kontrolle",
+  admin: "Admin",
+};
+
+export const tagMapping: Record<string, string> = {
+  1: "Chat",
+  2: "Chat",
+  3: "Chat",
+  control: "Journal",
+  admin: "Admin",
+};
