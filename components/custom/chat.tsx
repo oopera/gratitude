@@ -54,11 +54,17 @@ export function Chat({
         (tool) => tool.toolName === "completeEntry"
       )
     ) {
-      setTimeout(async () => {
-        await logoutComplete();
-      }, 1000);
+      if (userType === "short") {
+        setTimeout(async () => {
+          await logoutComplete();
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          router.push("/");
+        });
+      }
     }
-  }, [messages, router, initialMessages]);
+  }, [messages, router, initialMessages, userType, id]);
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">

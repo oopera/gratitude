@@ -43,11 +43,13 @@ export const completeEntry = () => ({
   }),
 });
 
-export const SystemTools = (
-  selectedModelId: string,
-  condition: string,
-  id: string
-) => {
+export const SystemTools = ({
+  selectedModelId,
+  id,
+}: {
+  selectedModelId: string;
+  id: string;
+}) => {
   switch (selectedModelId) {
     case "1":
       return {
@@ -57,6 +59,7 @@ export const SystemTools = (
     case "2":
       return {
         startNewEntry,
+        recollect: recollect(id),
         completeEntry: completeEntry(),
       };
     default:

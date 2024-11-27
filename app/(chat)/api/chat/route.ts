@@ -28,13 +28,12 @@ export async function POST(request: Request) {
   }
 
   const coreMessages = convertToCoreMessages(messages);
-
   const result = await streamText({
     model: customModel,
     system: SystemPrompts[selectedModelId],
     messages: coreMessages,
     maxSteps: 5,
-    tools: SystemTools(selectedModelId, condition, session.user.id) as Record<
+    tools: SystemTools({ selectedModelId, id: session.user.id }) as Record<
       string,
       CoreTool<any, any>
     >,

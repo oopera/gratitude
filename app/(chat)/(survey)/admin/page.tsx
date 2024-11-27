@@ -1,11 +1,11 @@
 import { auth } from "@/app/(auth)/auth";
-import Chats from "@/components/custom/dashboard/chats";
-import Users from "@/components/custom/dashboard/users";
+import Dashboard from "@/components/custom/dashboard/dashboard";
 import { Navbar } from "@/components/custom/navbar";
 import { AdminOverview } from "@/components/custom/overviews/admin-overview";
 import { getChatsByType, getUser, getUsers } from "@/db/queries";
-import { Chat, User } from "@/db/schema";
+import { Chat } from "@/db/schema";
 import { redirect } from "next/navigation";
+
 export default async function Page() {
   const session = await auth();
 
@@ -33,14 +33,14 @@ export default async function Page() {
           <div className="flex flex-col h-full w-dvw items-center gap-4">
             <AdminOverview />
 
-            <div className="flex flex-col lg:grid w-full max-h-[400px] lg:grid-cols-2 gap-4 px-4 md:mx-0">
-              <Chats
-                conditionOneChats={conditionOneChats as Chat[]}
-                conditionTwoChats={conditionTwoChats as Chat[]}
-                controlChats={controlChats as Chat[]}
-              />
-              <Users users={users as User[]} />
-            </div>
+            <Dashboard
+              users={users}
+              chats={{
+                conditionOneChats: conditionOneChats as Chat[],
+                conditionTwoChats: conditionTwoChats as Chat[],
+                controlChats: controlChats as Chat[],
+              }}
+            />
           </div>
         </div>
       </div>

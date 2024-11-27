@@ -15,6 +15,7 @@ const questions = [
 ];
 
 function useJournal(props: {
+  userType: string;
   initialMessages: Array<Message>;
   input: string;
   id: string;
@@ -62,9 +63,15 @@ function useJournal(props: {
           selectedModelId: props.selectedModelId,
         }),
       });
-      setTimeout(() => {
-        router.push("/complete");
-      }, 1500);
+      if (props.userType === "short") {
+        setTimeout(() => {
+          router.push("/complete");
+        }, 1500);
+      } else {
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
+      }
     }
   }, [currentQuestionIndex, entries, props.id, props.selectedModelId, router]);
 

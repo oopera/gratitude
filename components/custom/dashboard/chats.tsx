@@ -65,17 +65,55 @@ export default function Chats({
 
   console.log(sortedData, "sortedData");
 
-  const chartData = sortedData.map((chat) => ({
-    date: chat.createdAt.toISOString(),
-    1: conditionOneChats.filter((c) => c.createdAt === chat.createdAt).length,
-    2: conditionTwoChats.filter((c) => c.createdAt === chat.createdAt).length,
-    control: controlChats.filter((c) => c.createdAt === chat.createdAt).length,
-  }));
+  const chartData = sortedData.reduce(
+    (
+      result: {
+        date: string;
+        1: number;
+        2: number;
+        control: number;
+      }[],
+      chat
+    ) => {
+      const date = chat.createdAt.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
 
-  console.log(chartData, "chartData");
+      const existingData = result.find(
+        (data: { date: string }) => data.date === date
+      );
+
+      if (existingData) {
+        existingData[1] += conditionOneChats.filter(
+          (c) => c.createdAt === chat.createdAt
+        ).length;
+        existingData[2] += conditionTwoChats.filter(
+          (c) => c.createdAt === chat.createdAt
+        ).length;
+        existingData.control += controlChats.filter(
+          (c) => c.createdAt === chat.createdAt
+        ).length;
+      } else {
+        result.push({
+          date,
+          1: conditionOneChats.filter((c) => c.createdAt === chat.createdAt)
+            .length,
+          2: conditionTwoChats.filter((c) => c.createdAt === chat.createdAt)
+            .length,
+          control: controlChats.filter((c) => c.createdAt === chat.createdAt)
+            .length,
+        });
+      }
+
+      return result;
+    },
+    []
+  );
 
   return (
-    <div className="w-full border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
+    <div className="w-full border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700 h-fit">
       <div className="grid grid-cols-2 gap-2">
         <h3>Chats</h3>
         <Button
@@ -108,12 +146,7 @@ export default function Chats({
               <ChartTooltipContent
                 className="w-[150px]"
                 labelFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  });
+                  return value;
                 }}
               />
             }

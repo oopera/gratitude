@@ -10,7 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overviews/overview";
-import useJournal from "./use-Journal";
+import useJournal from "./use-journal";
 
 export function Journal({
   id,
@@ -28,6 +28,7 @@ export function Journal({
   const [input, setInput] = useState("");
 
   const { saveResponse, entries } = useJournal({
+    userType,
     initialMessages,
     input,
     setInput,
