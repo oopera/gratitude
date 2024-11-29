@@ -14,7 +14,7 @@ const questions = [
   },
 ];
 
-export function useJournal(props: {
+function useJournal(props: {
   userType: string;
   initialMessages: Array<Message>;
   input: string;
@@ -86,3 +86,5 @@ export function useJournal(props: {
     entries,
   };
 }
+
+export default useJournal;

@@ -10,7 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overviews/overview";
-import { useJournal } from "./use-journal";
+import useJournal from "./use-journal";
 
 export function Journal({
   id,
