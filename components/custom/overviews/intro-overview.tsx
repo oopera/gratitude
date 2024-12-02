@@ -21,7 +21,7 @@ export const IntroOverview = () => {
           <br /> <br />
           Bitte beantworten Sie die Fragen in Ruhe und ehrlich.
         </p>
-        <Button onClick={() => router.push("/")}>Los geht's</Button>
+        <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
       </div>
     </div>
   );
