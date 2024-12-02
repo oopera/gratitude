@@ -76,7 +76,7 @@ export default function Page() {
       router.refresh();
     } else if (state.status === "success") {
       toast.success("Nutzer erfolgreich erstellt.");
-      router.refresh();
+      router.push("/einfuehrung");
     }
   }, [state, router]);
 

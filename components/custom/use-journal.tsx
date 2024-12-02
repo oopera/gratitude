@@ -65,7 +65,7 @@ function useJournal(props: {
       });
       if (props.userType === "short") {
         setTimeout(() => {
-          router.push("/complete");
+          router.push("/abschluss");
         }, 1500);
       } else {
         setTimeout(() => {

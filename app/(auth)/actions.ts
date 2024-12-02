@@ -53,7 +53,7 @@ export const logout = async () => {
 };
 
 export const logoutComplete = async () => {
-  await signOut({ redirectTo: "/complete" });
+  await signOut({ redirectTo: "/abschluss" });
 };
 
 export interface RegisterActionState {
