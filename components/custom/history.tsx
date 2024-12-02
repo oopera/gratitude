@@ -144,7 +144,7 @@ export const History = ({ user }: { user: User | undefined }) => {
               {!isLoading && history?.length === 0 && user ? (
                 <div className="text-zinc-500 h-dvh w-full flex flex-row justify-center items-center text-sm gap-2">
                   <InfoIcon />
-                  <div>No chats found</div>
+                  <div>Keine Chats gefunden</div>
                 </div>
               ) : null}
 

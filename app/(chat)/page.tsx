@@ -38,7 +38,7 @@ export default async function Page() {
     modelId ??
     models.find((model) => model.id === modelId)?.id ??
     DEFAULT_MODEL_NAME;
-
+  console.log(selectedModelId, userCondition, userType);
   return (
     <>
       <Navbar

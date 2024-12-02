@@ -11,7 +11,6 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { MultimodalInput } from "./multimodal-input";
-import { Overview } from "./overviews/overview";
 
 export function Chat({
   id,
@@ -73,11 +72,6 @@ export function Chat({
           <div
             ref={messagesContainerRef}
             className="flex flex-col h-full w-dvw items-center gap-4">
-            {messages.length === 0 && userType === "admin" && (
-              <>
-                <Overview />
-              </>
-            )}
             <AnimatePresence>
               {messages.map((message, index) => (
                 <PreviewMessage

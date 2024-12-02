@@ -29,7 +29,7 @@ export const Navbar = async ({
   return (
     <>
       <div className="bg-background absolute top-0 left-0 w-dvw py-2 px-3 justify-between flex flex-row items-center z-30">
-        {userType === "long" && (
+        {(userType === "long" || userType === "admin") && (
           <div className="flex flex-row gap-3 items-center min-w-0">
             <History user={session?.user} />
             {userCondition === "admin" && selectedModelId && (
@@ -58,6 +58,10 @@ export const Navbar = async ({
                   <Link href="/admin">Admin</Link>
                 </DropdownMenuItem>
               )}
+              <DropdownMenuItem>
+                <Link href="/einfuehrung">Einführung</Link>
+              </DropdownMenuItem>
+
               <DropdownMenuItem>
                 <ThemeToggle />
               </DropdownMenuItem>
