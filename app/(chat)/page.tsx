@@ -50,6 +50,7 @@ export default async function Page() {
     DEFAULT_MODEL_NAME;
 
   if (
+    userCondition !== "admin" &&
     latestUserchat &&
     latestUserchat.createdAt.getDate() === currenDate.getDate()
   ) {
