@@ -22,6 +22,24 @@ export async function getUser(name: string): Promise<Array<User>> {
   }
 }
 
+export async function getLatestUserChat(name: string): Promise<any> {
+  try {
+    const [currentUser] = await db
+      .select()
+      .from(user)
+      .where(eq(user.name, name));
+    return await db
+      .select()
+      .from(chat)
+      .where(eq(chat.userId, currentUser.id))
+      .orderBy(desc(chat.createdAt))
+      .limit(1);
+  } catch (error) {
+    console.error("Failed to get latest user chat from database");
+    throw error;
+  }
+}
+
 export async function createUser(
   name: string,
   type: string,
@@ -30,7 +48,7 @@ export async function createUser(
 ) {
   let salt = genSaltSync(10);
   let hash = hashSync(password, salt);
-  console.log(name, type, condition);
+
   try {
     return await db.insert(user).values({
       name,

@@ -18,6 +18,11 @@ const questions = [
   },
 ];
 
+const shortMessage = "Dein Eintrag ist beendet.";
+
+const longMessage =
+  "Dein Eintrag ist beendet. Erstelle morgen einen neuen Eintrag, um weiterzumachen.";
+
 function useJournal(props: {
   userType: string;
   initialMessages: Array<Message>;
@@ -48,8 +53,6 @@ function useJournal(props: {
     setEntries(updatedEntries);
   }
 
-  console.log(askedQuestions, currentQuestionIndex);
-
   const nextQuestion = useCallback(async () => {
     const nextIndex = currentQuestionIndex + 1;
 
@@ -73,7 +76,7 @@ function useJournal(props: {
         ...entries,
         {
           role: "journal",
-          content: "Dein Eintrag ist beendet - vielen Dank.",
+          content: props.userType === "short" ? shortMessage : longMessage,
         },
       ]);
       fetch(`/api/journal`, {

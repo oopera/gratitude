@@ -1,13 +1,14 @@
 import { Chat } from "@/components/custom/chat";
 import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
-import { getUser } from "@/db/queries";
+import { getLatestUserChat, getUser } from "@/db/queries";
 import { getModelMapping } from "@/lib/ai/mappings";
 import { DEFAULT_MODEL_NAME, models } from "@/lib/ai/models";
 import { generateUUID } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { NoticeOverview } from "@/components/custom/overviews/notice-overview";
 import { auth } from "../(auth)/auth";
 import SignOut from "../(auth)/signout";
 
@@ -25,6 +26,14 @@ export default async function Page() {
   if (!userType || !userCondition) {
     <SignOut />;
   }
+
+  const response = await getLatestUserChat(session?.user?.name);
+  const latestUserchat = response[0];
+
+  const currenDate = new Date();
+
+  // check if createdAt is the same day as today
+
   let selectedModelId = DEFAULT_MODEL_NAME;
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
@@ -39,6 +48,26 @@ export default async function Page() {
     modelId ??
     models.find((model) => model.id === modelId)?.id ??
     DEFAULT_MODEL_NAME;
+
+  if (
+    latestUserchat &&
+    latestUserchat.createdAt.getDate() === currenDate.getDate()
+  ) {
+    return (
+      <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
+        <Navbar
+          userType={userType}
+          userCondition={userCondition}
+          selectedModelId={selectedModelId}
+        />
+        <div className="flex flex-col justify-between items-center">
+          <div className="flex flex-col h-full w-dvw items-center gap-4">
+            <NoticeOverview />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
