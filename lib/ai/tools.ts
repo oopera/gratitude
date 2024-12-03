@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const recollect = (id: string) => ({
   description:
-    "Erinnert sich an die letzten Einträge des Nutzers. Entweder auf Nachfrage, oder wenn der Nutzer den anschein macht, dass er sich nicht mehr erinnert.",
+    "Erinnert sich an die letzten Einträge des Nutzers. Entweder auf Nachfrage, oder wenn der Nutzer den anschein macht er bräuchte Unterstützung.",
   parameters: z.object({
     id: z.string(),
   }),
@@ -22,7 +22,7 @@ export const recollect = (id: string) => ({
 });
 
 export const completeEntry = () => ({
-  description: "Wenn du fertig bist, beende den Eintrag.",
+  description: "Beendet den Eintrag.",
   parameters: z.object({
     id: z.string(),
   }),
@@ -41,12 +41,10 @@ export const SystemTools = ({
   switch (selectedModelId) {
     case "1":
       return {
-        // startNewEntry,
         completeEntry: completeEntry(),
       };
     case "2":
       return {
-        // startNewEntry,
         recollect: recollect(id),
         completeEntry: completeEntry(),
       };

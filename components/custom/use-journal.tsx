@@ -27,7 +27,7 @@ function useJournal(props: {
   selectedModelId: string;
 }) {
   const askedQuestions = props.initialMessages.filter(
-    (message) => message.role === "journal"
+    (message: { role: string }) => message.role === "journal"
   ).length;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(

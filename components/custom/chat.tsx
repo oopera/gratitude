@@ -25,7 +25,6 @@ export function Chat({
   ],
   selectedModelId,
   userType,
-  userCondition,
 }: {
   id: string;
   initialMessages?: Array<Message>;
@@ -51,8 +50,10 @@ export function Chat({
 
   useEffect(() => {
     if (
-      messages[messages.length - 1]?.toolInvocations?.some(
-        (tool) => tool.toolName === "completeEntry"
+      messages.some((message) =>
+        message.toolInvocations?.some(
+          (tool) => tool.toolName === "completeEntry"
+        )
       )
     ) {
       setIsFinished(true);
