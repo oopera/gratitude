@@ -27,7 +27,7 @@ export const IntroOverview = ({ userCondition }: { userCondition: string }) => {
           <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
         </ControlText>
       )}
-      {(userCondition === "c1" || userCondition === "c2") && (
+      {(userCondition === "1" || userCondition === "2") && (
         <LLMText>
           <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
         </LLMText>
