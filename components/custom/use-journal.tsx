@@ -5,7 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 const questions = [
   {
     role: "journal",
-    content: "Was war das schönste was dir Heute passiert ist?",
+    content:
+      "Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?",
   },
   {
     role: "journal",
@@ -25,8 +26,12 @@ function useJournal(props: {
   setInput: any;
   selectedModelId: string;
 }) {
+  const askedQuestions = props.initialMessages.filter(
+    (message) => message.role === "journal"
+  ).length;
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
-    props.initialMessages.length > 0 ? props.initialMessages.length : 0
+    askedQuestions > 0 ? askedQuestions - 1 : 0
   );
   const [entries, setEntries] = useState(
     props.initialMessages.length > 0 ? props.initialMessages : [questions[0]]
@@ -43,6 +48,8 @@ function useJournal(props: {
     setEntries(updatedEntries);
   }
 
+  console.log(askedQuestions, currentQuestionIndex);
+
   const nextQuestion = useCallback(async () => {
     const nextIndex = currentQuestionIndex + 1;
 
@@ -50,12 +57,23 @@ function useJournal(props: {
       setCurrentQuestionIndex(nextIndex);
       const updatedEntries = [...entries, questions[nextIndex]];
       setEntries(updatedEntries);
+      fetch(`/api/journal`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: props.id,
+          messages: entries,
+          selectedModelId: props.selectedModelId,
+        }),
+      });
     } else {
       setEntries([
         ...entries,
         {
           role: "journal",
-          content: "Dein Eintrag ist beendet, und wurde abgespeichert.",
+          content: "Dein Eintrag ist beendet - vielen Dank.",
         },
       ]);
       fetch(`/api/journal`, {

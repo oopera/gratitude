@@ -1,21 +1,6 @@
 import { getChatsByUserId } from "@/db/queries";
 import { z } from "zod";
 
-const startNewEntry = {
-  description: "Startet einen neuen Eintrag",
-  parameters: z.object({
-    id: z.string(),
-  }),
-  execute: async () => {
-    return [
-      "[Systemnachricht: Der ChatBot Startet einen neuen Eintrag, in welchem die folgenden Fragen gestellt werden]",
-      "Was war das schönste was dir Heute passiert ist?",
-      "Was hat dich Heute glücklich gemacht?",
-      "Wofür bist du Heute besonders dankbar?",
-    ];
-  },
-};
-
 export const recollect = (id: string) => ({
   description:
     "Erinnert sich an die letzten Einträge des Nutzers. Entweder auf Nachfrage, oder wenn der Nutzer den anschein macht, dass er sich nicht mehr erinnert.",
@@ -41,6 +26,9 @@ export const completeEntry = () => ({
   parameters: z.object({
     id: z.string(),
   }),
+  execute: async () => {
+    return true;
+  },
 });
 
 export const SystemTools = ({

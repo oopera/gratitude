@@ -14,13 +14,21 @@ import useComplete from "./use-complete";
 
 export function Chat({
   id,
-  initialMessages,
+  initialMessages = [
+    {
+      id: "jIhfWpb",
+      role: "assistant",
+      content:
+        "Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?",
+      toolInvocations: [],
+    },
+  ],
   selectedModelId,
   userType,
   userCondition,
 }: {
   id: string;
-  initialMessages: Array<Message>;
+  initialMessages?: Array<Message>;
   selectedModelId: string;
   userType: string;
   userCondition: string;
@@ -38,6 +46,7 @@ export function Chat({
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
+  console.log(initialMessages, messages);
   const router = useRouter();
 
   useEffect(() => {

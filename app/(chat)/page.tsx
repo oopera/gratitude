@@ -53,7 +53,6 @@ export default async function Page() {
           userCondition={userCondition}
           key={id}
           id={id}
-          initialMessages={[]}
           selectedModelId={selectedModelId}
         />
       )}
