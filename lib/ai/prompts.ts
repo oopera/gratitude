@@ -9,18 +9,3 @@ export const SystemPrompts: Record<string, string> = {
   1: `${regularPrompt}\n\n`,
   2: `${regularPrompt}\n\n${Memory_prompt}`,
 };
-
-const startNewEntry = {
-  description: "Startet einen neuen Eintrag",
-  parameters: z.object({
-    id: z.string(),
-  }),
-  execute: async () => {
-    return [
-      "[Systemnachricht: Der ChatBot Startet einen neuen Eintrag, in welchem die folgenden Fragen gestellt werden]",
-      "Was war das schönste was dir heute passiert ist?",
-      "Was hat dich heute glücklich gemacht?",
-      "Wofür bist du heute besonders dankbar?",
-    ];
-  },
-};
