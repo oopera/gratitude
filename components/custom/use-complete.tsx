@@ -1,19 +1,9 @@
-// "use client";
-
-import { logoutComplete } from "@/app/(auth)/actions";
-
 function useComplete(props: { userType: string }) {
   const handleFinish = async () => {
-    console.log("handleFinish");
-    if (props.userType === "admin") {
-      console.log("handleFinish admin");
-      setTimeout(async () => {
-        await logoutComplete();
-      }, 1000);
+    if (props.userType === "short") {
+      window.history.replaceState({}, "", `/abschluss`);
     } else {
-      setTimeout(() => {
-        // router.push("/");
-      });
+      window.history.replaceState({}, "", `/`);
     }
   };
 
