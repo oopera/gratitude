@@ -21,7 +21,7 @@ export function ThemeToggle() {
       onClick={() => {
         setTheme(theme === "dark" ? "light" : "dark");
       }}>
-      {`Toggle ${theme === "light" ? "dark" : "light"} mode`}
+      {`${theme === "light" ? "Dunkle" : "Helle"} Darstellung`}
     </div>
   );
 }

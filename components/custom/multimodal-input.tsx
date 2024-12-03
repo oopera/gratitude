@@ -12,20 +12,24 @@ import useWindowSize from "./use-window-size";
 
 const startAction = {
   title: "Eintrag beginnen",
-  label: "Was war heute schön?",
+  label: "Was war Heute schön?",
   action:
-    "Ich möchte einen Dankbarkeitstagebuch Eintrag beginnen. Bitte gib mir die erste Frage des Tages.",
+    "Ich möchte einen Dankbarkeitstagebuch Eintrag beginnen. Bitte stelle mir die erste Frage des Tages.",
 };
 const recollectAction = {
   title: "Vergangene Einträge",
   label: "Was habe ich zuletzt geschrieben?",
   action: "Rekapituliere meine letzten Einträge.",
 };
+const finishAction = {
+  title: "Eintrag verlassen",
+  label: "",
+  action: "Ich bin fertig mit meinem Eintrag.",
+};
 
 export const suggestedActions: Record<string, Array<typeof startAction>> = {
   1: [startAction],
   2: [startAction, recollectAction],
-
   admin: [startAction, recollectAction],
 };
 
@@ -38,6 +42,8 @@ export function MultimodalInput({
   append,
   handleSubmit,
   selectedModelId,
+  isFinished,
+  handleFinish,
 }: {
   input: string;
   setInput: (value: string) => void;
@@ -55,6 +61,8 @@ export function MultimodalInput({
     chatRequestOptions?: ChatRequestOptions
   ) => void;
   selectedModelId: string;
+  isFinished: boolean;
+  handleFinish: () => void;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
@@ -124,8 +132,25 @@ export function MultimodalInput({
           </AnimatePresence>
         </div>
       )}
+      {isFinished && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.98 }}
+          transition={{ delay: 0.1 + 0.05 * 1 }}
+          className={"block"}>
+          <button
+            onClick={handleFinish}
+            className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
+            <span className="font-medium">{finishAction.title}</span>
+            <span className="text-zinc-500 dark:text-zinc-400">
+              {finishAction.label}
+            </span>
+          </button>
+        </motion.div>
+      )}
       <Textarea
-        disabled={messages.length === 0}
+        disabled={messages.length === 0 || isLoading || isFinished}
         ref={textareaRef}
         placeholder="Verfasse eine Antwort..."
         value={input}

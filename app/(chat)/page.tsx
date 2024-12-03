@@ -7,7 +7,9 @@ import { DEFAULT_MODEL_NAME, models } from "@/lib/ai/models";
 import { generateUUID } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
 import { auth } from "../(auth)/auth";
+import SignOut from "../(auth)/signout";
 
 export default async function Page() {
   const id = generateUUID();
@@ -20,10 +22,9 @@ export default async function Page() {
   const userType = user[0]?.type;
   const userCondition = user[0]?.condition;
 
-  if (!userCondition) {
-    return redirect("/login");
+  if (!userType || !userCondition) {
+    <SignOut />;
   }
-
   let selectedModelId = DEFAULT_MODEL_NAME;
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get("model-id")?.value;
@@ -38,7 +39,7 @@ export default async function Page() {
     modelId ??
     models.find((model) => model.id === modelId)?.id ??
     DEFAULT_MODEL_NAME;
-  console.log(selectedModelId, userCondition, userType);
+
   return (
     <>
       <Navbar

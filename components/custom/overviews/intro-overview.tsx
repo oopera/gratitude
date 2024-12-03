@@ -9,13 +9,25 @@ export const IntroOverview = ({ userCondition }: { userCondition: string }) => {
     <div
       key="overview"
       className="w-full md:max-w-[500px] mt-20 px-4 md:mx-0 gap-4">
-      {userCondition === "control" ||
-        (userCondition === "admin" && (
+      {userCondition === "admin" && (
+        <>
+          Control
           <ControlText>
             <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
           </ControlText>
-        ))}
-      {userCondition !== "control" && (
+          LLM
+          <LLMText>
+            <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
+          </LLMText>
+        </>
+      )}
+
+      {userCondition === "control" && (
+        <ControlText>
+          <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
+        </ControlText>
+      )}
+      {(userCondition === "c1" || userCondition === "c2") && (
         <LLMText>
           <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
         </LLMText>

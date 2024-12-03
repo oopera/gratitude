@@ -32,7 +32,7 @@ export function AuthForm({
           defaultValue={defaultname}
         />
 
-        {/* <Label
+        <Label
           htmlFor="password"
           className="text-zinc-600 font-normal dark:text-zinc-400">
           Passwort
@@ -44,7 +44,7 @@ export function AuthForm({
           className="bg-muted text-md md:text-sm"
           type="password"
           required
-        /> */}
+        />
       </div>
 
       {children}

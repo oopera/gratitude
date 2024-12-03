@@ -5,7 +5,7 @@ import { json, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 export const user = pgTable("User", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   name: varchar("name", { length: 64 }).notNull(),
-  // password: varchar("password", { length: 64 }),
+  password: varchar("password", { length: 64 }),
   type: varchar("type", { length: 64 }).notNull(),
   condition: varchar("condition", { length: 64 }).notNull(),
 });

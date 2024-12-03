@@ -7,20 +7,28 @@ import { createUser, getUser } from "@/db/queries";
 import { signIn, signOut } from "./auth";
 
 const authFormSchema = z.object({
-  name: z.string(),
+  name: z.string().min(6).max(8),
   condition: z.string(),
-  // password: z.string().min(6),
+  password: z.string().min(6),
   type: z.string(),
 });
 
 const loginFormSchema = z.object({
   name: z.string(),
-  // password: z.string().min(6),
+  password: z.string().min(6),
 });
 
 export interface LoginActionState {
   status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
 }
+
+export const logout = async () => {
+  await signOut({ redirect: false });
+};
+
+export const logoutComplete = async () => {
+  await signOut({ redirectTo: "/abschluss" });
+};
 
 export const login = async (
   _: LoginActionState,
@@ -29,12 +37,12 @@ export const login = async (
   try {
     const validatedData = loginFormSchema.parse({
       name: formData.get("name"),
-      // password: formData.get("password"),
+      password: formData.get("password"),
     });
 
     await signIn("credentials", {
       name: validatedData.name,
-      // password: validatedData.password,
+      password: validatedData.password,
       redirect: false,
     });
 
@@ -46,14 +54,6 @@ export const login = async (
 
     return { status: "failed" };
   }
-};
-
-export const logout = async () => {
-  await signOut({ redirect: false });
-};
-
-export const logoutComplete = async () => {
-  await signOut({ redirectTo: "/abschluss" });
 };
 
 export interface RegisterActionState {
@@ -75,7 +75,7 @@ export const register = async (
     const validatedData = authFormSchema.parse({
       name: formData.get("name"),
       condition: formData.get("condition"),
-      // password: formData.get("password"),
+      password: formData.get("password"),
       type: formData.get("type"),
     });
 
@@ -86,13 +86,13 @@ export const register = async (
     } else {
       await createUser(
         validatedData.name,
-        // validatedData.password,
+        validatedData.password,
         validatedData.type,
         validatedData.condition
       );
       await signIn("credentials", {
         name: validatedData.name,
-        // password: validatedData.password,
+        password: validatedData.password,
         redirect: false,
       });
 
@@ -116,6 +116,7 @@ export const registerAndLogin = async (
       name: formData.get("name"),
       type: formData.get("type"),
       condition: formData.get("condition"),
+      password: formData.get("password"),
     });
 
     let [user] = await getUser(validatedData.name);
@@ -123,20 +124,20 @@ export const registerAndLogin = async (
     if (user) {
       await signIn("credentials", {
         name: validatedData.name,
-        // password: validatedData.password,
+        password: validatedData.password,
         redirect: false,
       });
       return { status: "success_with_login" };
     } else {
       await createUser(
         validatedData.name,
-        // validatedData.password,
         validatedData.type,
-        validatedData.condition
+        validatedData.condition,
+        validatedData.password
       );
       await signIn("credentials", {
         name: validatedData.name,
-        // password: validatedData.password,
+        password: validatedData.password,
         redirect: false,
       });
 

@@ -8,10 +8,10 @@ const startNewEntry = {
   }),
   execute: async () => {
     return [
-      "[Systemnachricht: Der ChatBot Startet einen neuen Eintrag, in welchem dies folgenden Fragen gestellt werden]",
-      "Was war das schönste was dir heute passiert ist?",
-      "Was hat dich heute glücklich gemacht?",
-      "Wofür bist du heute besonders dankbar?",
+      "[Systemnachricht: Der ChatBot Startet einen neuen Eintrag, in welchem die folgenden Fragen gestellt werden]",
+      "Was war das schönste was dir Heute passiert ist?",
+      "Was hat dich Heute glücklich gemacht?",
+      "Wofür bist du Heute besonders dankbar?",
     ];
   },
 };
@@ -37,7 +37,7 @@ export const recollect = (id: string) => ({
 });
 
 export const completeEntry = () => ({
-  description: "Beendet den Eintrag",
+  description: "Wenn du fertig bist, beende den Eintrag.",
   parameters: z.object({
     id: z.string(),
   }),
@@ -53,12 +53,12 @@ export const SystemTools = ({
   switch (selectedModelId) {
     case "1":
       return {
-        startNewEntry,
+        // startNewEntry,
         completeEntry: completeEntry(),
       };
     case "2":
       return {
-        startNewEntry,
+        // startNewEntry,
         recollect: recollect(id),
         completeEntry: completeEntry(),
       };

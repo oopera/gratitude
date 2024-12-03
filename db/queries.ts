@@ -4,7 +4,8 @@ import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { chat, user, User } from "./schema";
+import { genSaltSync, hashSync } from "bcrypt-ts";
+import { User, chat, user } from "./schema";
 
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
@@ -24,15 +25,16 @@ export async function getUser(name: string): Promise<Array<User>> {
 export async function createUser(
   name: string,
   type: string,
-  condition: string
+  condition: string,
+  password: string
 ) {
-  // let salt = genSaltSync(10);
-  // let hash = hashSync(password, salt);
+  let salt = genSaltSync(10);
+  let hash = hashSync(password, salt);
   console.log(name, type, condition);
   try {
     return await db.insert(user).values({
       name,
-      // password: hash,
+      password: hash,
       type,
       condition,
     });

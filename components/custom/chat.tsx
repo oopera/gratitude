@@ -4,13 +4,13 @@ import { Message } from "ai";
 import { useChat } from "ai/react";
 import { useRouter } from "next/navigation";
 
-import { logoutComplete } from "@/app/(auth)/actions";
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 import { AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { MultimodalInput } from "./multimodal-input";
+import useComplete from "./use-complete";
 
 export function Chat({
   id,
@@ -34,36 +34,23 @@ export function Chat({
       },
     });
 
+  const [isFinished, setIsFinished] = useState(false);
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
   const router = useRouter();
 
   useEffect(() => {
-    const latestInitialMessage = initialMessages[initialMessages.length - 1];
-    if (
-      latestInitialMessage?.toolInvocations?.some(
-        (tool) => tool.toolName === "completeEntry"
-      )
-    ) {
-      return;
-    }
     if (
       messages[messages.length - 1]?.toolInvocations?.some(
         (tool) => tool.toolName === "completeEntry"
       )
     ) {
-      if (userType === "short") {
-        setTimeout(async () => {
-          await logoutComplete();
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          router.push("/");
-        });
-      }
+      setIsFinished(true);
     }
   }, [messages, router, initialMessages, userType, id]);
+
+  const { handleFinish } = useComplete({ userType });
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
@@ -92,6 +79,8 @@ export function Chat({
         </ScrollArea>
         <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
           <MultimodalInput
+            isFinished={isFinished}
+            handleFinish={handleFinish}
             input={input}
             setInput={setInput}
             handleSubmit={handleSubmit}

@@ -2,6 +2,8 @@ import { CoreMessage } from "ai";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
+
+import SignOut from "@/app/(auth)/signout";
 import { Chat } from "@/components/custom/chat";
 import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
@@ -35,8 +37,8 @@ export default async function Page(props: { params: Promise<any> }) {
   const userType = user[0]?.type;
   const userCondition = user[0]?.condition;
 
-  if (!userType) {
-    return redirect("/login");
+  if (!userType || !userCondition) {
+    <SignOut />;
   }
 
   const chatType = chat.type;
@@ -52,16 +54,7 @@ export default async function Page(props: { params: Promise<any> }) {
   const modelId = getModelMapping(cookieModelId)[chatType];
 
   selectedModelId = modelId ?? models.find((model) => model.id === modelId)?.id;
-  console.log(
-    selectedModelId,
-    "selectedModelId",
-    modelId,
-    "modelId",
-    cookieModelId,
-    "cookieModelId",
-    chatType,
-    "chatType"
-  );
+
   return (
     <>
       <Navbar

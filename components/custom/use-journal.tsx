@@ -5,15 +5,15 @@ import { useCallback, useEffect, useState } from "react";
 const questions = [
   {
     role: "journal",
-    content: "Was war das schönste was dir heute passiert ist?",
+    content: "Was war das schönste was dir Heute passiert ist?",
   },
   {
     role: "journal",
-    content: "Was hat dich heute glücklich gemacht?",
+    content: "Was hat dich Heute glücklich gemacht?",
   },
   {
     role: "journal",
-    content: "Wofür bist du heute besonders dankbar?",
+    content: "Wofür bist du Heute besonders dankbar?",
   },
 ];
 
@@ -25,10 +25,13 @@ function useJournal(props: {
   setInput: any;
   selectedModelId: string;
 }) {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
+    props.initialMessages.length > 0 ? props.initialMessages.length : 0
+  );
   const [entries, setEntries] = useState(
     props.initialMessages.length > 0 ? props.initialMessages : [questions[0]]
   );
+  const [isFinished, setIsFinished] = useState(false);
   const router = useRouter();
 
   function saveResponse() {
@@ -66,15 +69,7 @@ function useJournal(props: {
           selectedModelId: props.selectedModelId,
         }),
       });
-      if (props.userType === "short") {
-        setTimeout(() => {
-          router.push("/abschluss");
-        }, 1500);
-      } else {
-        setTimeout(() => {
-          router.push("/");
-        }, 1500);
-      }
+      setIsFinished(true);
     }
   }, [currentQuestionIndex, entries, props.id, props.selectedModelId, router]);
 
@@ -85,6 +80,7 @@ function useJournal(props: {
   }, [entries, nextQuestion]);
 
   return {
+    isFinished,
     saveResponse,
     entries,
   };

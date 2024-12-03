@@ -9,6 +9,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { MultimodalInput } from "./multimodal-input";
+import useComplete from "./use-complete";
 import useJournal from "./use-journal";
 
 export function Journal({
@@ -26,7 +27,7 @@ export function Journal({
 }) {
   const [input, setInput] = useState("");
 
-  const { saveResponse, entries } = useJournal({
+  const { saveResponse, entries, isFinished } = useJournal({
     userType,
     initialMessages,
     input,
@@ -37,6 +38,8 @@ export function Journal({
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
+
+  const { handleFinish } = useComplete({ userType });
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
@@ -63,6 +66,8 @@ export function Journal({
         </ScrollArea>
         <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
           <MultimodalInput
+            handleFinish={handleFinish}
+            isFinished={isFinished}
             input={input}
             setInput={setInput}
             handleSubmit={saveResponse}

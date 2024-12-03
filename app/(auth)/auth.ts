@@ -2,7 +2,7 @@ import NextAuth, { Session, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 import { getUser } from "@/db/queries";
-
+import { compare } from "bcrypt-ts";
 import { authConfig } from "./auth.config";
 
 interface ExtendedSession extends Session {
@@ -24,8 +24,8 @@ export const {
       async authorize({ name, password }: any) {
         let users = await getUser(name);
         if (users.length === 0) return null;
-        // let passwordsMatch = await compare(password, users[0].password!);
-        // if (passwordsMatch) return users[0] as any;
+        let passwordsMatch = await compare(password, users[0].password!);
+        if (passwordsMatch) return users[0] as any;
         return users[0] as any;
       },
     }),
