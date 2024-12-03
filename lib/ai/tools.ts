@@ -8,7 +8,7 @@ const startNewEntry = {
   }),
   execute: async () => {
     return [
-      "[Systemnachricht: Der ChatBot wählt zufällig eine der folgenenden Fragen aus, um den Eintrag zu beginnen.]",
+      "[Systemnachricht: Der ChatBot Startet einen neuen Eintrag, in welchem dies folgenden Fragen gestellt werden]",
       "Was war das schönste was dir heute passiert ist?",
       "Was hat dich heute glücklich gemacht?",
       "Wofür bist du heute besonders dankbar?",

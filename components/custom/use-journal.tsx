@@ -3,14 +3,17 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 const questions = [
-  { role: "journal", content: "Wofür bist du Heute dankbar?" },
   {
     role: "journal",
-    content: "Beschreibe eine positive Erfahrung die du vor kurzem hattest.",
+    content: "Was war das schönste was dir heute passiert ist?",
   },
   {
     role: "journal",
-    content: "Was ist dir heute besonders gut gelungen?",
+    content: "Was hat dich heute glücklich gemacht?",
+  },
+  {
+    role: "journal",
+    content: "Wofür bist du heute besonders dankbar?",
   },
 ];
 
