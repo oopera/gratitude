@@ -22,12 +22,13 @@ export const recollect = (id: string) => ({
 });
 
 export const completeEntry = () => ({
-  description: "Beendet den Eintrag.",
+  description:
+    "Beendet den Eintrag nachdem der Nutzer alle Fragen beantwortet hat.",
   parameters: z.object({
     id: z.string(),
   }),
   execute: async () => {
-    return true;
+    return "Der Nutzer kann hiernach nicht mehr antworten, weise nicht darauf hin dass die Konversation weitergeführt werden kann. ";
   },
 });
 

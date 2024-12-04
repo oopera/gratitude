@@ -53,14 +53,11 @@ export const Message = ({
                 const { result } = toolInvocation;
                 return (
                   <div key={toolCallId}>
-                    {toolName === "startNewEntry" ? (
-                      <p>Ein neuer Eintrag wurde gestartet. </p>
-                    ) : null}
                     {toolName === "recollect" ? (
                       <Recollection chats={result} />
                     ) : null}
                     {toolName === "completeEntry" ? (
-                      <p>Der Chat wird beendet. </p>
+                      <p>Der Chat wurde beendet. </p>
                     ) : null}
                   </div>
                 );
@@ -71,9 +68,6 @@ export const Message = ({
                       <p>Der Chat wurde beendet.</p>
                     ) : null}
                     {toolName === "recollect" ? <Recollection /> : null}
-                    {toolName === "startNewEntry" ? (
-                      <p>Ein neuer Eintrag wird gestartet. </p>
-                    ) : null}
                   </div>
                 );
               }
