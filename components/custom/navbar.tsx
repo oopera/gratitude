@@ -72,7 +72,7 @@ export const Navbar = async ({
                     "use server";
 
                     await signOut({
-                      redirectTo: "/",
+                      redirectTo: "/login",
                     });
                   }}>
                   <button
