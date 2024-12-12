@@ -28,8 +28,12 @@ export default async function Page() {
     <SignOut />;
   }
   console.log(session?.user?.name);
-  const response = await getLatestUserChat(session?.user?.name);
-  const latestUserchat = response[0];
+  const chat = await getLatestUserChat(session?.user?.name);
+
+  if (chat.error) {
+    <SignOut />;
+  }
+  const latestUserchat = chat[0];
 
   const currenDate = new Date();
 

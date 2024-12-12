@@ -35,8 +35,7 @@ export async function getLatestUserChat(name: string): Promise<any> {
       .orderBy(desc(chat.createdAt))
       .limit(1);
   } catch (error) {
-    console.error("Failed to get latest user chat from database");
-    throw error;
+    return { error: new Error("Failed to get latest user chat") };
   }
 }
 
