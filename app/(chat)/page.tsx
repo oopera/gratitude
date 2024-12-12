@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { NoticeOverview } from "@/components/custom/overviews/notice-overview";
 import { auth } from "../(auth)/auth";
 import SignOut from "../(auth)/signout";
+import SignOutComplete from "../(auth)/signoutcomplete";
 
 export default async function Page() {
   const id = generateUUID();
@@ -48,6 +49,11 @@ export default async function Page() {
     modelId ??
     models.find((model) => model.id === modelId)?.id ??
     DEFAULT_MODEL_NAME;
+
+  if (userType === "short" && latestUserchat) {
+    console.log("test");
+    return <SignOutComplete />;
+  }
 
   if (
     userCondition !== "admin" &&

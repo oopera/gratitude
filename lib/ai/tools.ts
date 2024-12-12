@@ -28,7 +28,7 @@ export const completeEntry = () => ({
     id: z.string(),
   }),
   execute: async () => {
-    return "Der Nutzer kann hiernach nicht mehr antworten, weise nicht darauf hin dass die Konversation weitergeführt werden kann. ";
+    return "Der Nutzer kann hiernach nicht mehr antworten, weise nicht darauf hin dass die Konversation weitergeführt werden kann.";
   },
 });
 

@@ -9,6 +9,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { MultimodalInput } from "./multimodal-input";
+import { JournalOverview } from "./overviews/journal-overview";
 import useComplete from "./use-complete";
 import useJournal from "./use-journal";
 
@@ -48,6 +49,7 @@ export function Journal({
           <div
             ref={messagesContainerRef}
             className="flex flex-col h-full w-dvw items-center gap-4">
+            {entries.length === 0 && <JournalOverview />}
             <AnimatePresence>
               {entries.map((entry, index) => (
                 <PreviewMessage

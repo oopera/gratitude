@@ -1,3 +1,4 @@
+import { initialQuestionPrompt } from "@/lib/ai/prompts";
 import { Message } from "ai";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -5,8 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 const questions = [
   {
     role: "journal",
-    content:
-      "Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?",
+    content: initialQuestionPrompt,
   },
   {
     role: "journal",

@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 
 import { Message as PreviewMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
+import { initialQuestionPrompt } from "@/lib/ai/prompts";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { MultimodalInput } from "./multimodal-input";
+import { ChatOverview } from "./overviews/chat-overview";
 import useComplete from "./use-complete";
 
 export function Chat({
@@ -18,8 +20,7 @@ export function Chat({
     {
       id: "jIhfWpb",
       role: "assistant",
-      content:
-        "Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?",
+      content: initialQuestionPrompt, //
       toolInvocations: [],
     },
   ],
@@ -69,6 +70,8 @@ export function Chat({
           <div
             ref={messagesContainerRef}
             className="flex flex-col h-full w-dvw items-center gap-4">
+            {messages.length === 1 && <ChatOverview />}
+
             <AnimatePresence>
               {messages.map((message, index) => (
                 <PreviewMessage

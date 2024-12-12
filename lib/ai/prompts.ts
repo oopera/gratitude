@@ -20,3 +20,6 @@ export const SystemPrompts: Record<string, string> = {
   1: `${regularPrompt}\n\n`,
   2: `${regularPrompt}\n\n${Memory_prompt}`,
 };
+
+export const initialQuestionPrompt =
+  "Schöne Dinge passieren uns jeden Tag die wir nicht genug anerkennen. Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?";
