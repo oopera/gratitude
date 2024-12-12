@@ -1,7 +1,8 @@
 import { Chat } from "@/components/custom/chat";
 import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
-import { getLatestUserChat, getUser } from "@/db/queries";
+import { getLatestUserChat } from "@/db/getLatestUserChat";
+import { getUser } from "@/db/queries";
 import { generateUUID } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
@@ -21,16 +22,16 @@ export default async function Page() {
     return redirect("/login");
   }
   const user = await getUser(session?.user?.name);
+
+  if (user.length === 0) {
+    <SignOut />;
+  }
   const userType = user[0]?.type;
   const userCondition = user[0]?.condition;
 
-  if (!userType || !userCondition) {
-    <SignOut />;
-  }
-  console.log(session?.user?.name);
   const chat = await getLatestUserChat(session?.user?.name);
 
-  if (chat.error) {
+  if (chat.length === 0) {
     <SignOut />;
   }
   const latestUserchat = chat[0];

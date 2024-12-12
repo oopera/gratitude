@@ -18,7 +18,7 @@ export async function getUser(name: string): Promise<Array<User>> {
     return await db.select().from(user).where(eq(user.name, name));
   } catch (error) {
     console.error("Failed to get user from database");
-    throw error;
+    return [];
   }
 }
 
@@ -35,7 +35,7 @@ export async function getLatestUserChat(name: string): Promise<any> {
       .orderBy(desc(chat.createdAt))
       .limit(1);
   } catch (error) {
-    return { error: new Error("Failed to get latest user chat") };
+    return [];
   }
 }
 

@@ -1,5 +1,5 @@
 import { CoreMessage } from "ai";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 
@@ -20,7 +20,7 @@ export default async function Page(props: { params: Promise<any> }) {
   const chatFromDb = await getChatById({ id });
 
   if (!chatFromDb) {
-    notFound();
+    return redirect("/");
   }
 
   const chat: ChatSchema = {
@@ -33,13 +33,15 @@ export default async function Page(props: { params: Promise<any> }) {
   if (!session?.user?.name) {
     return redirect("/login");
   }
-  const user = await getUser(session?.user?.name);
-  const userType = user[0]?.type;
-  const userCondition = user[0]?.condition;
 
-  if (!userType || !userCondition) {
+  const user = await getUser(session?.user?.name);
+
+  if (user.length === 0) {
     <SignOut />;
   }
+
+  const userType = user[0]?.type;
+  const userCondition = user[0]?.condition;
 
   const chatType = chat.type;
 
