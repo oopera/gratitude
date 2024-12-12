@@ -1,8 +1,7 @@
 import { Chat } from "@/components/custom/chat";
 import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
-import { getLatestUserChat } from "@/db/getLatestUserChat";
-import { getUser } from "@/db/queries";
+import { getLatestUserChat, getUser } from "@/db/queries";
 import { generateUUID } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
