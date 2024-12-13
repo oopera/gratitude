@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     model: customModel,
     system: SystemPrompts[selectedModelId],
     messages: coreMessages,
+    temperature: 0.15,
     maxSteps: 5,
     tools: SystemTools({ selectedModelId, id: session.user.id }) as Record<
       string,

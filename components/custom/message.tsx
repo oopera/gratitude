@@ -7,7 +7,6 @@ import { ReactNode } from "react";
 import { BotIcon, NotebookIcon } from "lucide-react";
 import { UserIcon } from "./icons";
 import { Markdown } from "./markdown";
-import { Recollection } from "./recollection";
 
 export const Message = ({
   index,
@@ -54,9 +53,9 @@ export const Message = ({
                 return (
                   <div key={toolCallId}>
                     {toolName === "recollect" ? (
-                      <Recollection chats={result} />
+                      <p>Erinnert sich an deine Einträge. </p>
                     ) : null}
-                    {toolName === "completeEntry" ? (
+                    {toolName === "eintragAbschliessen" ? (
                       <p>Der Chat wurde beendet. </p>
                     ) : null}
                   </div>
@@ -64,10 +63,12 @@ export const Message = ({
               } else {
                 return (
                   <div key={toolCallId} className="skeleton">
-                    {toolName === "completeEntry" ? (
+                    {toolName === "eintragAbschliessen" ? (
                       <p>Der Chat wurde beendet.</p>
                     ) : null}
-                    {toolName === "recollect" ? <Recollection /> : null}
+                    {toolName === "recollect" ? (
+                      <p>Hat sich an deine Einträge erinnert. </p>
+                    ) : null}
                   </div>
                 );
               }

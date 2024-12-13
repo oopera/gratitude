@@ -1,5 +1,6 @@
 import { getChatsByUserId } from "@/db/queries";
 import { z } from "zod";
+import { closeEntryDescription } from "./prompts";
 
 export const recollect = (id: string) => ({
   description:
@@ -21,14 +22,13 @@ export const recollect = (id: string) => ({
   },
 });
 
-export const completeEntry = () => ({
-  description:
-    "Beendet den Eintrag nachdem der Nutzer alle Fragen beantwortet hat.",
+export const eintragAbschliessen = () => ({
+  description: closeEntryDescription,
   parameters: z.object({
     id: z.string(),
   }),
   execute: async () => {
-    return "Der Nutzer kann hiernach nicht mehr antworten, weise nicht darauf hin dass die Konversation weitergeführt werden kann.";
+    return "Bedanke dich für den Eintrag und schließe die Konversation unterstützend ab. Der Nutzer kann hiernach nicht mehr antworten, weise nicht darauf hin dass die Konversation weitergeführt werden kann.";
   },
 });
 
@@ -42,12 +42,12 @@ export const SystemTools = ({
   switch (selectedModelId) {
     case "1":
       return {
-        completeEntry: completeEntry(),
+        eintragAbschliessen: eintragAbschliessen(),
       };
     case "2":
       return {
         recollect: recollect(id),
-        completeEntry: completeEntry(),
+        eintragAbschliessen: eintragAbschliessen(),
       };
     default:
       return {};

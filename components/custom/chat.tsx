@@ -53,7 +53,7 @@ export function Chat({
     if (
       messages.some((message) =>
         message.toolInvocations?.some(
-          (tool) => tool.toolName === "completeEntry"
+          (tool) => tool.toolName === "eintragAbschliessen"
         )
       )
     ) {

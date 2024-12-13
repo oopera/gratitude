@@ -49,7 +49,7 @@ export function Journal({
           <div
             ref={messagesContainerRef}
             className="flex flex-col h-full w-dvw items-center gap-4">
-            {entries.length === 0 && <JournalOverview />}
+            {entries.length === 1 && <JournalOverview />}
             <AnimatePresence>
               {entries.map((entry, index) => (
                 <PreviewMessage
