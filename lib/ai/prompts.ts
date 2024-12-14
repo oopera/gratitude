@@ -8,6 +8,8 @@ export const regularPrompt = `
       "Was war das schönste was dir Heute passiert ist?",
       "Was hat dich Heute glücklich gemacht?",
       "Wofür bist du Heute besonders dankbar?
+
+      Nachdem alle drei Fragen des Dankbarkeitsjournals beantwortet wurden, soll die Funktion eintragAbschliessen explizit aufgerufen werden, um den Eintrag offiziell abzuschließen.
     `;
 
 export const Memory_prompt = `Du kannst die letzten Einträge des Nutzers beschreiben, und reflektieren. 
@@ -21,4 +23,4 @@ export const SystemPrompts: Record<string, string> = {
 export const initialQuestionPrompt =
   "Schöne Dinge passieren uns jeden Tag die wir nicht genug anerkennen. Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?";
 
-export const closeEntryDescription = `Wenn die Fragen des Dankbarkeitsjournals beantwortet wurden, rufe diese Funktion auf um den Eintrag abzuschließen.`;
+export const closeEntryDescription = `Schließt den Eintrag ab.`;
