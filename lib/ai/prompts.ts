@@ -9,7 +9,7 @@ export const regularPrompt = `
       "Was hat dich Heute glücklich gemacht?",
       "Wofür bist du Heute besonders dankbar?
 
-      Nachdem alle drei Fragen des Dankbarkeitsjournals beantwortet wurden, soll die Funktion eintragAbschliessen explizit aufgerufen werden, um den Eintrag offiziell abzuschließen.
+    Nachdem alle drei Fragen des Dankbarkeitsjournals beantwortet wurden ist der Eintrag abgeschlossen.
     `;
 
 export const Memory_prompt = `Du kannst die letzten Einträge des Nutzers beschreiben, und reflektieren. 
