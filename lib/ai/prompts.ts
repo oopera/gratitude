@@ -31,6 +31,6 @@ export const thirdQuestionPrompt =
 export const closeEntryDescription = `Schließt den Eintrag ab.`;
 
 export const shortMessage =
-  "Dein Eintrag ist beendet, Vielen dank dass du dir Heute Zeit genommen hast, um deine Gedanken und Gefühle festzuhalten.";
+  "Dein Eintrag ist beendet. Vielen dank dass du dir Heute Zeit genommen hast, um deine Gedanken und Gefühle festzuhalten.";
 export const returnMessage = `Komme morgen wieder um deinen nächsten Eintrag zu verfassen.`;
-export const longMessage = shortMessage + returnMessage;
+export const longMessage = shortMessage + "\n\n" + returnMessage;
