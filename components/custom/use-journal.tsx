@@ -1,4 +1,10 @@
-import { initialQuestionPrompt } from "@/lib/ai/prompts";
+import {
+  initialQuestionPrompt,
+  longMessage,
+  secondQuestionPrompt,
+  shortMessage,
+  thirdQuestionPrompt,
+} from "@/lib/ai/prompts";
 import { Message } from "ai";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -10,18 +16,13 @@ const questions = [
   },
   {
     role: "journal",
-    content: "Was hat dich Heute glücklich gemacht?",
+    content: secondQuestionPrompt,
   },
   {
     role: "journal",
-    content: "Wofür bist du Heute besonders dankbar?",
+    content: thirdQuestionPrompt,
   },
 ];
-
-const shortMessage = "Dein Eintrag ist beendet.";
-
-const longMessage =
-  "Dein Eintrag ist beendet. Erstelle morgen einen neuen Eintrag, um weiterzumachen.";
 
 function useJournal(props: {
   userType: string;

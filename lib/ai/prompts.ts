@@ -23,4 +23,14 @@ export const SystemPrompts: Record<string, string> = {
 export const initialQuestionPrompt =
   "Schöne Dinge passieren uns jeden Tag die wir nicht genug anerkennen. Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?";
 
+export const secondQuestionPrompt =
+  "Danke für deine Antwort. Nun zur zweiten Fragey:\n\nWas hat dich Heute glücklich gemacht?";
+export const thirdQuestionPrompt =
+  "Danke für deine Antwort. Nun zur letzten Frage:\n\nWofür bist du Heute besonders dankbar?";
+
 export const closeEntryDescription = `Schließt den Eintrag ab.`;
+
+export const shortMessage =
+  "Dein Eintrag ist beendet, Vielen dank dass du dir Heute Zeit genommen hast, um deine Gedanken und Gefühle festzuhalten.";
+export const returnMessage = `Komme morgen wieder um deinen nächsten Eintrag zu verfassen.`;
+export const longMessage = shortMessage + returnMessage;
