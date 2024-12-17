@@ -24,7 +24,7 @@ export const initialQuestionPrompt =
   "Schöne Dinge passieren uns jeden Tag die wir nicht genug anerkennen. Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?";
 
 export const secondQuestionPrompt =
-  "Danke für deine Antwort. Nun zur zweiten Fragey:\n\nWas hat dich Heute glücklich gemacht?";
+  "Danke für deine Antwort. Nun zur zweiten Frage:\n\nWas hat dich Heute glücklich gemacht?";
 export const thirdQuestionPrompt =
   "Danke für deine Antwort. Nun zur letzten Frage:\n\nWofür bist du Heute besonders dankbar?";
 
