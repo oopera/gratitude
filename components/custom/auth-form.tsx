@@ -41,6 +41,7 @@ export function AuthForm({
         <Input
           id="password"
           name="password"
+          placeholder="Passwort"
           className="bg-muted text-md md:text-sm"
           type="password"
           required
