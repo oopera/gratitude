@@ -11,7 +11,7 @@ export const Overview = () => {
       exit={{ opacity: 0, y: 20, scale: 0.98 }}>
       <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
         <p>
-          Dies ist ein Dankbarkeitstagebuch der
+          Dies ist ein Dankbarkeitsjournal der
           <code className="rounded-md bg-muted px-1 py-0.5">
             Hochschule Ruhr-West
           </code>

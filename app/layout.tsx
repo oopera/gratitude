@@ -6,9 +6,8 @@ import { ThemeProvider } from "@/components/custom/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chat.vercel.ai"),
-  title: "Dankbarkeitstagebuch",
-  description: "Dankbarkeitstagebuch des Moduls Projekt 2.",
+  title: "Journal — Dankbarkeitsjournal",
+  description: "Dankbarkeitsjournal des Moduls Projekt 2.",
 };
 
 export const viewport = {

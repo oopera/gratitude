@@ -14,7 +14,7 @@ const startAction = {
   title: "Eintrag beginnen",
   label: "Was war heute schön?",
   action:
-    "Ich möchte einen Dankbarkeitstagebuch Eintrag beginnen. Bitte stelle mir die erste Frage des Tages.",
+    "Ich möchte einen Dankbarkeitsjournal Eintrag beginnen. Bitte stelle mir die erste Frage des Tages.",
 };
 const recollectAction = {
   title: "Vergangene Einträge",

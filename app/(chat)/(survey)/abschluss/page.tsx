@@ -1,4 +1,10 @@
 import { CompleteOverview } from "@/components/custom/overviews/complete-overview";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Fertig!",
+  description: "Dieser Studienteil ist erfolgreich abgeschlossen.",
+};
 
 export default async function Page() {
   return (
