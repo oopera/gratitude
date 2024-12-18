@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { AuthForm } from "@/components/custom/auth-form";
 import { SubmitButton } from "@/components/custom/submit-button";
 
+import Image from "next/image";
 import { RegisterActionState, registerAndLogin } from "../actions";
 
 function getUserTypeAndConditionFromDomain(hostname: string): {
@@ -91,6 +92,12 @@ export default function Page() {
     <div className="flex h-screen w-screen items-center justify-center bg-background">
       <div className="w-full max-w-md overflow-hidden rounded-2xl flex flex-col gap-4">
         <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
+          <Image
+            src="/images/logo-small.png"
+            height={100}
+            width={100}
+            alt="Logo"
+          />
           <h3 className="text-xl font-semibold dark:text-zinc-50">Anmelden</h3>
           <p className="text-sm text-gray-500 dark:text-zinc-400">
             Benutze dein Kürzel um dich anzumelden

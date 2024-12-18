@@ -12,6 +12,7 @@ import {
 } from "../ui/dropdown-menu";
 import { History } from "./history";
 
+import Image from "next/image";
 import { ModelSelector } from "./model-selector";
 
 export const Navbar = async ({
@@ -28,9 +29,12 @@ export const Navbar = async ({
   return (
     <>
       <div className="bg-background absolute top-0 left-0 w-dvw py-2 px-3 justify-between flex flex-row items-center z-30">
-        {(userType === "long" || userType === "admin") && (
-          <div className="flex flex-row gap-3 items-center min-w-0">
-            <History user={session?.user} />
+        <div className="flex flex-row gap-3 items-center min-w-0">
+          <>
+            {(userType === "long" || userType === "admin") && (
+              <History user={session?.user} />
+            )}
+            <Image src="/images/logo.png" height={25} width={150} alt="Logo" />
             {userCondition === "admin" && selectedModelId && (
               <Link
                 href="/"
@@ -38,8 +42,8 @@ export const Navbar = async ({
                 <ModelSelector selectedModelId={selectedModelId} />
               </Link>
             )}
-          </div>
-        )}
+          </>
+        </div>
 
         {session ? (
           <DropdownMenu>
