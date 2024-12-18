@@ -6,7 +6,7 @@ export const CompleteOverview = () => {
         <p>
           Sie haben diesen Studienteil erfolgreich abgeschlossen.
           <br />
-          Sie können dieses Browserfenster nun schließen und zur Umfrage
+          Sie können dieses Browserfenster nun schließen und zum Fragebogen
           zurückkehren.
         </p>
       </div>

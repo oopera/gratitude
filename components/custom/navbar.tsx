@@ -13,7 +13,6 @@ import {
 import { History } from "./history";
 
 import { ModelSelector } from "./model-selector";
-import { ThemeToggle } from "./theme-toggle";
 
 export const Navbar = async ({
   userType,
@@ -61,10 +60,10 @@ export const Navbar = async ({
               <DropdownMenuItem>
                 <Link href="/einfuehrung">Einführung</Link>
               </DropdownMenuItem>
-
+              {/* 
               <DropdownMenuItem>
                 <ThemeToggle />
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem className="p-1 z-50">
                 <Form
                   className="w-full"

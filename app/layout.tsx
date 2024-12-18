@@ -58,7 +58,7 @@ export default async function RootLayout({
       <body className="antialiased overflow-x-hidden">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange>
           <Toaster position="top-center" />

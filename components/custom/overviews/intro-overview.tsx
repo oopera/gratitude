@@ -38,9 +38,9 @@ export const IntroOverview = ({ userCondition }: { userCondition: string }) => {
 
 const LLMText = ({ children }: { children: React.ReactNode }) => (
   <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-    <h1 className="text-2xl font-bold">Willkommen. </h1>
+    <h1 className="text-2xl font-bold">Willkommen! </h1>
     <p>
-      Willkommen zu unserem Dankbarkeitsjournal.
+      Willkommen zu unserem KI-unterstütztem Dankbarkeitsjournal.
       <br />
       Auf der folgenden Seite werden Ihnen einige Fragen zum Thema Dankbarkeit
       gestellt. Diese Fragen werden von einem System gestellt ung begleitet, das
@@ -63,7 +63,7 @@ const LLMText = ({ children }: { children: React.ReactNode }) => (
 
 const ControlText = ({ children }: { children: React.ReactNode }) => (
   <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-    <h1 className="text-2xl font-bold">Willkommen. </h1>
+    <h1 className="text-2xl font-bold">Willkommen! </h1>
     <p>
       Willkommen zu unserem Dankbarkeitsjournal.
       <br />

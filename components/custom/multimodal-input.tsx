@@ -12,7 +12,7 @@ import useWindowSize from "./use-window-size";
 
 const startAction = {
   title: "Eintrag beginnen",
-  label: "Was war Heute schön?",
+  label: "Was war heute schön?",
   action:
     "Ich möchte einen Dankbarkeitstagebuch Eintrag beginnen. Bitte stelle mir die erste Frage des Tages.",
 };
