@@ -38,7 +38,7 @@ export const IntroOverview = ({ userCondition }: { userCondition: string }) => {
 
 const LLMText = ({ children }: { children: React.ReactNode }) => (
   <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-    <h1 className="text-2xl font-bold">Willkommen! </h1>
+    {/* <h1 className="text-2xl font-bold">Willkommen! </h1> */}
     <p>
       Willkommen zu unserem KI-unterstütztem Dankbarkeitsjournal.
       <br />
@@ -63,7 +63,7 @@ const LLMText = ({ children }: { children: React.ReactNode }) => (
 
 const ControlText = ({ children }: { children: React.ReactNode }) => (
   <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-    <h1 className="text-2xl font-bold">Willkommen! </h1>
+    {/* <h1 className="text-2xl font-bold">Willkommen! </h1> */}
     <p>
       Willkommen zu unserem Dankbarkeitsjournal.
       <br />
