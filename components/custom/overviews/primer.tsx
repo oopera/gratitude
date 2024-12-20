@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 
-export const ChatOverview = () => {
+export const Primer = () => {
   return (
     <motion.div
-      key="overview"
+      key="primer"
       className="w-full md:max-w-[500px] mt-20 px-4 md:mx-0"
       initial={{ opacity: 0, y: 20, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}

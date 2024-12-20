@@ -68,7 +68,7 @@ const ControlText = ({ children }: { children: React.ReactNode }) => (
       Willkommen zu unserem Dankbarkeitsjournal.
       <br />
       Auf der folgenden Seite werden Ihnen einige Fragen zum Thema Dankbarkeit
-      gestellt. Sie werden diese Fragen eigenständig und ohne weitere
+      gestellt. Wir bitten Sie diese Fragen eigenständig und ohne weitere
       Unterstützung beantworten. Nutzen Sie diesen Moment, um Ihre eigenen
       Gedanken und Gefühle frei zu formulieren.
       <br /> <br />

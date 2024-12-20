@@ -11,7 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { MultimodalInput } from "./multimodal-input";
-import { ChatOverview } from "./overviews/chat-overview";
+import { Primer } from "./overviews/primer";
 import useComplete from "./use-complete";
 
 export function Chat({
@@ -70,7 +70,7 @@ export function Chat({
           <div
             ref={messagesContainerRef}
             className="flex flex-col h-full w-dvw items-center gap-4">
-            {messages.length === 1 && <ChatOverview />}
+            {messages.length === 1 && <Primer />}
 
             <AnimatePresence>
               {messages.map((message, index) => (
