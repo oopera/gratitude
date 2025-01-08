@@ -19,7 +19,15 @@ const loginFormSchema = z.object({
 });
 
 export interface LoginActionState {
-  status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
+  status:
+    | "idle"
+    | "in_progress"
+    | "success"
+    | "failed"
+    | "invalid_data"
+    | "invalid_name_pw"
+    | "invalid_name"
+    | "invalid_pw";
 }
 
 export const logout = async () => {
@@ -49,7 +57,16 @@ export const login = async (
     return { status: "success" };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { status: "invalid_data" };
+      const fields = error.errors.map((err) => err.path.join("."));
+      if (fields.includes("name") && fields.includes("password")) {
+        return { status: "invalid_name_pw" };
+      }
+      if (fields.includes("name")) {
+        return { status: "invalid_name" };
+      }
+      if (fields.includes("password")) {
+        return { status: "invalid_pw" };
+      }
     }
 
     return { status: "failed" };
@@ -64,7 +81,10 @@ export interface RegisterActionState {
     | "failed"
     | "user_exists"
     | "success_with_login"
-    | "invalid_data";
+    | "invalid_data"
+    | "invalid_name_pw"
+    | "invalid_name"
+    | "invalid_pw";
 }
 
 export const register = async (
@@ -145,9 +165,17 @@ export const registerAndLogin = async (
     }
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { status: "invalid_data" };
+      const fields = error.errors.map((err) => err.path.join("."));
+      if (fields.includes("name") && fields.includes("password")) {
+        return { status: "invalid_name_pw" };
+      }
+      if (fields.includes("name")) {
+        return { status: "invalid_name" };
+      }
+      if (fields.includes("password")) {
+        return { status: "invalid_pw" };
+      }
     }
-
     return { status: "failed" };
   }
 };

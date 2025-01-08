@@ -71,8 +71,14 @@ export default function Page() {
       toast.error("Nutzer existiert bereits.");
     } else if (state.status === "failed") {
       toast.error("Etwas ist schief gelaufen, bitte versuche es erneut.");
-    } else if (state.status === "invalid_data") {
-      toast.error("Falsche Eingabe, bitte versuche es erneut.");
+    } else if (state.status === "invalid_name_pw") {
+      toast.error(
+        "Dein Kürzel sollte zwischen 8 und 10 Zeichen lang sein, und dein Passwort sollte mindestens 6 Zeichen lang sein."
+      );
+    } else if (state.status === "invalid_pw") {
+      toast.error("Dein Passwort sollte mindestens 6 Zeichen lang sein.");
+    } else if (state.status === "invalid_name") {
+      toast.error("Dein Kürzel sollte zwischen 8 und 10 Zeichen lang sein.");
     } else if (state.status === "success_with_login") {
       router.refresh();
     } else if (state.status === "success") {
