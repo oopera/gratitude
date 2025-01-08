@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
   const session = await auth();
 
-  if (!session || !session.user?.id) {
+  if (!session || !session.user?.id || !session.user?.name) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -23,6 +23,7 @@ export async function POST(request: Request) {
       messages,
       type: selectedModelId,
       userId: session.user.id,
+      userName: session.user.name,
     });
 
     return new Response("Chat saved", { status: 200 });

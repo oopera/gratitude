@@ -20,6 +20,7 @@ export const chat = pgTable("Chat", {
   userId: uuid("userId")
     .notNull()
     .references(() => user.id),
+  userName: varchar("userName", { length: 64 }).notNull(),
 });
 
 export type Chat = Omit<InferSelectModel<typeof chat>, "messages"> & {

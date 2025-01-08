@@ -48,7 +48,6 @@ export default function Users({ users }: { users: User[] }) {
               <TableHead className="w-[100px]">Name</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Condition</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
 

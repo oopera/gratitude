@@ -66,11 +66,13 @@ export async function saveChat({
   messages,
   type,
   userId,
+  userName,
 }: {
   id: string;
   messages: any;
   type: string;
   userId: string;
+  userName: string;
 }) {
   try {
     const selectedChats = await db.select().from(chat).where(eq(chat.id, id));
@@ -90,6 +92,7 @@ export async function saveChat({
       messages: JSON.stringify(messages),
       type,
       userId,
+      userName,
     });
   } catch (error) {
     console.error("Failed to save chat in database");

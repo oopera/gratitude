@@ -39,13 +39,14 @@ export async function POST(request: Request) {
       CoreTool<any, any>
     >,
     onFinish: async ({ responseMessages }) => {
-      if (session.user && session.user.id) {
+      if (session.user && session.user.id && session.user.name) {
         try {
           await saveChat({
             id,
             messages: [...coreMessages, ...responseMessages],
             type: selectedModelId,
             userId: session.user.id,
+            userName: session.user.name,
           });
         } catch (error) {
           console.error("Failed to save chat");

@@ -34,7 +34,6 @@ export const Navbar = async ({
             {(userType === "long" || userType === "admin") && (
               <History user={session?.user} />
             )}
-            <Image src="/images/logo.png" height={25} width={150} alt="Logo" />
             {userCondition === "admin" && selectedModelId && (
               <Link
                 href="/"
@@ -42,6 +41,13 @@ export const Navbar = async ({
                 <ModelSelector selectedModelId={selectedModelId} />
               </Link>
             )}
+            <Image
+              src="/images/logo.png"
+              height={25}
+              width={150}
+              alt="Logo"
+              className="hidden sm:block"
+            />
           </>
         </div>
 

@@ -55,8 +55,8 @@ export default function ChatsTable({ chats }: { chats: Chat[] }) {
           <TableHeader className="sticky top-0 bg-background">
             <TableRow>
               <TableHead className="w-[100px]">Messages</TableHead>
+              <TableHead>UserName</TableHead>
               <TableHead>Type</TableHead>
-              <TableHead>Amount</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -66,6 +66,7 @@ export default function ChatsTable({ chats }: { chats: Chat[] }) {
                 <TableCell className="font-medium max-h-60 truncate max-w-60">
                   {getTextFromMessages(chat.messages)}
                 </TableCell>
+                <TableCell>{chat.userName}</TableCell>
                 <TableCell>{chat.type}</TableCell>
               </TableRow>
             ))}
