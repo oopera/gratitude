@@ -18,7 +18,6 @@ function getUserTypeAndConditionFromDomain(hostname: string): {
     gratitude: { type: "admin", condition: "admin" },
     localhost: { type: "admin", condition: "admin" },
     njgnw1sqaj: { type: "short", condition: "1" },
-    "0qyv7gg42k": { type: "short", condition: "2" },
     f8cmbjr9vd: { type: "short", condition: "control" },
     k4rghr8a0v: { type: "long", condition: "1" },
     gr5hl0tis2: { type: "long", condition: "2" },
@@ -95,15 +94,16 @@ export default function Page() {
   };
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-background">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl flex flex-col gap-4">
+    <div className="flex flex-col h-screen w-screen items-center justify-start bg-background">
+      <Image
+        src="/images/logo.png"
+        height={250}
+        width={1500}
+        alt="Logo"
+        className="w-full max-w-[500px]"
+      />
+      <div className="w-full max-w-md overflow-hidden rounded-2xl flex flex-col gap-4 mt-20">
         <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
-          <Image
-            src="/images/logo-small.png"
-            height={100}
-            width={100}
-            alt="Logo"
-          />
           <h3 className="text-xl font-semibold dark:text-zinc-50">Anmelden</h3>
           <p className="text-sm text-gray-500 dark:text-zinc-400">
             Benutze dein Kürzel um dich anzumelden

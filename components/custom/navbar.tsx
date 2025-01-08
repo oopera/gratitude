@@ -42,11 +42,11 @@ export const Navbar = async ({
               </Link>
             )}
             <Image
-              src="/images/logo.png"
+              src="/images/logo-small.png"
               height={25}
-              width={150}
+              width={25}
               alt="Logo"
-              className="hidden sm:block"
+              className=""
             />
           </>
         </div>
