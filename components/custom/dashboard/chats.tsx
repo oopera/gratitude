@@ -63,7 +63,13 @@ export default function Chats({
 
   sortedData.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
-  console.log(sortedData, "sortedData");
+  console.log(
+    sortedData
+      .map((item) => {
+        return item.userName;
+      })
+      .toString()
+  );
 
   const chartData = sortedData.reduce(
     (

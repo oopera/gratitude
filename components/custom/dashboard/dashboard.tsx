@@ -3,6 +3,7 @@
 import { Chat, User } from "@/db/schema";
 import Chats from "./chats";
 import ChatsTable from "./chatsTable";
+import Codes from "./codes";
 import Users from "./users";
 
 export default function Dashboard({
@@ -31,6 +32,10 @@ export default function Dashboard({
         controlChats={chats.controlChats as Chat[]}
       />
       <Users users={users as User[]} />
+      <Codes
+        conditionOneChats={chats.conditionOneChats as Chat[]}
+        controlChats={chats.controlChats as Chat[]}
+      />
     </div>
   );
 }
