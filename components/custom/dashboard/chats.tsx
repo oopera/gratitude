@@ -39,11 +39,58 @@ export default function Chats({
   conditionTwoChats: Chat[];
   controlChats: Chat[];
 }) {
+  const improveAssistantChatStructure = ({ chats }: { chats: Chat[] }) => {
+    return chats.map((chat) => {
+      const messages = chat.messages
+        .filter((message) => {
+          if (message.role === "tool") {
+            return false;
+          }
+
+          if (Array.isArray(message.content)) {
+            if (message.content.find((item) => item.type === "tool-call")) {
+              return false;
+            }
+          }
+          return true;
+        })
+        .map((message) => {
+          if (message.role === "tool") {
+            return;
+          }
+
+          if (Array.isArray(message.content)) {
+            if (message.content.find((item) => item.type === "tool-call")) {
+              return;
+            }
+          }
+
+          const improvedMessage = {
+            role: message.role,
+            text: Array.isArray(message.content)
+              ? message.content?.[0].text
+              : message.content,
+          };
+          return improvedMessage;
+        });
+      return { user: chat.userName, type: chat.type, messages: messages };
+    });
+  };
+
+  // console.log(improveAssistantChatStructure({ chats: controlChats }));
+
   const downloadChats = () => {
+    const cleanedConditionOneChats = improveAssistantChatStructure({
+      chats: conditionOneChats,
+    });
+
+    const cleanedControlChats = improveAssistantChatStructure({
+      chats: controlChats,
+    });
+
     const data = {
-      conditionOneChats,
-      conditionTwoChats,
-      controlChats,
+      conditionOneChats: cleanedConditionOneChats,
+      controlChats: cleanedControlChats,
     };
 
     const json = JSON.stringify(data);
@@ -62,14 +109,6 @@ export default function Chats({
   ];
 
   sortedData.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-
-  console.log(
-    sortedData
-      .map((item) => {
-        return item.userName;
-      })
-      .toString()
-  );
 
   const chartData = sortedData.reduce(
     (

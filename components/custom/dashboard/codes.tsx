@@ -1,58 +1,21 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Chat } from "@/db/schema";
 import { Download } from "lucide-react";
+import { User } from "next-auth";
 
-import { type ChartConfig } from "@/components/ui/chart";
-
-const chartConfig = {
-  amount: {
-    label: "Anzahl",
-  },
-  1: {
-    label: "Kondition 1",
-    color: "#2563eb",
-  },
-  2: {
-    label: "Kondition 2",
-    color: "#60a5fa",
-  },
-  control: {
-    label: "Kontrolle",
-    color: "#64748b",
-  },
-} satisfies ChartConfig;
-
-export default function Codes({
-  conditionOneChats,
-  controlChats,
-}: {
-  conditionOneChats: Chat[];
-  controlChats: Chat[];
-}) {
-  const sortedData = [...conditionOneChats, ...controlChats];
-
-  sortedData.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-
+export default function Codes({ users }: { users: User[] }) {
   const downloadCodes = () => {
-    const data = {
-      conditionOneChats,
-      controlChats,
-    };
-
     const json = JSON.stringify(
-      sortedData
-        .map((item) => {
-          return item.userName;
-        })
-        .toString()
+      users.map((item) => {
+        return item.name;
+      })
     );
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "chats.json";
+    a.download = "codes.json";
     a.click();
   };
 

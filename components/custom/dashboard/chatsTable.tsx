@@ -25,7 +25,7 @@ export default function ChatsTable({ chats }: { chats: Chat[] }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "users.json";
+    a.download = "chats.json";
     a.click();
   };
 

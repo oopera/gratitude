@@ -32,10 +32,7 @@ export default function Dashboard({
         controlChats={chats.controlChats as Chat[]}
       />
       <Users users={users as User[]} />
-      <Codes
-        conditionOneChats={chats.conditionOneChats as Chat[]}
-        controlChats={chats.controlChats as Chat[]}
-      />
+      <Codes users={users as User[]} />
     </div>
   );
 }
