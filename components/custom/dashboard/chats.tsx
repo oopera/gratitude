@@ -73,26 +73,54 @@ export default function Chats({
           };
           return improvedMessage;
         });
-      return { user: chat.userName, type: chat.type, messages: messages };
+
+      const amountOfWordsByUser = messages.reduce((result, message) => {
+        if (message.role === "assistant" || message.role === "journal") {
+          return result;
+        }
+        const words = message.text.split(" ");
+        return result + words.length;
+      }, 0);
+
+      return {
+        user: chat.userName,
+        type: chat.type,
+        messages: messages,
+        amountOfWordsByUser,
+      };
     });
   };
 
-  // console.log(improveAssistantChatStructure({ chats: controlChats }));
+  const cleanedConditionOneChats = improveAssistantChatStructure({
+    chats: conditionOneChats,
+  });
+
+  const cleanedControlChats = improveAssistantChatStructure({
+    chats: controlChats,
+  });
+
+  const getAverageWordsPerChat = (chats: any[]) => {
+    const totalWords = chats.reduce(
+      (result, chat) => result + chat.amountOfWordsByUser,
+      0
+    );
+    return totalWords / chats.length;
+  };
+
+  const data = {
+    assistantEntries: {
+      chats: cleanedConditionOneChats,
+      averageWords: getAverageWordsPerChat(cleanedConditionOneChats),
+    },
+    journalEntries: {
+      chats: cleanedControlChats,
+      averageWords: getAverageWordsPerChat(cleanedControlChats),
+    },
+  };
+
+  console.log(data);
 
   const downloadChats = () => {
-    const cleanedConditionOneChats = improveAssistantChatStructure({
-      chats: conditionOneChats,
-    });
-
-    const cleanedControlChats = improveAssistantChatStructure({
-      chats: controlChats,
-    });
-
-    const data = {
-      conditionOneChats: cleanedConditionOneChats,
-      controlChats: cleanedControlChats,
-    };
-
     const json = JSON.stringify(data);
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -201,6 +229,7 @@ export default function Chats({
           <Bar dataKey="control" fill="var(--color-control)" radius={4} />
         </BarChart>
       </ChartContainer>
+      Total : {sortedData.length}
     </div>
   );
 }

@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -13,7 +12,6 @@ import {
 import { Chat } from "@/db/schema";
 import { Message } from "ai";
 
-import { Download } from "lucide-react";
 export default function ChatsTable({ chats }: { chats: Chat[] }) {
   const downloadUsers = () => {
     const data = {
@@ -40,14 +38,14 @@ export default function ChatsTable({ chats }: { chats: Chat[] }) {
   return (
     <div className="w-full border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
       <div className="grid grid-cols-2 gap-2">
-        <h3>Chats</h3>
+        {/* <h3>Chats</h3>
         <Button
           variant="outline"
           onClick={() => {
             downloadUsers();
           }}>
           <Download />
-        </Button>
+        </Button> */}
       </div>
 
       <ScrollArea className="max-h-[500px] w-full ">
