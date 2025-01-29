@@ -109,12 +109,12 @@ export default function Chats({
 
   const data = {
     assistantEntries: {
-      chats: cleanedConditionOneChats,
       averageWords: getAverageWordsPerChat(cleanedConditionOneChats),
+      chats: cleanedConditionOneChats,
     },
     journalEntries: {
-      chats: cleanedControlChats,
       averageWords: getAverageWordsPerChat(cleanedControlChats),
+      chats: cleanedControlChats,
     },
   };
 
