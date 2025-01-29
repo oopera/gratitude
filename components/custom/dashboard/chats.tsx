@@ -39,7 +39,7 @@ export default function Chats({
   conditionTwoChats: Chat[];
   controlChats: Chat[];
 }) {
-  const improveAssistantChatStructure = ({ chats }: { chats: Chat[] }) => {
+  const improveChatStructure = ({ chats }: { chats: Chat[] }) => {
     return chats.map((chat) => {
       const messages = chat.messages
         .filter((message) => {
@@ -55,16 +55,6 @@ export default function Chats({
           return true;
         })
         .map((message) => {
-          if (message.role === "tool") {
-            return;
-          }
-
-          if (Array.isArray(message.content)) {
-            if (message.content.find((item) => item.type === "tool-call")) {
-              return;
-            }
-          }
-
           const improvedMessage = {
             role: message.role,
             text: Array.isArray(message.content)
@@ -94,11 +84,11 @@ export default function Chats({
     });
   };
 
-  const cleanedConditionOneChats = improveAssistantChatStructure({
+  const cleanedConditionOneChats = improveChatStructure({
     chats: conditionOneChats,
   });
 
-  const cleanedControlChats = improveAssistantChatStructure({
+  const cleanedControlChats = improveChatStructure({
     chats: controlChats,
   });
 
@@ -120,8 +110,6 @@ export default function Chats({
       chats: cleanedControlChats,
     },
   };
-
-  console.log(data);
 
   const downloadChats = () => {
     const json = JSON.stringify(data);

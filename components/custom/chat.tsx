@@ -46,7 +46,6 @@ export function Chat({
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
-  console.log(initialMessages, messages);
   const router = useRouter();
 
   useEffect(() => {
