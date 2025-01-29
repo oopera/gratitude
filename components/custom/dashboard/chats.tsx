@@ -75,6 +75,9 @@ export default function Chats({
         });
 
       const amountOfWordsByUser = messages.reduce((result, message) => {
+        if (!message) {
+          return result;
+        }
         if (message.role === "assistant" || message.role === "journal") {
           return result;
         }
