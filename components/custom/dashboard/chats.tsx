@@ -78,7 +78,7 @@ export default function Chats({
         if (!message) {
           return result;
         }
-        if (message.role === "assistant" || message.role === "journal") {
+        if (message.role !== "user") {
           return result;
         }
         const words = message.text.split(" ");
