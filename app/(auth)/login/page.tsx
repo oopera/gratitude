@@ -14,6 +14,7 @@ function getUserTypeAndConditionFromDomain(hostname: string): {
   type: "admin" | "short" | "long" | "error";
   condition: "admin" | "1" | "2" | "control" | "error";
 } {
+  const random = Math.random();
   const DOMAIN_MAPPINGS = {
     gratitude: { type: "admin", condition: "admin" },
     localhost: { type: "admin", condition: "admin" },
@@ -22,6 +23,10 @@ function getUserTypeAndConditionFromDomain(hostname: string): {
     k4rghr8a0v: { type: "long", condition: "1" },
     gr5hl0tis2: { type: "long", condition: "2" },
     aapz4cxm33: { type: "long", condition: "control" },
+    dankbarkeit: {
+      type: "long",
+      condition: random < 0.33 ? "1" : random < 0.66 ? "2" : "control",
+    },
   } as const;
 
   const subdomain = hostname.split(".")[0];
