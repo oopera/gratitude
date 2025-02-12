@@ -58,15 +58,6 @@ export const Message = ({
                     {toolName === "eintragAbschliessen" ? (
                       <p>Der Chat wurde beendet. </p>
                     ) : null}
-                    {toolName === "ersteFrageBeantwortet" ? (
-                      <p>Erste Frage Beantwortet. </p>
-                    ) : null}
-                    {toolName === "zweiteFrageBeantwortet" ? (
-                      <p>Zweite Frage Beantwortet. </p>
-                    ) : null}
-                    {toolName === "dritteFrageBeantwortet" ? (
-                      <p>Dritte Frage Beantwortet. </p>
-                    ) : null}
                   </div>
                 );
               } else {
@@ -77,15 +68,6 @@ export const Message = ({
                     ) : null}
                     {toolName === "recollect" ? (
                       <p>Hat sich an deine Einträge erinnert. </p>
-                    ) : null}
-                    {toolName === "ersteFrageBeantwortet" ? (
-                      <p>Erste Frage Beantwortet. </p>
-                    ) : null}
-                    {toolName === "zweiteFrageBeantwortet" ? (
-                      <p>Zweite Frage Beantwortet. </p>
-                    ) : null}
-                    {toolName === "dritteFrageBeantwortet" ? (
-                      <p>Dritte Frage Beantwortet. </p>
                     ) : null}
                   </div>
                 );

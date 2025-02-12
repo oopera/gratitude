@@ -75,6 +75,19 @@ export default function Chats({
           return result + words.length;
         }, 0);
 
+        const correctedAmountOfWordsByUser = messages
+          .slice(2)
+          .reduce((result, message) => {
+            if (!message) {
+              return result;
+            }
+            if (message.role !== "user") {
+              return result;
+            }
+            const words = message.text.split(" ");
+            return result + words.length;
+          }, 0);
+
         return {
           user: chat.userName,
           createdAt: chat.createdAt,
@@ -82,6 +95,7 @@ export default function Chats({
           condition: chat.condition,
           messages: messages,
           amountOfWordsByUser,
+          correctedAmountOfWordsByUser,
         };
       });
   };
@@ -184,7 +198,7 @@ export default function Chats({
   return (
     <div className="w-full border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700 h-fit">
       <div className="grid grid-cols-2 gap-2">
-        <h3>{hasSecondCondition ? "Lange " : "Kurze "}Chats</h3>
+        <h3>{hasSecondCondition ? "Week " : "Day "}Chats</h3>
         <Button
           variant="outline"
           onClick={() => {
@@ -227,7 +241,9 @@ export default function Chats({
           <Bar dataKey="control" fill="var(--color-control)" radius={4} />
         </BarChart>
       </ChartContainer>
-      Total : {sortedData.length}
+      Total : {sortedData.length} | LLM W:{" "}
+      {getAverageWordsPerChat(assistantChats).toFixed(2)} | C W:{" "}
+      {getAverageWordsPerChat(journalChats).toFixed(2)}
     </div>
   );
 }
