@@ -17,6 +17,7 @@ export const chat = pgTable("Chat", {
   createdAt: timestamp("createdAt").notNull(),
   messages: json("messages").notNull(),
   type: varchar("type", { length: 64 }).notNull(),
+  condition: varchar("condition", { length: 64 }).notNull(),
   userId: uuid("userId")
     .notNull()
     .references(() => user.id),

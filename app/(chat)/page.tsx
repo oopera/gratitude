@@ -35,7 +35,7 @@ export default async function Page() {
   }
   const latestUserchat = chat[0];
 
-  const currenDate = new Date();
+  const currentDate = new Date();
 
   if (userType === "short" && latestUserchat) {
     return <SignOutComplete />;
@@ -44,7 +44,7 @@ export default async function Page() {
   if (
     userCondition !== "admin" &&
     latestUserchat &&
-    latestUserchat.createdAt.getDate() === currenDate.getDate()
+    latestUserchat.createdAt.getDate() === currentDate.getDate()
   ) {
     return (
       <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">

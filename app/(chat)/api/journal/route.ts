@@ -7,8 +7,9 @@ export async function POST(request: Request) {
   const {
     id,
     messages,
-    selectedModelId,
-  }: { id: string; messages: Array<Message>; selectedModelId: string } =
+    type,
+    condition,
+  }: { id: string; messages: Array<Message>; type: string; condition: string } =
     await request.json();
 
   const session = await auth();
@@ -21,7 +22,8 @@ export async function POST(request: Request) {
     await saveChat({
       id,
       messages,
-      type: selectedModelId,
+      type: type,
+      condition: condition,
       userId: session.user.id,
       userName: session.user.name,
     });

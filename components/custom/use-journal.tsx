@@ -69,7 +69,8 @@ function useJournal(props: {
         body: JSON.stringify({
           id: props.id,
           messages: entries,
-          selectedModelId: props.selectedModelId,
+          type: props.userType,
+          condition: props.selectedModelId,
         }),
       });
     } else {
@@ -88,7 +89,8 @@ function useJournal(props: {
         body: JSON.stringify({
           id: props.id,
           messages: entries,
-          selectedModelId: props.selectedModelId,
+          type: props.userType,
+          condition: props.selectedModelId,
         }),
       });
       setIsFinished(true);

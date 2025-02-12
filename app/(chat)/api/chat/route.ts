@@ -9,12 +9,12 @@ export async function POST(request: Request) {
   const {
     id,
     messages,
-    selectedModelId,
+    type,
     condition,
   }: {
     id: string;
     messages: Array<Message>;
-    selectedModelId: string;
+    type: string;
     condition: string;
   } = await request.json();
 
@@ -30,11 +30,11 @@ export async function POST(request: Request) {
   const coreMessages = convertToCoreMessages(messages);
   const result = await streamText({
     model: customModel,
-    system: SystemPrompts[selectedModelId],
+    system: SystemPrompts[condition],
     messages: coreMessages,
     temperature: 0.15,
     maxSteps: 5,
-    tools: SystemTools({ selectedModelId, id: session.user.id }) as Record<
+    tools: SystemTools({ condition, id: session.user.id }) as Record<
       string,
       CoreTool<any, any>
     >,
@@ -44,7 +44,8 @@ export async function POST(request: Request) {
           await saveChat({
             id,
             messages: [...coreMessages, ...responseMessages],
-            type: selectedModelId,
+            condition: condition,
+            type: type,
             userId: session.user.id,
             userName: session.user.name,
           });

@@ -66,13 +66,13 @@ export const eintragAbschliessen = () => ({
 });
 
 export const SystemTools = ({
-  selectedModelId,
+  condition,
   id,
 }: {
-  selectedModelId: string;
+  condition: string;
   id: string;
 }) => {
-  switch (selectedModelId) {
+  switch (condition) {
     case "1":
       return {
         eintragAbschliessen: eintragAbschliessen(),

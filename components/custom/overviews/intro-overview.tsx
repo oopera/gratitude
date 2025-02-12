@@ -47,10 +47,7 @@ const LLMText = ({ children }: { children: React.ReactNode }) => (
       Ihnen zusätzliche Unterstützung bietet, um Ihre Gedanken und Gefühle
       strukturiert auszudrücken. Das System kann Vorschläge machen, um Ihnen zu
       helfen, den Einstieg zu erleichtern, oder Ihre Antworten vertiefen.
-      <br /> <br />
-      Es gibt keine richtigen oder falschen Antworten – wichtig ist, dass Sie
-      ehrlich und in Ihrem eigenen Tempo antworten.
-      <br /> <br />
+      <br />
       Wir empfehlen Ihnen, einen ruhigen Ort zu wählen, an dem Sie sich
       wohlfühlen und ungestört sind, um den Reflexionsprozess bestmöglich zu
       gestalten.
@@ -71,10 +68,7 @@ const ControlText = ({ children }: { children: React.ReactNode }) => (
       gestellt. Wir bitten Sie diese Fragen eigenständig und ohne weitere
       Unterstützung beantworten. Nutzen Sie diesen Moment, um Ihre eigenen
       Gedanken und Gefühle frei zu formulieren.
-      <br /> <br />
-      Es gibt keine richtigen oder falschen Antworten – wichtig ist, dass Sie
-      ehrlich und in Ihrem eigenen Tempo antworten.
-      <br /> <br />
+      <br />
       Wir empfehlen Ihnen, einen ruhigen Ort zu wählen, an dem Sie sich
       wohlfühlen und ungestört sind, um den Reflexionsprozess bestmöglich zu
       gestalten.

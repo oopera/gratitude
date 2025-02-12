@@ -31,66 +31,75 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function Chats({
-  conditionOneChats,
-  conditionTwoChats,
-  controlChats,
+  chats,
+  hasSecondCondition = false,
 }: {
-  conditionOneChats: Chat[];
-  conditionTwoChats: Chat[];
-  controlChats: Chat[];
+  chats: Chat[];
+  hasSecondCondition?: boolean;
 }) {
   const improveChatStructure = ({ chats }: { chats: Chat[] }) => {
-    return chats.map((chat) => {
-      const messages = chat.messages
-        .filter((message) => {
-          if (message.role === "tool") {
-            return false;
-          }
-
-          if (Array.isArray(message.content)) {
-            if (message.content.find((item) => item.type === "tool-call")) {
+    return chats
+      .filter((chat) => chat.type != "admin")
+      .map((chat) => {
+        const messages = chat.messages
+          .filter((message) => {
+            if (message.role === "tool") {
               return false;
             }
+
+            if (Array.isArray(message.content)) {
+              if (message.content.find((item) => item.type === "tool-call")) {
+                return false;
+              }
+            }
+            return true;
+          })
+          .map((message) => {
+            const improvedMessage = {
+              role: message.role,
+              text: Array.isArray(message.content)
+                ? message.content?.[0].text
+                : message.content,
+            };
+            return improvedMessage;
+          });
+
+        const amountOfWordsByUser = messages.reduce((result, message) => {
+          if (!message) {
+            return result;
           }
-          return true;
-        })
-        .map((message) => {
-          const improvedMessage = {
-            role: message.role,
-            text: Array.isArray(message.content)
-              ? message.content?.[0].text
-              : message.content,
-          };
-          return improvedMessage;
-        });
+          if (message.role !== "user") {
+            return result;
+          }
+          const words = message.text.split(" ");
+          return result + words.length;
+        }, 0);
 
-      const amountOfWordsByUser = messages.reduce((result, message) => {
-        if (!message) {
-          return result;
-        }
-        if (message.role !== "user") {
-          return result;
-        }
-        const words = message.text.split(" ");
-        return result + words.length;
-      }, 0);
-
-      return {
-        user: chat.userName,
-        type: chat.type,
-        messages: messages,
-        amountOfWordsByUser,
-      };
-    });
+        return {
+          user: chat.userName,
+          createdAt: chat.createdAt,
+          type: chat.type,
+          condition: chat.condition,
+          messages: messages,
+          amountOfWordsByUser,
+        };
+      });
   };
 
-  const cleanedConditionOneChats = improveChatStructure({
-    chats: conditionOneChats,
-  });
+  const cleanedChats = improveChatStructure({ chats });
+  const journalChats = cleanedChats.filter(
+    (chat) => chat.condition === "control"
+  );
 
-  const cleanedControlChats = improveChatStructure({
-    chats: controlChats,
-  });
+  const conditionOneChats = cleanedChats.filter(
+    (chat) => chat.condition === "1"
+  );
+  const conditionTwoChats = cleanedChats.filter(
+    (chat) => chat.condition === "2"
+  );
+  const assistantChats = cleanedChats.filter(
+    (chat) => chat.condition !== "control"
+  );
 
   const getAverageWordsPerChat = (chats: any[]) => {
     const totalWords = chats.reduce(
@@ -102,12 +111,12 @@ export default function Chats({
 
   const data = {
     assistantEntries: {
-      averageWords: getAverageWordsPerChat(cleanedConditionOneChats),
-      chats: cleanedConditionOneChats,
+      averageWords: getAverageWordsPerChat(assistantChats),
+      chats: assistantChats,
     },
     journalEntries: {
-      averageWords: getAverageWordsPerChat(cleanedControlChats),
-      chats: cleanedControlChats,
+      averageWords: getAverageWordsPerChat(journalChats),
+      chats: journalChats,
     },
   };
 
@@ -121,11 +130,7 @@ export default function Chats({
     a.click();
   };
 
-  const sortedData = [
-    ...conditionOneChats,
-    ...conditionTwoChats,
-    ...controlChats,
-  ];
+  const sortedData = [...journalChats, ...assistantChats];
 
   sortedData.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
@@ -156,7 +161,7 @@ export default function Chats({
         existingData[2] += conditionTwoChats.filter(
           (c) => c.createdAt === chat.createdAt
         ).length;
-        existingData.control += controlChats.filter(
+        existingData.control += journalChats.filter(
           (c) => c.createdAt === chat.createdAt
         ).length;
       } else {
@@ -166,7 +171,7 @@ export default function Chats({
             .length,
           2: conditionTwoChats.filter((c) => c.createdAt === chat.createdAt)
             .length,
-          control: controlChats.filter((c) => c.createdAt === chat.createdAt)
+          control: journalChats.filter((c) => c.createdAt === chat.createdAt)
             .length,
         });
       }
@@ -179,7 +184,7 @@ export default function Chats({
   return (
     <div className="w-full border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700 h-fit">
       <div className="grid grid-cols-2 gap-2">
-        <h3>Chats</h3>
+        <h3>{hasSecondCondition ? "Lange " : "Kurze "}Chats</h3>
         <Button
           variant="outline"
           onClick={() => {
@@ -216,7 +221,9 @@ export default function Chats({
             }
           />
           <Bar dataKey="1" fill="var(--color-1)" radius={4} />
-          <Bar dataKey="2" fill="var(--color-2)" radius={4} />
+          {hasSecondCondition && (
+            <Bar dataKey="2" fill="var(--color-2)" radius={4} />
+          )}
           <Bar dataKey="control" fill="var(--color-control)" radius={4} />
         </BarChart>
       </ChartContainer>

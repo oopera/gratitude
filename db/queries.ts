@@ -65,12 +65,14 @@ export async function saveChat({
   id,
   messages,
   type,
+  condition,
   userId,
   userName,
 }: {
   id: string;
   messages: any;
   type: string;
+  condition: string;
   userId: string;
   userName: string;
 }) {
@@ -91,6 +93,7 @@ export async function saveChat({
       createdAt: new Date(),
       messages: JSON.stringify(messages),
       type,
+      condition,
       userId,
       userName,
     });
@@ -137,6 +140,19 @@ export async function getChats() {
     return await db.select().from(chat);
   } catch (error) {
     console.error("Failed to get chats from database");
+    throw error;
+  }
+}
+
+export async function getChatsByCondition({
+  condition,
+}: {
+  condition: string;
+}) {
+  try {
+    return await db.select().from(chat).where(eq(chat.condition, condition));
+  } catch (error) {
+    console.error("Failed to get chats by type from database");
     throw error;
   }
 }

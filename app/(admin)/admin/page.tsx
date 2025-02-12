@@ -20,9 +20,12 @@ export default async function Page() {
     return redirect("/");
   }
 
-  const conditionOneChats = await getChatsByType({ type: "1" });
-  const conditionTwoChats = await getChatsByType({ type: "2" });
-  const controlChats = await getChatsByType({ type: "control" });
+  const shortChats = await getChatsByType({ type: "short" });
+  const longChats = await getChatsByType({ type: "long" });
+
+  // const conditionOneChats = await getChatsByCondition({ condition: "1" });
+  // const conditionTwoChats = await getChatsByCondition({ condition: "2" });
+  // const controlChats = await getChatsByCondition({ condition: "control" });
   const users = await getUsers();
 
   return (
@@ -36,9 +39,8 @@ export default async function Page() {
             <Dashboard
               users={users}
               chats={{
-                conditionOneChats: conditionOneChats as Chat[],
-                conditionTwoChats: conditionTwoChats as Chat[],
-                controlChats: controlChats as Chat[],
+                shortChats: shortChats as Chat[],
+                longChats: longChats as Chat[],
               }}
             />
           </div>

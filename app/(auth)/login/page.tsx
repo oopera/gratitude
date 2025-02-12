@@ -18,11 +18,6 @@ function getUserTypeAndConditionFromDomain(hostname: string): {
   const DOMAIN_MAPPINGS = {
     gratitude: { type: "admin", condition: "admin" },
     localhost: { type: "admin", condition: "admin" },
-    njgnw1sqaj: { type: "short", condition: "1" },
-    f8cmbjr9vd: { type: "short", condition: "control" },
-    k4rghr8a0v: { type: "long", condition: "1" },
-    gr5hl0tis2: { type: "long", condition: "2" },
-    aapz4cxm33: { type: "long", condition: "control" },
     dankbarkeit: {
       type: "long",
       condition: random < 0.33 ? "1" : random < 0.66 ? "2" : "control",
@@ -111,19 +106,12 @@ export default function Page() {
         <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
           <h3 className="text-xl font-semibold dark:text-zinc-50">Anmelden</h3>
           <p className="text-sm text-gray-500 dark:text-zinc-400">
-            Benutze dein Kürzel um dich anzumelden
+            Benutze dein Kürzel aus der Studie und ein frei wählbares Passwort
+            um dich anzumelden.
           </p>
         </div>
         <AuthForm action={handleSubmit} defaultname={name}>
           <SubmitButton>Anmelden</SubmitButton>
-          {/* <p className="text-center text-sm text-gray-600 mt-4 dark:text-zinc-400">
-            {"Hast du keinen Account? "}
-            <Link
-              href="/register"
-              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200">
-              Registrieren
-            </Link>
-          </p> */}
         </AuthForm>
       </div>
     </div>

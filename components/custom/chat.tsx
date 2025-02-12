@@ -35,7 +35,7 @@ export function Chat({
 }) {
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
-      body: { id, selectedModelId },
+      body: { id, type: userType, condition: selectedModelId },
       initialMessages,
       onFinish: () => {
         window.history.replaceState({}, "", `/chat/${id}`);
