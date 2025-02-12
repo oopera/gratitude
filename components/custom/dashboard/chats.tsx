@@ -75,7 +75,7 @@ export default function Chats({
           return result + words.length;
         }, 0);
 
-        const correctedAmountOfWordsByUser = messages
+        const cleanedAverageWords = messages
           .slice(2)
           .reduce((result, message) => {
             if (!message) {
@@ -93,9 +93,9 @@ export default function Chats({
           createdAt: chat.createdAt,
           type: chat.type,
           condition: chat.condition,
-          messages: messages,
           amountOfWordsByUser,
-          correctedAmountOfWordsByUser,
+          cleanedAverageWords,
+          messages: messages,
         };
       });
   };
@@ -123,13 +123,23 @@ export default function Chats({
     return totalWords / chats.length;
   };
 
+  const getCleanedAverageWords = (chats: any[]) => {
+    const totalWords = chats.reduce(
+      (result, chat) => result + chat.cleanedAverageWords,
+      0
+    );
+    return totalWords / chats.length;
+  };
+
   const data = {
     assistantEntries: {
       averageWords: getAverageWordsPerChat(assistantChats),
+      cleanedAverageWords: getCleanedAverageWords(assistantChats),
       chats: assistantChats,
     },
     journalEntries: {
       averageWords: getAverageWordsPerChat(journalChats),
+      cleanedAverageWords: getCleanedAverageWords(journalChats),
       chats: journalChats,
     },
   };
