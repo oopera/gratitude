@@ -10,9 +10,9 @@ export const Primer = () => {
       exit={{ opacity: 0, y: 20, scale: 0.98 }}>
       <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
         <p>
-          Nehmen Sie sich Zeit für sich und Ihre Gedanken. Versuchen sie die
-          Fragen ausführlich zu beantworten und sich auf die positiven Dinge in
-          Ihrem Leben zu konzentrieren.
+          Nehme Dir Zeit für Dich und Deine Gedanken. Versuche die Fragen
+          ausführlich zu beantworten und dich auf die positiven Dinge in deinem
+          Leben zu konzentrieren.
         </p>
       </div>
     </motion.div>

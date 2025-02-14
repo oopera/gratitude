@@ -42,15 +42,14 @@ const LLMText = ({ children }: { children: React.ReactNode }) => (
     <p>
       Willkommen zu unserem KI-unterstütztem Dankbarkeitsjournal.
       <br />
-      Auf der folgenden Seite werden Ihnen einige Fragen zum Thema Dankbarkeit
+      Auf der folgenden Seite werden Dir einige Fragen zum Thema Dankbarkeit
       gestellt. Diese Fragen werden von einem System gestellt und begleitet, das
-      Ihnen zusätzliche Unterstützung bietet, um Ihre Gedanken und Gefühle
-      strukturiert auszudrücken. Das System kann Vorschläge machen, um Ihnen zu
+      Dir zusätzliche Unterstützung bietet, um Ihre Gedanken und Gefühle
+      strukturiert auszudrücken. Das System kann Vorschläge machen, um Dir zu
       helfen, den Einstieg zu erleichtern, oder Ihre Antworten vertiefen.
       <br />
-      Wir empfehlen Ihnen, einen ruhigen Ort zu wählen, an dem Sie sich
-      wohlfühlen und ungestört sind, um den Reflexionsprozess bestmöglich zu
-      gestalten.
+      Wir empfehlen Dir, einen ruhigen Ort zu wählen, an dem Du dich wohlfühlst
+      und ungestört ist, um den Reflexionsprozess bestmöglich zu gestalten.
       <br /> <br />
       Viel Freude beim Reflektieren!
     </p>
@@ -64,14 +63,13 @@ const ControlText = ({ children }: { children: React.ReactNode }) => (
     <p>
       Willkommen zu unserem Dankbarkeitsjournal.
       <br />
-      Auf der folgenden Seite werden Ihnen einige Fragen zum Thema Dankbarkeit
-      gestellt. Wir bitten Sie diese Fragen eigenständig und ohne weitere
-      Unterstützung beantworten. Nutzen Sie diesen Moment, um Ihre eigenen
+      Auf der folgenden Seite werden Dir einige Fragen zum Thema Dankbarkeit
+      gestellt. Wir bitten Dich diese Fragen eigenständig und ohne weitere
+      Unterstützung zu beantworten. Nutze diesen Moment, um Deine eigenen
       Gedanken und Gefühle frei zu formulieren.
       <br />
-      Wir empfehlen Ihnen, einen ruhigen Ort zu wählen, an dem Sie sich
-      wohlfühlen und ungestört sind, um den Reflexionsprozess bestmöglich zu
-      gestalten.
+      Wir empfehlen Dir, einen ruhigen Ort zu wählen, an dem Du dich wohlfühlst
+      und ungestört ist, um den Reflexionsprozess bestmöglich zu gestalten.
       <br /> <br />
       Viel Freude beim Reflektieren!
     </p>
