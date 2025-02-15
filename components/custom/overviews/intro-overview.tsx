@@ -27,28 +27,54 @@ export const IntroOverview = ({ userCondition }: { userCondition: string }) => {
           <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
         </ControlText>
       )}
-      {(userCondition === "1" || userCondition === "2") && (
+      {userCondition === "1" && (
         <LLMText>
           <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
         </LLMText>
+      )}
+
+      {userCondition === "2" && (
+        <LLMMemoryText>
+          <Button onClick={() => router.push("/")}>{`Los geht's`}</Button>
+        </LLMMemoryText>
       )}
     </div>
   );
 };
 
+const LLMMemoryText = ({ children }: { children: React.ReactNode }) => (
+  <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
+    <p>
+      Willkommen zu unserem KI-unterstützten Dankbarkeitsjournal.
+      <br />
+      Auf der folgenden Seite werden dir einige Fragen zum Thema Dankbarkeit
+      gestellt. Diese Fragen werden von einem System gestellt und begleitet, das
+      dir zusätzliche Unterstützung bietet, um deine Gedanken und Gefühle
+      strukturiert auszudrücken. Das System kann sich an deine vergangenen
+      Einträge erinnern und dir Vorschläge machen, um dir zu helfen, den
+      Einstieg zu erleichtern oder deine Antworten zu vertiefen.
+      <br />
+      Wir empfehlen dir, einen ruhigen Ort zu wählen, an dem du dich wohlfühlst
+      und ungestört ist, um den Reflexionsprozess bestmöglich zu gestalten.
+      <br /> <br />
+      Viel Freude beim Reflektieren!
+    </p>
+    {children}
+  </div>
+);
+
 const LLMText = ({ children }: { children: React.ReactNode }) => (
   <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-    {/* <h1 className="text-xl font-bold">Willkommen! </h1> */}
     <p>
-      Willkommen zu unserem KI-unterstütztem Dankbarkeitsjournal.
+      Willkommen zu unserem KI-unterstützten Dankbarkeitsjournal.
       <br />
-      Auf der folgenden Seite werden Dir einige Fragen zum Thema Dankbarkeit
+      Auf der folgenden Seite werden dir einige Fragen zum Thema Dankbarkeit
       gestellt. Diese Fragen werden von einem System gestellt und begleitet, das
-      Dir zusätzliche Unterstützung bietet, um Ihre Gedanken und Gefühle
-      strukturiert auszudrücken. Das System kann Vorschläge machen, um Dir zu
-      helfen, den Einstieg zu erleichtern, oder Ihre Antworten vertiefen.
+      dir zusätzliche Unterstützung bietet, um deine Gedanken und Gefühle
+      strukturiert auszudrücken. Das System kann Vorschläge machen, um dir zu
+      helfen, den Einstieg zu erleichtern oder deine Antworten zu vertiefen.
       <br />
-      Wir empfehlen Dir, einen ruhigen Ort zu wählen, an dem Du dich wohlfühlst
+      Wir empfehlen dir, einen ruhigen Ort zu wählen, an dem du dich wohlfühlst
       und ungestört ist, um den Reflexionsprozess bestmöglich zu gestalten.
       <br /> <br />
       Viel Freude beim Reflektieren!
@@ -59,7 +85,6 @@ const LLMText = ({ children }: { children: React.ReactNode }) => (
 
 const ControlText = ({ children }: { children: React.ReactNode }) => (
   <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-    {/* <h1 className="text-xl font-bold">Willkommen! </h1> */}
     <p>
       Willkommen zu unserem Dankbarkeitsjournal.
       <br />
@@ -68,7 +93,7 @@ const ControlText = ({ children }: { children: React.ReactNode }) => (
       Unterstützung zu beantworten. Nutze diesen Moment, um Deine eigenen
       Gedanken und Gefühle frei zu formulieren.
       <br />
-      Wir empfehlen Dir, einen ruhigen Ort zu wählen, an dem Du dich wohlfühlst
+      Wir empfehlen dir, einen ruhigen Ort zu wählen, an dem du dich wohlfühlst
       und ungestört ist, um den Reflexionsprozess bestmöglich zu gestalten.
       <br /> <br />
       Viel Freude beim Reflektieren!

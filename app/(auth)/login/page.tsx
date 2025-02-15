@@ -125,22 +125,23 @@ export default function Page() {
             {showExplanation && (
               <>
                 <p className="text-xs text-gray-500 dark:text-zinc-400 text-start">
-                  So bilden Sie Ihr Codewort:
+                  So bildest du dein Codewort:
                   <br />
                 </p>
                 <ol className="list-decimal list-inside text-xs text-gray-500">
                   <li>
-                    Der letzte Buchstabe Ihres Geburtsortes (z.B. N für BERLIN)
+                    Der letzte Buchstabe Deines Geburtsortes (z.B. N für BERLIN)
                   </li>
                   <li>
-                    Die zweite und letzte Zahl Ihres Geburtsdatums (z.B. 77 für
+                    Die zweite und letzte Zahl Deines Geburtsdatums (z.B. 77 für
                     07.08.1997)
                   </li>
                   <li>
-                    Den ersten Buchstaben Ihres Geburtsmonats (z.b A für AUGUST)
+                    Den ersten Buchstaben Deines Geburtsmonats (z.b A für
+                    AUGUST)
                   </li>
                   <li>
-                    Den ersten Buchstaben Ihrer Augenfarbe (z.B. G für GRAU)
+                    Den ersten Buchstaben Deines Augenfarbe (z.B. G für GRAU)
                   </li>
                 </ol>
                 <p className="text-xs text-gray-500 dark:text-zinc-400 text-start">

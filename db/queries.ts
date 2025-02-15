@@ -1,6 +1,6 @@
 "server-only";
 
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, ilike } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -15,7 +15,7 @@ let db = drizzle(client);
 
 export async function getUser(name: string): Promise<Array<User>> {
   try {
-    return await db.select().from(user).where(eq(user.name, name));
+    return await db.select().from(user).where(ilike(user.name, name));
   } catch (error) {
     console.error("Failed to get user from database");
     return [];
