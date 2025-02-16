@@ -45,14 +45,18 @@ export const IntroOverview = ({ userCondition }: { userCondition: string }) => {
 const LLMMemoryText = ({ children }: { children: React.ReactNode }) => (
   <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
     <p>
-      Willkommen zu unserem KI-unterstützten Dankbarkeitsjournal.
+      Willkommen zu unserem KI-unterstützten Dankbarkeitsjournal mit
+      Erinnerungsfunktion.
       <br />
       Auf der folgenden Seite werden dir einige Fragen zum Thema Dankbarkeit
       gestellt. Diese Fragen werden von einem System gestellt und begleitet, das
       dir zusätzliche Unterstützung bietet, um deine Gedanken und Gefühle
-      strukturiert auszudrücken. Das System kann sich an deine vergangenen
-      Einträge erinnern und dir Vorschläge machen, um dir zu helfen, den
-      Einstieg zu erleichtern oder deine Antworten zu vertiefen.
+      strukturiert auszudrücken.
+      <br />
+      Das System kann sich an deine vergangenen Einträge erinnern. Es kann dir
+      auch helfen, den Einstieg zu erleichtern oder deine Antworten zu
+      vertiefen. Wenn du dem System dein Namen nennst, kann es dich persönlich
+      ansprechen.
       <br />
       Wir empfehlen dir, einen ruhigen Ort zu wählen, an dem du dich wohlfühlst
       und ungestört ist, um den Reflexionsprozess bestmöglich zu gestalten.

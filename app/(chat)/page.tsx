@@ -94,19 +94,18 @@ export default async function Page() {
         content: initialPrompt.text,
       },
     ];
+  } else if (modelId === "1" || modelId === "2") {
+    const initialPrompt = await generateInitialPromptFromContext({
+      context: [],
+      condition: userCondition,
+    });
+    initialMessages = [
+      {
+        role: "assistant",
+        content: initialPrompt.text,
+      },
+    ];
   }
-  // else if (modelId === "1" || modelId === "2") {
-  //   const initialPrompt = await generateInitialPromptFromContext({
-  //     context: [],
-  //     condition: userCondition,
-  //   });
-  //   initialMessages = [
-  //     {
-  //       role: "assistant",
-  //       content: initialPrompt.text,
-  //     },
-  //   ];
-  // }
 
   return (
     <>
