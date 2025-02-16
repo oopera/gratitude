@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  console.log(SystemPrompts({ condition, context }));
+  console.log(SystemPrompts({ context }));
 
   const coreMessages = convertToCoreMessages(messages);
   const systemPrompt = SystemPrompts({ context });
