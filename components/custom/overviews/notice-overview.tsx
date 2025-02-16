@@ -6,7 +6,7 @@ export const NoticeOverview = () => {
         <p>
           Du hast heute bereits einen Chat abgeschlossen.
           <br />
-          Schaue morgen wieder vorbei um einen weiteren Chat zu starten.
+          Bitte schaue morgen wieder vorbei um einen weiteren Chat zu starten.
         </p>
       </div>
     </div>

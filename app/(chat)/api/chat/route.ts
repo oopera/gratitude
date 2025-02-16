@@ -28,8 +28,7 @@ export async function POST(request: Request) {
   if (!session.user?.id) {
     return new Response("Unauthorized", { status: 401 });
   }
-  console.log(context);
-  console.log(SystemPrompts({ condition, context }));
+
   const coreMessages = convertToCoreMessages(messages);
   const result = await streamText({
     model: customModel,

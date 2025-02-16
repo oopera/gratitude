@@ -64,7 +64,6 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    console.log(state, "state");
     if (!state) {
       toast.error("Etwas ist schief gelaufen, bitte versuche es erneut.");
       router.refresh();

@@ -78,7 +78,6 @@ export default async function Page() {
   if (modelId === "2") {
     const userChats = await getUserChats(session?.user?.name);
     context = createContextFromMessages({ chats: userChats });
-    console.log(context, "context");
   }
 
   return (

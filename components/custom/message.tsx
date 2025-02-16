@@ -54,7 +54,6 @@ export const Message = ({
         {filteredToolInvocations && (
           <div className="flex flex-col gap-4">
             {filteredToolInvocations.map((toolInvocation) => {
-              console.log(toolInvocation);
               const { toolName, toolCallId, state } = toolInvocation;
               if (state === "result") {
                 const { result } = toolInvocation;
