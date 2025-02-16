@@ -32,9 +32,11 @@ export async function POST(request: Request) {
   console.log(SystemPrompts({ condition, context }));
 
   const coreMessages = convertToCoreMessages(messages);
+  const systemPrompt = SystemPrompts({ context });
+  console.log("systemPrompt", systemPrompt);
   const result = await streamText({
     model: customModel,
-    system: SystemPrompts({ condition, context }),
+    system: systemPrompt,
     messages: coreMessages,
     temperature: 0.25,
     maxSteps: 5,

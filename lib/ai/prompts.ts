@@ -15,16 +15,11 @@ export const regularPrompt = `
     Nachdem alle drei Fragen des Dankbarkeitsjournals beantwortet wurden ist der Eintrag abgeschlossen.
     `;
 
+
 export const memoryPrompt = `Du kannst die letzten Einträge der Nutzenden nutzen um die Fragen besser zu kontextualisieren und zu personalisieren. 
 Versuche den Nutzer zu erinnern und zu motivieren, indem du auf die letzten Einträge eingehst.`;
 
-export const SystemPrompts = ({
-  context,
-}: {
-  condition: string;
-  context: Message[];
-  isInitialPrompt?: boolean;
-}) => {
+export const SystemPrompts = ({ context }: { context: Message[] }) => {
   if (context?.length > 0) {
     return `${regularPrompt}\n\n${memoryPrompt} \n\n Das sind die letzten Einträge des Nutzers:\n\n${JSON.stringify(context)}`;
   } else {

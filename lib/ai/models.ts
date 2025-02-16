@@ -11,13 +11,13 @@ export const models: Array<Model> = [
   {
     id: "1",
     label: "Kondition 1",
-    apiIdentifier: "gpt-4o",
+    apiIdentifier: "gpt-4o-mini",
     description: "Standard chatGPT mit Dankbarkeitsjournal Prompt.",
   },
   {
     id: "2",
     label: "Kondition 2",
-    apiIdentifier: "gpt-4o",
+    apiIdentifier: "gpt-4o-mini",
     description: "chatGPT mit Dankbarkeitsjournal und Erinnerung.",
   },
   {
