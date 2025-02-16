@@ -24,7 +24,7 @@ export const fetcher = async (url: string) => {
 
   if (!res.ok) {
     const error = new Error(
-      "An error occurred while fetching the data.",
+      "An error occurred while fetching the data."
     ) as ApplicationError;
 
     error.info = await res.json();
@@ -64,7 +64,7 @@ function addToolMessageToChat({
         ...message,
         toolInvocations: message.toolInvocations.map((toolInvocation) => {
           const toolResult = toolMessage.content.find(
-            (tool) => tool.toolCallId === toolInvocation.toolCallId,
+            (tool) => tool.toolCallId === toolInvocation.toolCallId
           );
 
           if (toolResult) {
@@ -85,7 +85,7 @@ function addToolMessageToChat({
 }
 
 export function convertToUIMessages(
-  messages: Array<CoreMessage>,
+  messages: Array<CoreMessage>
 ): Array<Message> {
   return messages.reduce((chatMessages: Array<Message>, message) => {
     if (message.role === "tool") {
@@ -135,4 +135,36 @@ export function getTitleFromChat(chat: Chat) {
   }
 
   return firstMessage.content;
+}
+
+export function createContextFromMessages({ chats }: { chats: Chat[] }) {
+  return chats.map((chat) => {
+    const messages = chat.messages
+      .filter((message) => {
+        if (message.role === "tool") {
+          return false;
+        }
+
+        if (Array.isArray(message.content)) {
+          if (message.content.find((item) => item.type === "tool-call")) {
+            return false;
+          }
+        }
+        return true;
+      })
+      .map((message) => {
+        const improvedMessage = {
+          role: message.role,
+          text: Array.isArray(message.content)
+            ? message.content?.[0].text
+            : message.content,
+        };
+        return improvedMessage;
+      });
+
+    return {
+      createdAt: chat.createdAt,
+      messages: messages,
+    };
+  });
 }

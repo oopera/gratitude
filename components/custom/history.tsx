@@ -70,14 +70,14 @@ export const History = ({ user }: { user: User | undefined }) => {
     });
 
     toast.promise(deletePromise, {
-      loading: "Deleting chat...",
+      loading: "Lösche Chat...",
       success: () => {
         mutate((history) => {
           if (history) {
             return history.filter((h) => h.id !== id);
           }
         });
-        return "Chat deleted successfully";
+        return "Chat erfolgreich gelöscht";
       },
       error: "Failed to delete chat",
     });

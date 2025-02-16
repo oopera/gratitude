@@ -24,18 +24,25 @@ export function Chat({
       toolInvocations: [],
     },
   ],
+  context,
   selectedModelId,
   userType,
 }: {
   id: string;
   initialMessages?: Array<Message>;
+  context?: any;
   selectedModelId: string;
   userType: string;
   userCondition: string;
 }) {
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
-      body: { id, type: userType, condition: selectedModelId },
+      body: {
+        id,
+        type: userType,
+        condition: selectedModelId,
+        context: context,
+      },
       initialMessages,
       onFinish: () => {
         window.history.replaceState({}, "", `/chat/${id}`);

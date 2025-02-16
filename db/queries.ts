@@ -32,8 +32,19 @@ export async function getLatestUserChat(name: string): Promise<any> {
       .select()
       .from(chat)
       .where(eq(chat.userId, currentUser.id))
-      .orderBy(desc(chat.createdAt))
-      .limit(1);
+      .orderBy(desc(chat.createdAt));
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function getUserChats(name: string): Promise<any> {
+  try {
+    const [currentUser] = await db
+      .select()
+      .from(user)
+      .where(eq(user.name, name));
+    return await db.select().from(chat).where(eq(chat.userId, currentUser.id));
   } catch (error) {
     return [];
   }

@@ -1,8 +1,8 @@
 import { Chat } from "@/components/custom/chat";
 import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
-import { getLatestUserChat, getUser } from "@/db/queries";
-import { generateUUID } from "@/lib/utils";
+import { getLatestUserChat, getUser, getUserChats } from "@/db/queries";
+import { createContextFromMessages, generateUUID } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 import { NoticeOverview } from "@/components/custom/overviews/notice-overview";
@@ -42,7 +42,7 @@ export default async function Page() {
   }
 
   if (
-    userCondition !== "admin" &&
+    userType === "long" &&
     latestUserchat &&
     latestUserchat.createdAt.getDate() === currentDate.getDate()
   ) {
@@ -73,6 +73,14 @@ export default async function Page() {
     models.find((model) => model.id === modelId)?.id ??
     DEFAULT_MODEL_NAME;
 
+  let context;
+
+  if (modelId === "2") {
+    const userChats = await getUserChats(session?.user?.name);
+    context = createContextFromMessages({ chats: userChats });
+    console.log(context, "context");
+  }
+
   return (
     <>
       <Navbar
@@ -84,6 +92,7 @@ export default async function Page() {
         <Chat
           userType={userType}
           userCondition={userCondition}
+          context={context}
           key={id}
           id={id}
           selectedModelId={selectedModelId}

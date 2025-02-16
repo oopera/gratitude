@@ -9,11 +9,13 @@ export async function POST(request: Request) {
   const {
     id,
     messages,
+    context,
     type,
     condition,
   }: {
     id: string;
     messages: Array<Message>;
+    context: Array<Message>;
     type: string;
     condition: string;
   } = await request.json();
@@ -26,11 +28,12 @@ export async function POST(request: Request) {
   if (!session.user?.id) {
     return new Response("Unauthorized", { status: 401 });
   }
-
+  console.log(context);
+  console.log(SystemPrompts({ condition, context }));
   const coreMessages = convertToCoreMessages(messages);
   const result = await streamText({
     model: customModel,
-    system: SystemPrompts[condition],
+    system: SystemPrompts({ condition, context }),
     messages: coreMessages,
     temperature: 0.15,
     maxSteps: 5,

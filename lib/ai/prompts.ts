@@ -1,3 +1,5 @@
+import { Message } from "ai";
+
 export const regularPrompt = `
     Du bist ein Assistent zum verfassen von Dankbarkeitsjournaleinträgen. 
     Du hilfst, Gedanken und Gefühle zu reflektieren und aufzuschreiben.
@@ -15,7 +17,20 @@ export const regularPrompt = `
 export const Memory_prompt = `Du kannst die letzten Einträge des Nutzers beschreiben, und reflektieren. 
 Versuche den Nutzer zu erinnern und zu motivieren, indem du auf die letzten Einträge eingehst.`;
 
-export const SystemPrompts: Record<string, string> = {
+export const SystemPrompts = ({
+  condition,
+  context,
+}: {
+  condition: string;
+  context: Message[];
+}) => {
+  if (condition === "1") {
+    return regularPrompt;
+  } else if (condition === "2") {
+    return `${regularPrompt}\n\n${Memory_prompt}\n\n Das sind die letzten Einträge des Nutzers:\n\n${context}`;
+  }
+};
+export const systemPrompts: Record<string, string> = {
   1: `${regularPrompt}\n\n`,
   2: `${regularPrompt}\n\n${Memory_prompt}`,
 };

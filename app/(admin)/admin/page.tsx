@@ -23,9 +23,6 @@ export default async function Page() {
   const shortChats = await getChatsByType({ type: "short" });
   const longChats = await getChatsByType({ type: "long" });
 
-  // const conditionOneChats = await getChatsByCondition({ condition: "1" });
-  // const conditionTwoChats = await getChatsByCondition({ condition: "2" });
-  // const controlChats = await getChatsByCondition({ condition: "control" });
   const users = await getUsers();
 
   return (

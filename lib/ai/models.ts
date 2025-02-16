@@ -11,7 +11,7 @@ export const models: Array<Model> = [
   {
     id: "1",
     label: "Kondition 1",
-    apiIdentifier: "gpt-4o-mini",
+    apiIdentifier: "gpt-4o",
     description: "Standard chatGPT mit Dankbarkeitsjournal Prompt.",
   },
   {

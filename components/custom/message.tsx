@@ -19,6 +19,14 @@ export const Message = ({
   content: string | ReactNode;
   toolInvocations?: Array<ToolInvocation> | undefined;
 }) => {
+  const filteredToolInvocations = toolInvocations?.filter((toolInvocation) => {
+    return toolInvocation.toolName === "eintragAbschliessen";
+  });
+
+  if (content === "" && !(filteredToolInvocations?.length ?? 0 > 0)) {
+    return null;
+  }
+
   return (
     <motion.div
       className={`flex flex-row gap-4 px-4 w-full md:w-[500px] md:px-0 first-of-type:pt-20`}
@@ -43,18 +51,15 @@ export const Message = ({
           </div>
         )}
 
-        {toolInvocations && (
+        {filteredToolInvocations && (
           <div className="flex flex-col gap-4">
-            {toolInvocations.map((toolInvocation) => {
+            {filteredToolInvocations.map((toolInvocation) => {
+              console.log(toolInvocation);
               const { toolName, toolCallId, state } = toolInvocation;
-
               if (state === "result") {
                 const { result } = toolInvocation;
                 return (
                   <div key={toolCallId}>
-                    {toolName === "recollect" ? (
-                      <p>Erinnert sich an deine Einträge. </p>
-                    ) : null}
                     {toolName === "eintragAbschliessen" ? (
                       <p>Der Chat wurde beendet. </p>
                     ) : null}
@@ -65,9 +70,6 @@ export const Message = ({
                   <div key={toolCallId} className="skeleton">
                     {toolName === "eintragAbschliessen" ? (
                       <p>Der Chat wurde beendet.</p>
-                    ) : null}
-                    {toolName === "recollect" ? (
-                      <p>Hat sich an deine Einträge erinnert. </p>
                     ) : null}
                   </div>
                 );

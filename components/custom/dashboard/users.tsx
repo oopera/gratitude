@@ -52,13 +52,20 @@ export default function Users({ users }: { users: User[] }) {
           </TableHeader>
 
           <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell>{user.type}</TableCell>
-                <TableCell>{user.condition}</TableCell>
-              </TableRow>
-            ))}
+            {users
+              .sort((user) => {
+                // sort user by userType 'admin' 'short' 'long'
+                if (user.type === "admin") return -1;
+                if (user.type === "short") return 0;
+                if (user.type === "long") return 1;
+              })
+              .map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell className="font-medium">{user.name}</TableCell>
+                  <TableCell>{user.type}</TableCell>
+                  <TableCell>{user.condition}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
 
           <TableFooter>
