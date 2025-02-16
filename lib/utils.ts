@@ -142,17 +142,12 @@ export function getTitleFromChat(chat: Chat) {
 
 export async function generateInitialPromptFromContext({
   context,
-  condition,
 }: {
   context: any;
-  condition: string;
 }) {
   const systemPrompt = SystemPrompts({
-    condition: condition,
     context: context,
-    isInitialPrompt: true,
   });
-  console.log(systemPrompt.toString());
   const result = generateText({
     model: customModel,
     system: systemPrompt,
