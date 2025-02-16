@@ -2,7 +2,11 @@ import { Chat } from "@/components/custom/chat";
 import { Journal } from "@/components/custom/journal";
 import { Navbar } from "@/components/custom/navbar";
 import { getLatestUserChat, getUser, getUserChats } from "@/db/queries";
-import { createContextFromMessages, generateUUID } from "@/lib/utils";
+import {
+  createContextFromMessages,
+  generateInitialPromptFromContext,
+  generateUUID,
+} from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 import { NoticeOverview } from "@/components/custom/overviews/notice-overview";
@@ -74,10 +78,31 @@ export default async function Page() {
     DEFAULT_MODEL_NAME;
 
   let context;
+  let initialMessages = undefined;
 
-  if (modelId === "2") {
+  if (modelId === "2" && latestUserchat) {
+    console.log("test");
     const userChats = await getUserChats(session?.user?.name);
     context = createContextFromMessages({ chats: userChats });
+    const initialPrompt = await generateInitialPromptFromContext({
+      context,
+    });
+    initialMessages = [
+      {
+        role: "assistant",
+        content: initialPrompt.text,
+      },
+    ];
+  } else if (modelId === "1" || modelId === "2") {
+    const initialPrompt = await generateInitialPromptFromContext({
+      context: [],
+    });
+    initialMessages = [
+      {
+        role: "assistant",
+        content: initialPrompt.text,
+      },
+    ];
   }
 
   return (
@@ -94,6 +119,7 @@ export default async function Page() {
           context={context}
           key={id}
           id={id}
+          initialMessages={initialMessages as any}
           selectedModelId={selectedModelId}
         />
       )}

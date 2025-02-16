@@ -2,13 +2,16 @@ import {
   CoreMessage,
   CoreToolMessage,
   generateId,
+  generateText,
   Message,
   ToolInvocation,
 } from "ai";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { customModel } from "@/ai";
 import { Chat } from "@/db/schema";
+import { SystemPrompts } from "./ai/prompts";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -135,6 +138,25 @@ export function getTitleFromChat(chat: Chat) {
   }
 
   return firstMessage.content;
+}
+
+export async function generateInitialPromptFromContext({
+  context,
+}: {
+  context: any;
+}) {
+  const systemPrompt = SystemPrompts({
+    context: context,
+  });
+  const result = generateText({
+    model: customModel,
+    system: systemPrompt,
+    messages: [],
+    temperature: 0.25,
+    maxSteps: 5,
+  });
+
+  return result;
 }
 
 export function createContextFromMessages({ chats }: { chats: Chat[] }) {

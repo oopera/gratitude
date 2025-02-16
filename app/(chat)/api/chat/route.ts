@@ -29,6 +29,8 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
+  console.log(SystemPrompts({ context }));
+
   const coreMessages = convertToCoreMessages(messages);
   const systemPrompt = SystemPrompts({ context });
   console.log("systemPrompt", systemPrompt);
@@ -36,7 +38,7 @@ export async function POST(request: Request) {
     model: customModel,
     system: systemPrompt,
     messages: coreMessages,
-    temperature: 0.15,
+    temperature: 0.25,
     maxSteps: 5,
     tools: SystemTools({ condition, id: session.user.id }) as Record<
       string,
