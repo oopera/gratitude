@@ -14,25 +14,20 @@ export const regularPrompt = `
     Nachdem alle drei Fragen des Dankbarkeitsjournals beantwortet wurden ist der Eintrag abgeschlossen.
     `;
 
-export const Memory_prompt = `Du kannst die letzten Einträge des Nutzers beschreiben, und reflektieren. 
+export const memoryPrompt = `Du kannst die letzten Einträge des Nutzers beschreiben, und reflektieren. 
 Versuche den Nutzer zu erinnern und zu motivieren, indem du auf die letzten Einträge eingehst.`;
 
-export const SystemPrompts = ({
-  condition,
-  context,
-}: {
-  condition: string;
-  context: Message[];
-}) => {
-  if (condition === "1") {
-    return regularPrompt;
-  } else if (condition === "2") {
-    return `${regularPrompt}\n\n${Memory_prompt}\n\n Das sind die letzten Einträge des Nutzers:\n\n${context}`;
+export const SystemPrompts = ({ context }: { context: Message[] }) => {
+  if (context?.length > 0) {
+    return `${regularPrompt}\n\n${memoryPrompt} \n\n Das sind die letzten Einträge des Nutzers:\n\n${JSON.stringify(context)}`;
+  } else {
+    return `${regularPrompt} \n\n`;
   }
 };
+
 export const systemPrompts: Record<string, string> = {
   1: `${regularPrompt}\n\n`,
-  2: `${regularPrompt}\n\n${Memory_prompt}`,
+  2: `${regularPrompt}\n\n${memoryPrompt}`,
 };
 
 export const initialQuestionPrompt =
