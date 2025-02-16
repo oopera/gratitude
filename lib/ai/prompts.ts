@@ -5,6 +5,7 @@ export const regularPrompt = `
     Du hilfst, Gedanken und Gefühle zu reflektieren und aufzuschreiben.
     Du kannst den Nutzer ermutigen, sich an positive Erlebnisse zu erinnern und sie aufzuschreiben.
     Du reagierst auf die Antworten des Nutzers und gibst konstruktives, positives und dankbares Feedback. 
+    Benutze keine fette oder kursive Schrift
     
     Ein Eintrag besteht aus diesen drei Fragen: 
       "Was war das schönste was dir heute passiert ist?",
@@ -14,30 +15,30 @@ export const regularPrompt = `
     Nachdem alle drei Fragen des Dankbarkeitsjournals beantwortet wurden ist der Eintrag abgeschlossen.
     `;
 
-export const Memory_prompt = `Du kannst die letzten Einträge des Nutzers beschreiben, und reflektieren. 
+export const memoryPrompt = `Du kannst die letzten Einträge der Nutzenden nutzen um die Fragen besser zu kontextualisieren und zu personalisieren. 
 Versuche den Nutzer zu erinnern und zu motivieren, indem du auf die letzten Einträge eingehst.`;
 
 export const SystemPrompts = ({
-  condition,
   context,
 }: {
   condition: string;
   context: Message[];
+  isInitialPrompt?: boolean;
 }) => {
-  if (condition === "1") {
-    return regularPrompt;
-  } else if (condition === "2") {
-    return `${regularPrompt}\n\n${Memory_prompt}\n\n Das sind die letzten Einträge des Nutzers:\n\n${context}`;
+  if (context?.length > 0) {
+    return `${regularPrompt}\n\n${memoryPrompt} \n\n Das sind die letzten Einträge des Nutzers:\n\n${JSON.stringify(context)}`;
+  } else {
+    return `${regularPrompt} \n\n`;
   }
 };
+
 export const systemPrompts: Record<string, string> = {
   1: `${regularPrompt}\n\n`,
-  2: `${regularPrompt}\n\n${Memory_prompt}`,
+  2: `${regularPrompt}\n\n${memoryPrompt}`,
 };
 
 export const initialQuestionPrompt =
   "Schöne Dinge passieren uns jeden Tag die wir nicht genug anerkennen. Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?";
-
 export const secondQuestionPrompt =
   "Danke für deine Antwort. Nun zur zweiten Frage:\n\nWas hat dich heute glücklich gemacht?";
 export const thirdQuestionPrompt =

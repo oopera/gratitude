@@ -56,7 +56,6 @@ export const Message = ({
             {filteredToolInvocations.map((toolInvocation) => {
               const { toolName, toolCallId, state } = toolInvocation;
               if (state === "result") {
-                const { result } = toolInvocation;
                 return (
                   <div key={toolCallId}>
                     {toolName === "eintragAbschliessen" ? (
@@ -68,7 +67,7 @@ export const Message = ({
                 return (
                   <div key={toolCallId} className="skeleton">
                     {toolName === "eintragAbschliessen" ? (
-                      <p>Der Chat wurde beendet.</p>
+                      <p>Der Chat wird beendet.</p>
                     ) : null}
                   </div>
                 );

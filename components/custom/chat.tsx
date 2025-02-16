@@ -20,7 +20,7 @@ export function Chat({
     {
       id: "jIhfWpb",
       role: "assistant",
-      content: initialQuestionPrompt, //
+      content: initialQuestionPrompt,
       toolInvocations: [],
     },
   ],
