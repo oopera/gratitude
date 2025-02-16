@@ -8,7 +8,7 @@ export const regularPrompt = `
     Benutze keine fette oder kursive Schrift
     
     Ein Eintrag besteht aus diesen drei Fragen: 
-      "Was war das schönste was dir heute passiert ist?",
+      "Was ist etwas schönes was dir heute passiert ist?",
       "Was hat dich heute glücklich gemacht?",
       "Wofür bist du heute besonders dankbar?
 
@@ -38,7 +38,7 @@ export const systemPrompts: Record<string, string> = {
 };
 
 export const initialQuestionPrompt =
-  "Schöne Dinge passieren uns jeden Tag die wir nicht genug anerkennen. Beginnen wir mit der ersten Frage:\n\nWas war das Schönste, was dir heute passiert ist?";
+  "Schöne Dinge passieren uns jeden Tag die wir nicht genug anerkennen. Beginnen wir mit der ersten Frage:\n\nWas ist etwas schönes, was dir heute passiert ist?";
 export const secondQuestionPrompt =
   "Danke für deine Antwort. Nun zur zweiten Frage:\n\nWas hat dich heute glücklich gemacht?";
 export const thirdQuestionPrompt =

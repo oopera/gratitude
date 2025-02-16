@@ -150,7 +150,17 @@ export default function Chats({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "chats.json";
+    const currentDay = new Date().toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    });
+    if (hasSecondCondition) {
+      a.download = `long_chats_${currentDay}.json`;
+    } else {
+      a.download = `short_chats_${currentDay}.json`;
+    }
+
     a.click();
   };
 
