@@ -121,7 +121,7 @@ export default async function Page() {
           context={context}
           key={id}
           id={id}
-          initialMessages={initialMessages}
+          initialMessages={initialMessages as any}
           selectedModelId={selectedModelId}
         />
       )}
