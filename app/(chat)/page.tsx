@@ -86,7 +86,6 @@ export default async function Page() {
     context = createContextFromMessages({ chats: userChats });
     const initialPrompt = await generateInitialPromptFromContext({
       context,
-      condition: userCondition,
     });
     initialMessages = [
       {
@@ -97,7 +96,6 @@ export default async function Page() {
   } else if (modelId === "1" || modelId === "2") {
     const initialPrompt = await generateInitialPromptFromContext({
       context: [],
-      condition: userCondition,
     });
     initialMessages = [
       {
