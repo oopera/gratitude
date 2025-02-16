@@ -53,11 +53,14 @@ export default function Users({ users }: { users: User[] }) {
 
           <TableBody>
             {users
-              .sort((user) => {
-                // sort user by userType 'admin' 'short' 'long'
-                if (user.type === "admin") return -1;
-                if (user.type === "short") return 0;
-                if (user.type === "long") return 1;
+              .sort((a, b) => {
+                if (a.type === "admin" && b.type !== "admin") return -1;
+                if (a.type !== "admin" && b.type === "admin") return 1;
+                if (a.type === "long" && b.type !== "long") return -1;
+                if (a.type !== "long" && b.type === "long") return 1;
+                if (a.type === "short" && b.type !== "short") return -1;
+                if (a.type !== "short" && b.type === "short") return 1;
+                return 0;
               })
               .map((user) => (
                 <TableRow key={user.id}>
