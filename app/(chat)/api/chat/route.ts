@@ -29,11 +29,8 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  console.log(SystemPrompts({ context }));
-
   const coreMessages = convertToCoreMessages(messages);
   const systemPrompt = SystemPrompts({ context });
-  console.log("systemPrompt", systemPrompt);
   const result = await streamText({
     model: customModel,
     system: systemPrompt,

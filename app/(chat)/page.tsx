@@ -81,7 +81,6 @@ export default async function Page() {
   let initialMessages = undefined;
 
   if (modelId === "2" && latestUserchat) {
-    console.log("test");
     const userChats = await getUserChats(session?.user?.name);
     context = createContextFromMessages({ chats: userChats });
     const initialPrompt = await generateInitialPromptFromContext({
