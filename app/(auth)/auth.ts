@@ -26,7 +26,7 @@ export const {
         if (users.length === 0) return null;
         let passwordsMatch = await compare(password, users[0].password!);
         if (passwordsMatch) return users[0] as any;
-        return users[0] as any;
+        return null;
       },
     }),
   ],
