@@ -84,7 +84,8 @@ export interface RegisterActionState {
     | "invalid_data"
     | "invalid_name_pw"
     | "invalid_name"
-    | "invalid_pw";
+    | "invalid_pw"
+    | "wrong_pw";
 }
 
 export const register = async (
@@ -175,6 +176,9 @@ export const registerAndLogin = async (
       if (fields.includes("password")) {
         return { status: "invalid_pw" };
       }
+    }
+    if ((error as any)?.code === "credentials") {
+      return { status: "wrong_pw" };
     }
     return { status: "failed" };
   }

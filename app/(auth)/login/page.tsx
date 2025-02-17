@@ -77,6 +77,8 @@ export default function Page() {
       );
     } else if (state.status === "invalid_pw") {
       toast.error("Dein Passwort sollte mindestens 6 Zeichen lang sein.");
+    } else if (state.status === "wrong_pw") {
+      toast.error("Dein Passwort ist falsch.");
     } else if (state.status === "invalid_name") {
       toast.error("Dein Codewort sollte zwischen 8 und 10 Zeichen lang sein.");
     } else if (state.status === "success_with_login") {
